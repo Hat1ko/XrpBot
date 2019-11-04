@@ -1,0 +1,7 @@
+# These files are text and should be normalized (convert crlf =&gt; lf)
+* text=auto
+*.txt text
+*.properties text
+*.erb text
+*.yml text
+

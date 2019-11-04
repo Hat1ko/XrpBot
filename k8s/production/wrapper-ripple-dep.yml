@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: wrapper-ripple
+ labels:
+   app: wrapper-ripple
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+      app: wrapper-ripple
+ template:
+   metadata:
+     labels:
+        app: wrapper-ripple
+   spec:
+     containers:
+     - name: wrapper-ripple
+       image: gcr.io/cloud-solutions-images/wrapper-ripple:1.0.0
+       ports:
+         - name: http
+           containerPort: 8511
