@@ -1,0 +1,24 @@
+{
+  "name": "sign-transaction",
+  "version": "1.0.0",
+  "description": "a CLI app for signing transactions",
+  "main": "sign-transaction.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/cryptex/wrapper-ripple.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/cryptex/wrapper-ripple/issues"
+  },
+  "homepage": "https://gitlab.com/cryptex/wrapper-ripple#readme",
+  "dependencies": {
+    "commander": "^4.0.0",
+    "ripple-lib": "^1.3.4",
+    "sign": "^1.0.0"
+  }
+}
