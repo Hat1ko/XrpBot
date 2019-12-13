@@ -43,7 +43,7 @@ public class WithdrawControllerTest extends BasicApiTest {
 	public void shouldReturnWithdrawResponseWhenDataIsCorrectThenOk() throws Exception {
 
 		WithdrawRequest withdrawRequest = WithdrawRequest.builder().to(WithdrawTestUtil.WITHDRAW_REQUEST_TO)
-				.memo(WithdrawTestUtil.WITHDRAW_REQUEST_MEMO).amount(WithdrawTestUtil.WITHDRAW_REQUEST_AMOUNT).build();
+				.memo(WithdrawTestUtil.WITHDRAW_REQUEST_MEMO).quantity(WithdrawTestUtil.WITHDRAW_REQUEST_AMOUNT).build();
 
 		RippleWithdrawResponse rippleWithdrawResponse = WithdrawTestUtil.getDefaultRippleWithdrawResponse();
 

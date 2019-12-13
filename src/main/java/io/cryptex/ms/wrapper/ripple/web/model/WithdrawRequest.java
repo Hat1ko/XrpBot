@@ -18,7 +18,7 @@ public class WithdrawRequest {
 	@NotNull
 	private String to;
 	@NotNull
-	private Double amount;
+	private Double quantity;
 	@NotNull
 	private String memo;
 }

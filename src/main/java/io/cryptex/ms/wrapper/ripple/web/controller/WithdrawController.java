@@ -22,7 +22,7 @@ public class WithdrawController {
 	@PostMapping
 	public ResponseEntity<TransactionResponse> withdraw(@RequestBody WithdrawRequest withdrawRequest) {
 		log.info("Request to withdraw | to : {}, amount : {}, memo : {}", withdrawRequest.getTo(),
-				withdrawRequest.getAmount(), withdrawRequest.getMemo());
+				withdrawRequest.getQuantity(), withdrawRequest.getMemo());
 		TransactionResponse response = rippleService.withdraw(withdrawRequest);
 		log.info("Response from withdraw | trxId : {}", response.getTrxId());
 		return ResponseEntity.ok(response);
