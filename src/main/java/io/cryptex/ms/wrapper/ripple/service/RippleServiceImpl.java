@@ -100,7 +100,7 @@ public class RippleServiceImpl implements RippleService {
         }
 
         String to = withdrawRequest.getTo();
-        Long amount = RippleBalanceConverter.toAtomicUnits(withdrawRequest.getAmount());
+        Long amount = RippleBalanceConverter.toAtomicUnits(withdrawRequest.getQuantity());
         String memo = withdrawRequest.getMemo();
 
         String signature = signatureService.signTransaction(to, amount, memo, nextSequence, 5L);
