@@ -13,9 +13,9 @@ public class CryptoPaymentUriBuilder {
 
 	private final CryptoPaymentProperties cryptoPaymentProperties;
 
-	public URI getLastProcessedSequenceUri() {
+	public URI getLastProcessedDataUri() {
 		return UriComponentsBuilder
-				.fromUriString(cryptoPaymentProperties.getPath().getTransaction().getRipple().getProcessedSequence())
+				.fromUriString(cryptoPaymentProperties.getPath().getTransaction().getRipple().getProcessedData())
 				.build().encode().toUri();
 	}
 

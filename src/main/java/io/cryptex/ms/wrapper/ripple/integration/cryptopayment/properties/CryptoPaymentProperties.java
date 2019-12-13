@@ -38,7 +38,7 @@ public class CryptoPaymentProperties {
 			@ConfigurationProperties("ripple")
 			public static class Ripple{
 				
-				private String processedSequence;
+				private String processedData;
 				private String newList;
 				
 			}
