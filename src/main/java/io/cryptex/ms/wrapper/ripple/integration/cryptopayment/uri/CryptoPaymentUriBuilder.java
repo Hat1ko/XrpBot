@@ -14,15 +14,19 @@ public class CryptoPaymentUriBuilder {
 	private final CryptoPaymentProperties cryptoPaymentProperties;
 
 	public URI getLastProcessedDataUri() {
-		return UriComponentsBuilder
-				.fromUriString(cryptoPaymentProperties.getPath().getTransaction().getRipple().getProcessedData())
-				.build().encode().toUri();
+		return UriComponentsBuilder.fromUriString(cryptoPaymentProperties.getUri())
+				.path(cryptoPaymentProperties.getPath().getTransaction().getRipple().getProcessedData())
+				.build()
+				.encode()
+				.toUri();
 	}
 
 	public URI getTransactionNewListUri() {
-		return UriComponentsBuilder
-				.fromUriString(cryptoPaymentProperties.getPath().getTransaction().getRipple().getNewList())
-				.build().encode().toUri();
+		return UriComponentsBuilder.fromUriString(cryptoPaymentProperties.getUri())
+				.path(cryptoPaymentProperties.getPath().getTransaction().getRipple().getNewList())
+				.build()
+				.encode()
+				.toUri();
 	}
 
 }
