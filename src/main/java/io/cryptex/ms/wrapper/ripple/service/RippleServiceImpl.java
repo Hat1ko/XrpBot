@@ -32,6 +32,7 @@ import java.util.Random;
 @Service
 public class RippleServiceImpl implements RippleService {
 
+    private static final String SUCCESS = "success";
     private final RippleCommunicationService rippleCommunicationService;
     private final SignatureService signatureService;
     private final RippleBlockchainProperties rippleBlockchainProperties;
@@ -122,7 +123,16 @@ public class RippleServiceImpl implements RippleService {
             log.debug("Retry request to submit transaction by other uri");
             rippleWithdrawResponse = rippleCommunicationService.withdraw(requestToSubmit);
         }
-        return RippleTransactionConverter.toTransactionResponse(rippleWithdrawResponse.getResult().getTxJson(), walletProperties);
+
+        String status = rippleWithdrawResponse.getResult().getStatus();
+        if (status.equals(SUCCESS)) {
+            return RippleTransactionConverter.toTransactionResponse(rippleWithdrawResponse.getResult().getTxJson(), walletProperties);
+        } else {
+            log.error("Error while on withdraw. To = {}, amount = {}, memo = {}. Transaction status = {}",
+                    to, withdrawRequest.getQuantity(), memo, status);
+            throw new InnerServiceException(String.format("Error while on withdraw. To = %s, amount = %s, memo = %s. Transaction status = %s",
+                    to, withdrawRequest.getQuantity(), memo, status));
+        }
 
     }
 
