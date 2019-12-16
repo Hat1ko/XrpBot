@@ -49,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .params(Collections
                         .singletonList(RippleTransactionsRequest.Param.builder()
                                 .account(walletProperties.getAccount())
-                                .limit(actualAccountSequence - lastProcessedSequence - 1)
+                                .limit(actualAccountSequence - lastProcessedSequence)
                                 .build())
                 )
                 .build();
