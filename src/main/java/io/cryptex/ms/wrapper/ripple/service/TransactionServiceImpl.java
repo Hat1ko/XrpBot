@@ -1,5 +1,6 @@
 package io.cryptex.ms.wrapper.ripple.service;
 
+import io.cryptex.ms.wrapper.ripple.constants.TransactionType;
 import io.cryptex.ms.wrapper.ripple.converter.RippleTransactionConverter;
 import io.cryptex.ms.wrapper.ripple.integration.blockchain.dto.request.RippleAccountInfoRequest;
 import io.cryptex.ms.wrapper.ripple.integration.blockchain.dto.request.RippleAccountInfoRequest.Param;
@@ -69,7 +70,11 @@ public class TransactionServiceImpl implements TransactionService {
                 .stream()
                 .map(Trx::getTx)
                 .map(transaction -> RippleTransactionConverter.toTransactionResponse(transaction, walletProperties))
-                .collect(Collectors.toList());
+                .filter(transactionResponse -> transactionResponse.getTransactionType() == TransactionType.DEPOSIT)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), transactionResponses -> {
+                    Collections.reverse(transactionResponses);
+                    return transactionResponses;
+                }));
 
         log.debug("Amount of new transactions to process : {}", trxToProcess.size());
 
