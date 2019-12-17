@@ -32,7 +32,7 @@ public class 	WithdrawTestUtil {
 	public static final String EXPECTED_DESTINATION = WITHDRAW_REQUEST_TO;
 	public static final String EXPECTED_FEE = "";
 	public static final String EXPECTED_MEMO = WITHDRAW_REQUEST_MEMO;
-	public static final Long EXPECTED_SEQUENCE = 24L;
+	public static final Long EXPECTED_LEDGER_INDEX = 24L;
 	public static final String EXPECTED_SIGNING_PUB_KEY = "0296BFE89289E1CA79B0A0C602CBB0207CEC7DF05B4BE142E54354DF0A3002F889";
 	public static final String EXPECTED_TRANSACTION_TYPE = "Payment";
 	public static final String EXPECTED_TXN_SIGNATURE = "30450221009C8D2ABE902A9C6D4503AC0BDECD9A83657CF64B5F72A69796CF35478049E55F02203A4836E954C55EAAA82403EDDB4DD931FA7D5722A17C66AFD6F76BA7762751EE";
@@ -52,7 +52,7 @@ public class 	WithdrawTestUtil {
 
 		RippleWithdrawResponse.Result.TxJson txJson = RippleWithdrawResponse.Result.TxJson.builder()
 				.account(EXPECTED_ACCOUNT).amount(AMOUNT).destination(EXPECTED_DESTINATION).fee(EXPECTED_FEE)
-				.hash(EXPECTED_HASH).sequence(EXPECTED_SEQUENCE).signingPubKey(EXPECTED_SIGNING_PUB_KEY)
+				.hash(EXPECTED_HASH).sequence(EXPECTED_LEDGER_INDEX).signingPubKey(EXPECTED_SIGNING_PUB_KEY)
 				.transactionType(EXPECTED_TRANSACTION_TYPE).txnSignature(EXPECTED_TXN_SIGNATURE)
 				.memos(Collections.singletonList(memos)).build();
 
@@ -84,7 +84,7 @@ public class 	WithdrawTestUtil {
 
 		RippleAccountInfoResponse.Result.AccountData accountData = RippleAccountInfoResponse.Result.AccountData.builder()
 				.account(EXPECTED_ACCOUNT).balance(EXPECTED_BALANCE).ownerCount(EXPECTED_OWNER_COUNT)
-				.sequence(EXPECTED_SEQUENCE).build();
+				.sequence(EXPECTED_LEDGER_INDEX).build();
 
 		RippleAccountInfoResponse.Result result = RippleAccountInfoResponse.Result.builder().accountData(accountData).build();
 

@@ -21,14 +21,15 @@ public class TransactionSchedulerUtil {
     public static final String RESULT_STATUS = "success";
 
     public static final String EXPECTED_ACCOUNT = RESULT_ACCOUNT;
-    public static final Long LAST_PROCESSED_SEQUENCE = 26L;
+    public static final Long LAST_PROCESSED_SEQUENCE = 20L;
     public static final Long LAST_ACTUAL_ACCOUNT_SEQUENCE = 33L;
 
     public static final String TX1_ACCOUNT = "r4AQFNpxUbEYgpG7t8GsUHQpkY4JcNKZRC";
     public static final String TX1_AMOUNT = "15000000";
     public static final String TX1_DESTINATION = "rLBeWGaYFKQ1AeszPyB9AH8YfNXAcq97xB";
     public static final String TX1_FEE = "10";
-    public static final String TX1_MEMO_DATA = "4A4E7C7081289FC683A96E6AEB68A5C8D96C42A5848C0292A746B24B0F306A72";
+    public static final String TX1_MEMO = "CA9FB5FE289215AD54B9D448E45C34C17939565D5B6CD872238BF19A5A4DB395";
+    public static final String TX1_MEMO_DATA = "43413946423546453238393231354144353442394434343845343543333443313739333935363544354236434438373232333842463139413541344442333935";
     public static final Long TX1_SEQUENCE = 25L;
     public static final String TX1_SIGNING_PUB_KEY = "0296BFE89289E1CA79B0A0C602CBB0207CEC7DF05B4BE142E54354DF0A3002F889";
     public static final String TX1_TRANSACTION_TYPE = "Payment";
@@ -41,7 +42,8 @@ public class TransactionSchedulerUtil {
     public static final String TX2_AMOUNT = "15000000";
     public static final String TX2_DESTINATION = "rLBeWGaYFKQ1AeszPyB9AH8YfNXAcq97xB";
     public static final String TX2_FEE = "10";
-    public static final String TX2_MEMO_DATA = "4A4E7C7081289FC683A96E6AEB68A5C8D96C42A5848C0292A746B24B0F306A72";
+    public static final String TX2_MEMO = "982F0512236547C62CDF6A982ADADA378E52D51852437C5715E7DA672E5A658F";
+    public static final String TX2_MEMO_DATA = "39383246303531323233363534374336324344463641393832414441444133373845353244353138353234333743353731354537444136373245354136353846";
     public static final Long TX2_SEQUENCE = 24L;
     public static final String TX2_SIGNING_PUB_KEY = "0296BFE89289E1CA79B0A0C602CBB0207CEC7DF05B4BE142E54354DF0A3002F889";
     public static final String TX2_TRANSACTION_TYPE = "Payment";
@@ -54,7 +56,8 @@ public class TransactionSchedulerUtil {
     public static final String TX3_AMOUNT = "15000000";
     public static final String TX3_DESTINATION = "rLBeWGaYFKQ1AeszPyB9AH8YfNXAcq97xB";
     public static final String TX3_FEE = "10";
-    public static final String TX3_MEMO_DATA = "4A4E7C7081289FC683A96E6AEB68A5C8D96C42A5848C0292A746B24B0F306A72";
+    public static final String TX3_MEMO = "1F700C9AB093B3B21678879FE857B20B95CCF8D76DD8508A369D4274A8DBA41F";
+    public static final String TX3_MEMO_DATA = "31463730304339414230393342334232313637383837394645383537423230423935434346384437364444383530384133363944343237344138444241343146";
     public static final Long TX3_SEQUENCE = 23L;
     public static final String TX3_SIGNING_PUB_KEY = "0296BFE89289E1CA79B0A0C602CBB0207CEC7DF05B4BE142E54354DF0A3002F889";
     public static final String TX3_TRANSACTION_TYPE = "Payment";
@@ -67,7 +70,8 @@ public class TransactionSchedulerUtil {
     public static final String TX4_AMOUNT = "23000000";
     public static final String TX4_DESTINATION = "rLBeWGaYFKQ1AeszPyB9AH8YfNXAcq97xB";
     public static final String TX4_FEE = "10";
-    public static final String TX4_MEMO_DATA = "25AA23CBE9EB95CDB739F126B02652CD7775720432D06DB46C86907CA23FC316";
+    public static final String TX4_MEMO = "489E2F17F4F24371D88FC36E31CCB08959EDCECDE13E2C4DB055B6F312F6E74E";
+    public static final String TX4_MEMO_DATA = "34383945324631374634463234333731443838464333364533314343423038393539454443454344453133453243344442303535423646333132463645373445";
     public static final Long TX4_SEQUENCE = 22L;
     public static final String TX4_SIGNING_PUB_KEY = "0296BFE89289E1CA79B0A0C602CBB0207CEC7DF05B4BE142E54354DF0A3002F889";
     public static final String TX4_TRANSACTION_TYPE = "Payment";
@@ -80,7 +84,8 @@ public class TransactionSchedulerUtil {
     public static final String TX5_AMOUNT = "150000000";
     public static final String TX5_DESTINATION = "rLBeWGaYFKQ1AeszPyB9AH8YfNXAcq97xB";
     public static final String TX5_FEE = "10";
-    public static final String TX5_MEMO_DATA = "25AA23CBE9EB95CDB739F126B02652CD7775720432D06DB46C86907CA23FC316";
+    public static final String TX5_MEMO = "4BDE6F9BE08A61CCF3ACABE79D64EC573FCD517FC40EC49EA4B9D1DC2B3558D1";
+    public static final String TX5_MEMO_DATA = "34424445364639424530384136314343463341434142453739443634454335373346434435313746433430454334394541344239443144433242333535384431";
     public static final Long TX5_SEQUENCE = 21L;
     public static final String TX5_SIGNING_PUB_KEY = "0296BFE89289E1CA79B0A0C602CBB0207CEC7DF05B4BE142E54354DF0A3002F889";
     public static final String TX5_TRANSACTION_TYPE = "Payment";
@@ -113,11 +118,11 @@ public class TransactionSchedulerUtil {
 
     public static List<TransactionResponse> getDefaultRippleTransactionDtoList() {
         return Arrays.asList(
-                createTransactionResponse(TX5_DESTINATION, TX5_ACCOUNT, RippleBalanceConverter.toDouble(TX5_AMOUNT), TX5_DATE, TX5_HASH, TX5_MEMO_DATA, TX5_SEQUENCE),
-                createTransactionResponse(TX4_DESTINATION, TX4_ACCOUNT, RippleBalanceConverter.toDouble(TX4_AMOUNT), TX4_DATE, TX4_HASH, TX4_MEMO_DATA, TX4_SEQUENCE),
-                createTransactionResponse(TX3_DESTINATION, TX3_ACCOUNT, RippleBalanceConverter.toDouble(TX3_AMOUNT), TX3_DATE, TX3_HASH, TX3_MEMO_DATA, TX3_SEQUENCE),
-                createTransactionResponse(TX2_DESTINATION, TX2_ACCOUNT, RippleBalanceConverter.toDouble(TX2_AMOUNT), TX2_DATE, TX2_HASH, TX2_MEMO_DATA, TX2_SEQUENCE),
-                createTransactionResponse(TX1_DESTINATION, TX1_ACCOUNT, RippleBalanceConverter.toDouble(TX1_AMOUNT), TX1_DATE, TX1_HASH, TX1_MEMO_DATA, TX1_SEQUENCE)
+                createTransactionResponse(TX5_DESTINATION, TX5_ACCOUNT, RippleBalanceConverter.toDouble(TX5_AMOUNT), TX5_DATE, TX5_HASH, TX5_MEMO, TX5_SEQUENCE),
+                createTransactionResponse(TX4_DESTINATION, TX4_ACCOUNT, RippleBalanceConverter.toDouble(TX4_AMOUNT), TX4_DATE, TX4_HASH, TX4_MEMO, TX4_SEQUENCE),
+                createTransactionResponse(TX3_DESTINATION, TX3_ACCOUNT, RippleBalanceConverter.toDouble(TX3_AMOUNT), TX3_DATE, TX3_HASH, TX3_MEMO, TX3_SEQUENCE),
+                createTransactionResponse(TX2_DESTINATION, TX2_ACCOUNT, RippleBalanceConverter.toDouble(TX2_AMOUNT), TX2_DATE, TX2_HASH, TX2_MEMO, TX2_SEQUENCE),
+                createTransactionResponse(TX1_DESTINATION, TX1_ACCOUNT, RippleBalanceConverter.toDouble(TX1_AMOUNT), TX1_DATE, TX1_HASH, TX1_MEMO, TX1_SEQUENCE)
         );
     }
 
@@ -155,7 +160,7 @@ public class TransactionSchedulerUtil {
                 .fee(fee)
                 .hash(hash)
                 .memos(Collections.singletonList(memos))
-                .sequence(sequence)
+                .ledgerIndex(sequence)
                 .build();
     }
 

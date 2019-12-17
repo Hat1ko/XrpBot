@@ -87,7 +87,7 @@ public class RippleCommunicationServiceImpl implements RippleCommunicationServic
         URI uri = rippleBlockchainUriBuilder.getRequestUri();
         HttpEntity<RippleTransactionsRequest> httpEntity = new HttpEntity<>(rippleTransactionsRequest, buildDefaultHttpHeaders());
         try {
-            log.info("Request to ripple blockchain to get transactions after lastSequence. Account = {}, limit = {}", param.getAccount(), param.getLimit());
+            log.info("Request to ripple blockchain to get transactions after lastSequence. Account = {}, ledger index min = {}", param.getAccount(), param.getLedgerIndexMin());
             ResponseEntity<RippleTransactionsResponse> rippleTransactionsResponse = rippleBlockchainRestTemplate.postForEntity(uri, httpEntity, RippleTransactionsResponse.class);
             log.info("Response from ripple blockchain on get transactions. Size list = {}",
                     rippleTransactionsResponse.getBody().getResult().getTransactions().size());

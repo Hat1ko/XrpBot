@@ -72,7 +72,7 @@ public class WithdrawControllerTest extends BasicApiTest {
 				.andExpect(jsonPath("$.amount").value(WithdrawTestUtil.EXPECTED_AMOUNT))
 				.andExpect(jsonPath("$.to").value(WithdrawTestUtil.EXPECTED_DESTINATION))
 				.andExpect(jsonPath("$.memo").value(WithdrawTestUtil.EXPECTED_MEMO))
-				.andExpect(jsonPath("$.transactionIndex").value(WithdrawTestUtil.EXPECTED_SEQUENCE))
+				.andExpect(jsonPath("$.transactionIndex").value(WithdrawTestUtil.EXPECTED_LEDGER_INDEX))
 				.andExpect(jsonPath("$.trxId").value(WithdrawTestUtil.EXPECTED_HASH));
 	}
 

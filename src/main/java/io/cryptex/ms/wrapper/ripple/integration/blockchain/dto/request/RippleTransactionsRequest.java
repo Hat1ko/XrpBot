@@ -31,7 +31,7 @@ public class RippleTransactionsRequest {
 		@JsonProperty("account")
 		private String account;
 		
-		@JsonProperty("limit")
-		private Long limit;
+		@JsonProperty("ledger_index_min")
+		private Long ledgerIndexMin;
 	}
 }
