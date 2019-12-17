@@ -7,14 +7,22 @@ import io.cryptex.ms.wrapper.ripple.integration.properties.WalletProperties;
 import io.cryptex.ms.wrapper.ripple.web.model.TransactionResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Hex;
 
 import java.util.Optional;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RippleTransactionConverter {
 
     public static TransactionResponse toTransactionResponse(TransactionBody transactionBody, WalletProperties walletProperties) {
-        String memo = Optional.ofNullable(transactionBody.getMemos()).map(memos -> memos.get(0).getMemo().getMemoData()).orElse("");
+        String memo = Optional.ofNullable(transactionBody.getMemos())
+                .map(memos -> memos.get(0).getMemo())
+                .map(memo1 -> decodeMemo(memo1.getMemoData()))
+                .orElse("");
         return TransactionResponse.builder()
                 .transactionType(TransactionType.getTransactionType(transactionBody.getAccount(), walletProperties.getAccount()))
                 .from(transactionBody.getAccount())
@@ -23,7 +31,7 @@ public final class RippleTransactionConverter {
                 .memo(memo)
                 .trxId(transactionBody.getHash())
                 .timestamp(transactionBody.getDate())
-                .transactionIndex(transactionBody.getSequence())
+                .transactionIndex(transactionBody.getLedgerIndex())
                 .build();
     }
 
@@ -38,4 +46,14 @@ public final class RippleTransactionConverter {
                 .transactionIndex(txJson.getSequence())
                 .build();
     }
+
+    private static String decodeMemo(String encodedMemo) {
+        try {
+            return new String(Hex.decodeHex(encodedMemo.toCharArray()), UTF_8);
+        } catch (Exception e) {
+            log.error("Error while on decode memo. Memo = {}. Error = {}", encodedMemo, e.getMessage());
+            return "";
+        }
+    }
+
 }

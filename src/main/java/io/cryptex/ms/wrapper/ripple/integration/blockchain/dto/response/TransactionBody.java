@@ -44,6 +44,9 @@ public class TransactionBody {
 	@JsonProperty("date")
 	private Long date;
 
+	@JsonProperty("ledger_index")
+	private Long ledgerIndex;
+
 	@Getter
 	@Setter
 	@Builder
