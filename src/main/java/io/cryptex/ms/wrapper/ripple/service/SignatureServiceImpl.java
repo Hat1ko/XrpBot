@@ -29,20 +29,18 @@ public class SignatureServiceImpl implements SignatureService {
     private final ReentrantLock reentrantLock = new ReentrantLock();
 
     @Override
-    public String signTransaction(String to, Long amount, String memo, String nextSequence, Long timeout) {
+    public String signTransaction(String to, Double amount, String memo) {
         reentrantLock.lock();
         try {
             String[] args = {NODE, signatureProperties.getFileForSigning(), rippleBlockchainProperties.getMethod().getSign(),
-                    walletProperties.getUri(), rippleBlockchainProperties.getTransactionType().getPayment(),
-                    walletProperties.getAccount(), to, amount.toString(), walletProperties.getFee(), nextSequence, memo,
-                    walletProperties.getSecretKey()};
+                    walletProperties.getUri(), walletProperties.getAccount(), to, amount.toString(), memo, walletProperties.getSecretKey()};
 
             log.info("Signing transaction | to : {} , amount : {} , memo: {}", to, amount.toString(), memo);
 
             Process process = Runtime.getRuntime().exec(args);
 
-            if (!process.waitFor(timeout, TimeUnit.SECONDS)) {
-                String cliExecCommand = String.format("Timeout while omni-cli execution: command = %s.", Arrays.toString(args));
+            if (!process.waitFor(signatureProperties.getTimeout(), TimeUnit.SECONDS)) {
+                String cliExecCommand = String.format("Timeout while ripple sign-transaction execution: command = %s.", Arrays.toString(args));
                 log.error(cliExecCommand);
                 process.destroy();
                 throw new InnerServiceException(cliExecCommand);

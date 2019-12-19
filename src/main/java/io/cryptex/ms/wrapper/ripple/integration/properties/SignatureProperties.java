@@ -12,4 +12,6 @@ import org.springframework.stereotype.Component;
 public class SignatureProperties {
 	public String fileForSigning;
 	public String pathToNode;
+	public Long timeout;
+
 }
