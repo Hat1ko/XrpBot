@@ -48,8 +48,8 @@ public class WithdrawControllerTest extends BasicApiTest {
         RippleWithdrawRequest rippleWithdrawRequest = WithdrawTestUtil
                 .getDefaultSendTransactionRequest(rippleBlockchainProperties);
 
-        when(signatureService.signTransaction(Mockito.any(String.class), Mockito.any(Double.class), Mockito.any(String.class),
-                Mockito.any(Long.class))).thenReturn(WithdrawTestUtil.EXPECTED_TX_BLOB);
+        when(signatureService.signTransaction(Mockito.any(String.class), Mockito.any(Double.class), Mockito.any(String.class)))
+                .thenReturn(WithdrawTestUtil.EXPECTED_TX_BLOB);
 
         mockResponseWithBodyAndSuccess(rippleServiceServer, HttpMethod.POST,
                 rippleBlockchainUriBuilder.getRequestUri().toString(), rippleWithdrawResponse, rippleWithdrawRequest);
@@ -75,8 +75,8 @@ public class WithdrawControllerTest extends BasicApiTest {
         RippleWithdrawRequest rippleWithdrawRequest = WithdrawTestUtil
                 .getDefaultSendTransactionRequest(rippleBlockchainProperties);
 
-        when(signatureService.signTransaction(Mockito.any(String.class), Mockito.any(Double.class), Mockito.any(String.class),
-                Mockito.any(Long.class))).thenReturn(WithdrawTestUtil.EXPECTED_TX_BLOB);
+        when(signatureService.signTransaction(Mockito.any(String.class), Mockito.any(Double.class), Mockito.any(String.class)))
+                .thenReturn(WithdrawTestUtil.EXPECTED_TX_BLOB);
 
         mockResponseWithBodyAndSuccess(rippleServiceServer, HttpMethod.POST,
                 rippleBlockchainUriBuilder.getRequestUri().toString(), rippleWithdrawResponse, rippleWithdrawRequest);
