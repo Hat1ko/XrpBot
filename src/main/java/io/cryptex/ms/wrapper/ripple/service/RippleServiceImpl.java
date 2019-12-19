@@ -1,7 +1,5 @@
 package io.cryptex.ms.wrapper.ripple.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cryptex.ms.wrapper.ripple.converter.RippleBalanceConverter;
 import io.cryptex.ms.wrapper.ripple.converter.RippleTransactionConverter;
 import io.cryptex.ms.wrapper.ripple.exception.InnerServiceException;
@@ -37,7 +35,6 @@ public class RippleServiceImpl implements RippleService {
     private final SignatureService signatureService;
     private final RippleBlockchainProperties rippleBlockchainProperties;
     private final WalletProperties walletProperties;
-    private final ObjectMapper objectMapper;
     private Random random = new Random();
 
     @Override
@@ -73,38 +70,11 @@ public class RippleServiceImpl implements RippleService {
 
     @Override
     public TransactionResponse withdraw(WithdrawRequest withdrawRequest) {
-        RippleAccountInfoRequest rippleAccountInfoRequest = RippleAccountInfoRequest.builder()
-                .method(rippleBlockchainProperties.getMethod().getAccountInfo())
-                .params(Collections.singletonList(Param.builder()
-                        .account(walletProperties.getAccount())
-                        .build())
-                )
-                .build();
-
-        RippleAccountInfoResponse rippleAccountInfoResponse;
-        try {
-            rippleAccountInfoResponse = rippleCommunicationService.getAccountInfo(rippleAccountInfoRequest);
-        } catch (Exception e) {
-            log.error("Error while connection to Ripple node when getting account info | Message : {}", e.getMessage());
-            log.debug("Retry request to get account info by other uri");
-            rippleAccountInfoResponse = rippleCommunicationService.getAccountInfo(rippleAccountInfoRequest);
-        }
-
-        String nextSequence;
-        try {
-            nextSequence = objectMapper
-                    .writeValueAsString(rippleAccountInfoResponse.getResult().getAccountData().getSequence());
-        } catch (JsonProcessingException e) {
-            log.info("Error while parsing rippleAccountInfoResponseSequence -> sequence | Message : {}",
-                    e.getMessage());
-            throw new InnerServiceException(String.format("Error while parsing rippleAccountInfoResponseSequence -> sequence | Message : %s", e.getMessage()));
-        }
-
         String to = withdrawRequest.getTo();
-        Long amount = RippleBalanceConverter.toAtomicUnits(withdrawRequest.getQuantity());
+        Double amount = withdrawRequest.getQuantity();
         String memo = withdrawRequest.getMemo();
 
-        String signature = signatureService.signTransaction(to, amount, memo, nextSequence, 5L);
+        String signature = signatureService.signTransaction(to, amount, memo);
 
         RippleWithdrawRequest requestToSubmit = RippleWithdrawRequest.builder()
                 .method(rippleBlockchainProperties.getMethod().getSubmit())
@@ -129,9 +99,9 @@ public class RippleServiceImpl implements RippleService {
             return RippleTransactionConverter.toTransactionResponse(rippleWithdrawResponse.getResult().getTxJson(), walletProperties);
         } else {
             log.error("Error while on withdraw. To = {}, amount = {}, memo = {}. Transaction status = {}",
-                    to, withdrawRequest.getQuantity(), memo, status);
+                    to, amount, memo, status);
             throw new InnerServiceException(String.format("Error while on withdraw. To = %s, amount = %s, memo = %s. Transaction status = %s",
-                    to, withdrawRequest.getQuantity(), memo, status));
+                    to, amount, memo, status));
         }
 
     }

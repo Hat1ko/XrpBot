@@ -36,12 +36,13 @@ public final class RippleTransactionConverter {
     }
 
     public static TransactionResponse toTransactionResponse(TxJson txJson, WalletProperties walletProperties) {
+        String memo = decodeMemo(txJson.getMemos().get(0).getMemo().getMemoData());
         return TransactionResponse.builder()
                 .transactionType(TransactionType.getTransactionType(txJson.getAccount(), walletProperties.getAccount()))
                 .from(txJson.getAccount())
                 .amount(RippleBalanceConverter.toDouble(txJson.getAmount()))
                 .to(txJson.getDestination())
-                .memo(txJson.getMemos().get(0).getMemo().getMemoData())
+                .memo(memo)
                 .trxId(txJson.getHash())
                 .transactionIndex(txJson.getSequence())
                 .build();
