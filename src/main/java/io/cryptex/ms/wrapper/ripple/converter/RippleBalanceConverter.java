@@ -18,5 +18,4 @@ public final class RippleBalanceConverter {
     public static Long toAtomicUnits(Double amount) {
         return BigDecimal.valueOf(amount).multiply(BigDecimal.valueOf(MILLION_DROPS)).longValue();
     }
-
 }

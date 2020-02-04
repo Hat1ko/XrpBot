@@ -34,8 +34,8 @@ public class TransactionScheduler {
 			newTransactionsToProcess = transactionService
 					.getNewBlockchainTransactionsToProcess(lastProcessedTransactionData.getTransactionIndex());
 		} catch (Exception e) {
-			log.error("Error while getting new transactions from blockchain to be processed | Error : {}",
-					e.getMessage());
+			log.error("Error while getting new transactions from blockchain to be processed | Last processed ledger index = {}. Error = {}",
+					lastProcessedTransactionData.getTransactionIndex(), e.getMessage());
 			return;
 		}
 

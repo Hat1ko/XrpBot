@@ -26,7 +26,7 @@ public class CryptoPaymentCommunicationServiceImpl implements CryptoPaymentCommu
 
 	@Override
 	public LastProcessedTransactionData getLastProcessedTransactionData() {
-		URI uri = cryptoPaymentUriBuilder.getLastProcessedSequenceUri();
+		URI uri = cryptoPaymentUriBuilder.getLastProcessedDataUri();
 		try {
 			log.info("Request to cryptopayment to get last processed transaction data");
 			ResponseEntity<LastProcessedTransactionData> lastProcessedTransactionData = cryptoPaymentRestTemplate.getForEntity(uri, LastProcessedTransactionData.class);

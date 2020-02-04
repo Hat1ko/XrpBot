@@ -22,31 +22,29 @@ import java.util.stream.Collectors;
 @Service
 public class SignatureServiceImpl implements SignatureService {
 
-    private static final String NODE = "node";
+    private static final String NODE = "/usr/local/bin/node";
     private final RippleBlockchainProperties rippleBlockchainProperties;
     private final WalletProperties walletProperties;
     private final SignatureProperties signatureProperties;
     private final ReentrantLock reentrantLock = new ReentrantLock();
 
     @Override
-    public String signTransaction(String to, Long amount, String memo, String nextSequence, Long timeout) {
+    public String signTransaction(String to, Double amount, String memo) {
         reentrantLock.lock();
         try {
             String[] args = {NODE, signatureProperties.getFileForSigning(), rippleBlockchainProperties.getMethod().getSign(),
-                    walletProperties.getUri(), rippleBlockchainProperties.getTransactionType().getPayment(),
-                    walletProperties.getAccount(), to, amount.toString(), walletProperties.getFee(), nextSequence, memo,
-                    walletProperties.getSecretKey()};
+                    walletProperties.getUri(), walletProperties.getAccount(), to, amount.toString(), memo, walletProperties.getSecretKey()};
 
             log.info("Signing transaction | to : {} , amount : {} , memo: {}", to, amount.toString(), memo);
 
             Process process = Runtime.getRuntime().exec(args);
 
-            if (!process.waitFor(timeout, TimeUnit.SECONDS)) {
-                String cliExecCommand = String.format("Timeout while omni-cli execution: command = %s.", Arrays.toString(args));
-                log.error(cliExecCommand);
-                process.destroy();
-                throw new InnerServiceException(cliExecCommand);
-            }
+//            if (!process.waitFor(signatureProperties.getTimeout(), TimeUnit.SECONDS)) {
+//                String cliExecCommand = String.format("Timeout while ripple sign-transaction execution: command = %s.", Arrays.toString(args));
+//                log.error(cliExecCommand);
+//                process.destroy();
+//                throw new InnerServiceException(cliExecCommand);
+//            }
 
             try (BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
                  BufferedReader errorInput = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
@@ -62,7 +60,7 @@ public class SignatureServiceImpl implements SignatureService {
 
                 return signature;
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception  e) {
             log.error("Error while calling for sign-transaction.js | Message : {}", e.getMessage());
             throw new InnerServiceException(e.getMessage());
         } finally {

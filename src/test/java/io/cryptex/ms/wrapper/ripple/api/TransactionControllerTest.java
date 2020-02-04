@@ -40,7 +40,7 @@ public class TransactionControllerTest extends BasicApiTest {
 				.andExpect(jsonPath("$.amount").value(TrxByHashTestUtil.EXPECTED_AMOUNT))
 				.andExpect(jsonPath("$.to").value(TrxByHashTestUtil.EXPECTED_DESTINATION))
 				.andExpect(jsonPath("$.memo").value(TrxByHashTestUtil.EXPECTED_MEMO))
-				.andExpect(jsonPath("$.transactionIndex").value(TrxByHashTestUtil.EXPECTED_SEQUENCE))
+				.andExpect(jsonPath("$.transactionIndex").value(TrxByHashTestUtil.EXPECTED_LEDGER_INDEX))
 				.andExpect(jsonPath("$.trxId").value(TrxByHashTestUtil.EXPECTED_HASH));
 	}
 }

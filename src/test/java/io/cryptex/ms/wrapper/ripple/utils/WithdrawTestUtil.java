@@ -15,7 +15,8 @@ public class 	WithdrawTestUtil {
 	public static final String WITHDRAW_URL = "/api/wrapper/withdraw";
 
 	public static final String WITHDRAW_REQUEST_TO = "rLBeWGaYFKQ1AeszPyB9AH8YfNXAcq97xB";
-	public static final String WITHDRAW_REQUEST_MEMO = "4A4E7C7081289FC683A96E6AEB68A5C8D96C42A5848C0292A746B24B0F306A72";
+	public static final String WITHDRAW_REQUEST_MEMO = "489E2F17F4F24371D88FC36E31CCB08959EDCECDE13E2C4DB055B6F312F6E74E";
+	public static final String WITHDRAW_REQUEST_MEMO_DATA = "34383945324631374634463234333731443838464333364533314343423038393539454443454344453133453243344442303535423646333132463645373445";
 	public static final Double WITHDRAW_REQUEST_AMOUNT = 15.0;
 
 	public static final String WITHDRAW_RESPONSE_HASH = "14E99BAE7D0AA4CEBBC6A3B83DB8C88ED77A4FB1B10D43B43D13ED1C4658B64E";
@@ -32,7 +33,7 @@ public class 	WithdrawTestUtil {
 	public static final String EXPECTED_DESTINATION = WITHDRAW_REQUEST_TO;
 	public static final String EXPECTED_FEE = "";
 	public static final String EXPECTED_MEMO = WITHDRAW_REQUEST_MEMO;
-	public static final Long EXPECTED_SEQUENCE = 24L;
+	public static final Long EXPECTED_LEDGER_INDEX = 24L;
 	public static final String EXPECTED_SIGNING_PUB_KEY = "0296BFE89289E1CA79B0A0C602CBB0207CEC7DF05B4BE142E54354DF0A3002F889";
 	public static final String EXPECTED_TRANSACTION_TYPE = "Payment";
 	public static final String EXPECTED_TXN_SIGNATURE = "30450221009C8D2ABE902A9C6D4503AC0BDECD9A83657CF64B5F72A69796CF35478049E55F02203A4836E954C55EAAA82403EDDB4DD931FA7D5722A17C66AFD6F76BA7762751EE";
@@ -45,14 +46,14 @@ public class 	WithdrawTestUtil {
 
 		RippleWithdrawResponse rippleWithdrawResponse = new RippleWithdrawResponse();
 		RippleWithdrawResponse.Result.TxJson.Memos.Memo memo = RippleWithdrawResponse.Result.TxJson.Memos.Memo
-				.builder().memoData(EXPECTED_MEMO).build();
+				.builder().memoData(WITHDRAW_REQUEST_MEMO_DATA).build();
 
 		RippleWithdrawResponse.Result.TxJson.Memos memos = RippleWithdrawResponse.Result.TxJson.Memos.builder()
 				.memo(memo).build();
 
 		RippleWithdrawResponse.Result.TxJson txJson = RippleWithdrawResponse.Result.TxJson.builder()
 				.account(EXPECTED_ACCOUNT).amount(AMOUNT).destination(EXPECTED_DESTINATION).fee(EXPECTED_FEE)
-				.hash(EXPECTED_HASH).sequence(EXPECTED_SEQUENCE).signingPubKey(EXPECTED_SIGNING_PUB_KEY)
+				.hash(EXPECTED_HASH).sequence(EXPECTED_LEDGER_INDEX).signingPubKey(EXPECTED_SIGNING_PUB_KEY)
 				.transactionType(EXPECTED_TRANSACTION_TYPE).txnSignature(EXPECTED_TXN_SIGNATURE)
 				.memos(Collections.singletonList(memos)).build();
 
@@ -84,7 +85,7 @@ public class 	WithdrawTestUtil {
 
 		RippleAccountInfoResponse.Result.AccountData accountData = RippleAccountInfoResponse.Result.AccountData.builder()
 				.account(EXPECTED_ACCOUNT).balance(EXPECTED_BALANCE).ownerCount(EXPECTED_OWNER_COUNT)
-				.sequence(EXPECTED_SEQUENCE).build();
+				.sequence(EXPECTED_LEDGER_INDEX).build();
 
 		RippleAccountInfoResponse.Result result = RippleAccountInfoResponse.Result.builder().accountData(accountData).build();
 

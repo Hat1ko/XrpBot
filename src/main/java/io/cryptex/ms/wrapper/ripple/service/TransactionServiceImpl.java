@@ -1,8 +1,7 @@
 package io.cryptex.ms.wrapper.ripple.service;
 
+import io.cryptex.ms.wrapper.ripple.constants.TransactionType;
 import io.cryptex.ms.wrapper.ripple.converter.RippleTransactionConverter;
-import io.cryptex.ms.wrapper.ripple.integration.blockchain.dto.request.RippleAccountInfoRequest;
-import io.cryptex.ms.wrapper.ripple.integration.blockchain.dto.request.RippleAccountInfoRequest.Param;
 import io.cryptex.ms.wrapper.ripple.integration.blockchain.dto.request.RippleTransactionsRequest;
 import io.cryptex.ms.wrapper.ripple.integration.blockchain.dto.response.RippleTransactionsResponse;
 import io.cryptex.ms.wrapper.ripple.integration.blockchain.dto.response.RippleTransactionsResponse.Result.Trx;
@@ -31,24 +30,13 @@ public class TransactionServiceImpl implements TransactionService {
     private final RippleBlockchainProperties rippleBlockchainProperties;
 
     @Override
-    public List<TransactionResponse> getNewBlockchainTransactionsToProcess(Long lastProcessedSequence) {
-        RippleAccountInfoRequest rippleAccountInfoRequest = RippleAccountInfoRequest.builder()
-                .method(rippleBlockchainProperties.getMethod().getAccountInfo())
-                .params(Collections.singletonList(Param.builder()
-                        .account(walletProperties.getAccount())
-                        .build())
-                )
-                .build();
-
-        Long actualAccountSequence = rippleCommunicationService.getAccountInfo(rippleAccountInfoRequest)
-                .getResult().getAccountData().getSequence();
-
+    public List<TransactionResponse> getNewBlockchainTransactionsToProcess(Long lastProcessedLedgerIndex) {
         RippleTransactionsRequest request = RippleTransactionsRequest.builder()
                 .method(rippleBlockchainProperties.getMethod().getAccountTransactions())
                 .params(Collections
                         .singletonList(RippleTransactionsRequest.Param.builder()
                                 .account(walletProperties.getAccount())
-                                .limit(actualAccountSequence - lastProcessedSequence - 1)
+                                .ledgerIndexMin(lastProcessedLedgerIndex)
                                 .build())
                 )
                 .build();
@@ -69,7 +57,12 @@ public class TransactionServiceImpl implements TransactionService {
                 .stream()
                 .map(Trx::getTx)
                 .map(transaction -> RippleTransactionConverter.toTransactionResponse(transaction, walletProperties))
-                .collect(Collectors.toList());
+                .filter(transactionResponse -> transactionResponse.getTransactionType() == TransactionType.DEPOSIT)
+                .filter(transactionResponse -> transactionResponse.getTransactionIndex().compareTo(lastProcessedLedgerIndex) > 0)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), transactionResponses -> {
+                    Collections.reverse(transactionResponses);
+                    return transactionResponses;
+                }));
 
         log.debug("Amount of new transactions to process : {}", trxToProcess.size());
 

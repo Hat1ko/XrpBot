@@ -2,10 +2,10 @@ plugins {
     id 'org.springframework.boot' version '2.2.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
-    id 'idea'
+//    id 'idea'
 }
 
-group = 'io.europost.ms'
+group = 'io.cryptex.ms.wrapper.ripple'
 version = '0.0.1-SNAPSHOT'
 
 configurations {
@@ -32,6 +32,8 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.9'
 
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.apache.commons:commons-lang3:3.9'
