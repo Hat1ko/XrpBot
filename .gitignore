@@ -5,7 +5,8 @@
 *.mvn
 
 ### Gradle ###
-*.gradle
+*/.gradle
+.gradle
 
 ### STS ###
 *.apt_generated
@@ -24,10 +25,10 @@
 
 ### NetBeans ###
 *nbproject/private/
-*build/
-*nbbuild/
-*dist/
-*nbdist/
+*/build/
+*/nbbuild/
+*/dist/
+*/nbdist/
 *.nb-gradle/
 
 ### Other ###
