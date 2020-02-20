@@ -1,4 +1,4 @@
-package com.hatiko.ripple.wrapper;
+package com.hatiko.ripple;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
