@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  
+  wrapper:
+    build: wrapper-ripple/.
+    ports:
+      - "8080:8080"
+    depends_on:
+      - data_base
+    container_name: wrapper
+    networks:
+      - payment_platform
+
+  data_base: 
+    image: "mysql:latest"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    container_name: wrapper-db
+    networks:
+      - payment_platform
+
+  networks:
+    payment_platform:
+      name: payment_platform
