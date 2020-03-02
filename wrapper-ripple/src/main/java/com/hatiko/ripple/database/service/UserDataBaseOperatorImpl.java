@@ -1,10 +1,12 @@
 package com.hatiko.ripple.database.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.hatiko.ripple.database.converter.UserConverter;
 import com.hatiko.ripple.database.dto.UserDTO;
 import com.hatiko.ripple.database.dto.UserEntity;
 import com.hatiko.ripple.database.repo.UserRepo;
@@ -23,12 +25,9 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 	@Override
 	public List<UserDTO> getAllUsers() {
 
-	log.info("Getting all userDTO from db");	
-		
-		return userRepo.findAll().stream()
-				.map(e -> UserDTO.builder().username(e.getUsername()).password(e.getPassword())
-						.publicKey(e.getPublicKey()).privateKey(e.getPrivateKey()).build())
-				.collect(Collectors.toList());
+		log.info("Getting all userDTO from db");
+
+		return userRepo.findAll().stream().map(e -> UserConverter.toUserDTO(e)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -36,41 +35,57 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		log.info("Getting userEntity by username | username : {}", username);
 
-		UserEntity userEntity = userRepo.findOneByUsername(username);
-		
+		Optional<UserEntity> entity = userRepo.findOneByUsername(username);
+
 		log.info("Transform of userEntity DTO userDTO");
-		
-		return UserDTO.builder().username(userEntity.getUsername()).password(userEntity.getPassword())
-				.publicKey(userEntity.getPublicKey()).privateKey(userEntity.getPrivateKey()).build();
+
+		if (entity.isEmpty()) {
+			return new UserDTO();
+		}
+
+		UserEntity userEntity = entity.get();
+
+		return UserConverter.toUserDTO(userEntity);
+
+//		return UserDTO.builder().username(userEntity.getUsername()).password(userEntity.getPassword())
+//				.publicKey(userEntity.getPublicKey()).privateKey(userEntity.getPrivateKey()).build();
 	}
 
 	@Override
 	public UserDTO registerNewUser(UserDTO userDTO) {
 
-		UserEntity userEntity = UserEntity.builder().username(userDTO.getUsername()).password(userDTO.getPassword())
-				.publicKey(userDTO.getPublicKey()).privateKey(userDTO.getPrivateKey()).build();
+		UserEntity userEntity = UserConverter.toUserEntity(userDTO); 
+//				UserEntity.builder().username(userDTO.getUsername()).password(userDTO.getPassword())
+//				.publicKey(userDTO.getPublicKey()).privateKey(userDTO.getPrivateKey()).build();
 
 		UserEntity entityResponse = userRepo.save(userEntity);
 
-		UserDTO response = UserDTO.builder().username(entityResponse.getUsername())
-				.password(entityResponse.getPassword()).publicKey(entityResponse.getPublicKey())
-				.privateKey(entityResponse.getPrivateKey()).build();
-		
+		UserDTO response = UserConverter.toUserDTO(userEntity); 
+//				UserDTO.builder().username(entityResponse.getUsername())
+//				.password(entityResponse.getPassword()).publicKey(entityResponse.getPublicKey())
+//				.privateKey(entityResponse.getPrivateKey()).build();
+
 		return response;
 	}
 
 	@Override
 	public Boolean checkLogIn(String username, String password) {
-		
-		UserEntity userEntity = userRepo.findOneByUsername(username);
-		
-		return userEntity.getPassword().contentEquals(password);
+
+		Optional<UserEntity> userEntity = userRepo.findOneByUsername(username);
+
+		if (userEntity.isPresent()) {
+			return userEntity.get().getPassword().contentEquals(password);
+		} else {
+			return Boolean.FALSE;
+		}
 	}
 
 	@Override
 	public Boolean checkRegistryStatus(String username) {
 
-		return null;
+		List<UserEntity> users = userRepo.findAllLikeUsername(username);
+		users = users.stream().filter(e -> e.getUsername().equals(username)).collect(Collectors.toList());
+		return users.size() > 0;
 	}
 
 }
