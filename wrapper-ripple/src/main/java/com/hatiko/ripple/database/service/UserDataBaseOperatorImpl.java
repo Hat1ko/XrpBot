@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hatiko.ripple.database.converter.UserConverter;
 import com.hatiko.ripple.database.dto.UserDTO;
 import com.hatiko.ripple.database.dto.UserEntity;
@@ -21,6 +22,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 	UserDataBaseOperator userDataBaseOperator;
 	UserRepo userRepo;
+	ObjectMapper objectMapper;
 
 	@Override
 	public List<UserDTO> getAllUsers() {
@@ -54,13 +56,17 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 	@Override
 	public UserDTO registerNewUser(UserDTO userDTO) {
 
-		UserEntity userEntity = UserConverter.toUserEntity(userDTO); 
+		UserEntity userEntity = UserConverter.toUserEntity(userDTO);
 //				UserEntity.builder().username(userDTO.getUsername()).password(userDTO.getPassword())
 //				.publicKey(userDTO.getPublicKey()).privateKey(userDTO.getPrivateKey()).build();
 
+		log.info("Saving user to db : {}", objectMapper.convertValue(userEntity, String.class));
+
 		UserEntity entityResponse = userRepo.save(userEntity);
 
-		UserDTO response = UserConverter.toUserDTO(userEntity); 
+		log.info("Response entity from db after saveing : {}", objectMapper.convertValue(entityResponse, String.class));
+
+		UserDTO response = UserConverter.toUserDTO(entityResponse);
 //				UserDTO.builder().username(entityResponse.getUsername())
 //				.password(entityResponse.getPassword()).publicKey(entityResponse.getPublicKey())
 //				.privateKey(entityResponse.getPrivateKey()).build();
@@ -73,6 +79,8 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		Optional<UserEntity> userEntity = userRepo.findOneByUsername(username);
 
+		log.info("Check for log in | username : {}, password : {}");
+		
 		if (userEntity.isPresent()) {
 			return userEntity.get().getPassword().contentEquals(password);
 		} else {
@@ -84,8 +92,16 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 	public Boolean checkRegistryStatus(String username) {
 
 		List<UserEntity> users = userRepo.findAllLikeUsername(username);
+		
+		log.info("Check for user being registered by username = {}", username);
+		
 		users = users.stream().filter(e -> e.getUsername().equals(username)).collect(Collectors.toList());
-		return users.size() > 0;
+		
+		Boolean response = users.size() > 0;
+		
+		log.info("Registry state : {}", response);
+		
+		return response;
 	}
 
 }
