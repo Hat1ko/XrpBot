@@ -75,7 +75,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 	@Override
 	public Boolean checkRegistryStatus(String username) {
 
-		List<UserEntity> users = userRepo.findAllLikeUsername(username);
+		List<UserEntity> users = userRepo.findAllByUsername(username);
 		
 		log.info("Check for user being registered by username = {}", username);
 		

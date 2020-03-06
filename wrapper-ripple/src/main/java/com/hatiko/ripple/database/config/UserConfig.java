@@ -31,10 +31,10 @@ public class UserConfig {
 	public DataSource userDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-		dataSource.setDriverClassName(env.getProperty("datasource.driver"));
-		dataSource.setUrl(env.getProperty("datasource.uri"));
-		dataSource.setUsername(env.getProperty("datasource.user.name"));
-		dataSource.setPassword(env.getProperty("datasource.user.password"));
+		dataSource.setDriverClassName(env.getProperty("database.driver"));
+		dataSource.setUrl(env.getProperty("database.uri"));
+		dataSource.setUsername(env.getProperty("database.user.name"));
+		dataSource.setPassword(env.getProperty("database.user.password"));
 
 		return dataSource;
 	}
