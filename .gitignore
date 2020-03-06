@@ -42,3 +42,5 @@
 *.metadata
 *node_modules
 *package-lock.json
+
+wrapper-ripple/bin/
