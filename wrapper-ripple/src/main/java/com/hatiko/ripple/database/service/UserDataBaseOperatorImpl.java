@@ -43,22 +43,13 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		UserEntity userEntity = Optional.of(entity).orElseGet(() -> new UserEntity());
 		
-//		if (entity.isEmpty()) {
-//			return new UserDTO();
-//		}
-
 		return UserConverter.toUserDTO(userEntity);
-
-//		return UserDTO.builder().username(userEntity.getUsername()).password(userEntity.getPassword())
-//				.publicKey(userEntity.getPublicKey()).privateKey(userEntity.getPrivateKey()).build();
 	}
 
 	@Override
 	public UserDTO registerNewUser(UserDTO userDTO) {
 
 		UserEntity userEntity = UserConverter.toUserEntity(userDTO);
-//				UserEntity.builder().username(userDTO.getUsername()).password(userDTO.getPassword())
-//				.publicKey(userDTO.getPublicKey()).privateKey(userDTO.getPrivateKey()).build();
 
 		log.info("Saving user to db : {}", objectMapper.convertValue(userEntity, String.class));
 
@@ -67,9 +58,6 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 		log.info("Response entity from db after saveing : {}", objectMapper.convertValue(entityResponse, String.class));
 
 		UserDTO response = UserConverter.toUserDTO(entityResponse);
-//				UserDTO.builder().username(entityResponse.getUsername())
-//				.password(entityResponse.getPassword()).publicKey(entityResponse.getPublicKey())
-//				.privateKey(entityResponse.getPrivateKey()).build();
 
 		return response;
 	}
@@ -82,12 +70,6 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 		log.info("Check for log in | username : {}, password : {}");
 		
 		return Optional.of(userEntity).orElseGet(() -> new UserEntity()).getPassword().equals(password);
-		
-//		if (userEntity.isPresent()) {
-//			return userEntity.get().getPassword().contentEquals(password);
-//		} else {
-//			return Boolean.FALSE;
-//		}
 	}
 
 	@Override
