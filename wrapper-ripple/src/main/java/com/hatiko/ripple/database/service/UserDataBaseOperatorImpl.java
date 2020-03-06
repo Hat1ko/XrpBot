@@ -103,5 +103,4 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 		
 		return response;
 	}
-
 }

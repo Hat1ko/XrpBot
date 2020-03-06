@@ -3,7 +3,6 @@ package com.hatiko.ripple.database.service;
 import java.util.List;
 
 import com.hatiko.ripple.database.dto.UserDTO;
-import com.hatiko.ripple.database.dto.UserEntity;
 
 public interface UserDataBaseOperator {
 	
