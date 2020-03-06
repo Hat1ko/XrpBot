@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hatiko.ripple.database.converter.UserConverter;
 import com.hatiko.ripple.database.dto.UserDTO;
@@ -20,9 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
-	UserDataBaseOperator userDataBaseOperator;
-	UserRepo userRepo;
-	ObjectMapper objectMapper;
+	private final UserRepo userRepo;
+	private final ObjectMapper objectMapper;
 
 	@Override
 	public List<UserDTO> getAllUsers() {
@@ -51,11 +51,19 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		UserEntity userEntity = UserConverter.toUserEntity(userDTO);
 
-		log.info("Saving user to db : {}", objectMapper.convertValue(userEntity, String.class));
+		try {
+			log.info("Saving user to db : {}", objectMapper.writeValueAsString(userEntity));
+		} catch (JsonProcessingException e) {
+			log.error(e.getMessage());
+		}
 
 		UserEntity entityResponse = userRepo.save(userEntity);
 
-		log.info("Response entity from db after saveing : {}", objectMapper.convertValue(entityResponse, String.class));
+		try {
+			log.info("Response entity from db after saveing : {}", objectMapper.writeValueAsString(entityResponse));
+		} catch (JsonProcessingException e) {
+			log.error(e.getMessage());
+		}
 
 		UserDTO response = UserConverter.toUserDTO(entityResponse);
 
@@ -67,7 +75,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		UserEntity userEntity = userRepo.findOneByUsername(username);
 
-		log.info("Check for log in | username : {}, password : {}");
+		log.info("Check for log in | username : {}, password : {}", username, password);
 		
 		return Optional.of(userEntity).orElseGet(() -> new UserEntity()).getPassword().equals(password);
 	}

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hatiko.ripple.database.rest.dto.request.UsernameDTO;
 import com.hatiko.ripple.database.rest.dto.response.StatusDTO;
 import com.hatiko.ripple.database.service.UserDataBaseOperator;
@@ -21,14 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 public class CheckRegistryStatusController {
 
 	UserDataBaseOperator userDataBaseOperator;
-	ObjectMapper objectMapper;
 	
 	@PostMapping
 	public ResponseEntity<StatusDTO> checkRegistryStatus(@RequestBody UsernameDTO usernameDTO){
 		
 		String username = usernameDTO.getUsername();
 		
-		log.info("Check registry status for username : {}", usernameDTO);
+		log.info("Check registry status for username");
 		
 		Boolean status = userDataBaseOperator.checkRegistryStatus(username);
 

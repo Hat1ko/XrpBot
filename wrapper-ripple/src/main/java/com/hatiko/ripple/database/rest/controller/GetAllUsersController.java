@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(path = "/db/user")
 public class GetAllUsersController {
 	
-	UserDataBaseOperator userDataBaseOperator;
+	private final UserDataBaseOperator userDataBaseOperator;
 	
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> getAllUsers(){

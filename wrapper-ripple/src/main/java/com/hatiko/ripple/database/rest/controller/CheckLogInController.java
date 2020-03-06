@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hatiko.ripple.database.rest.dto.request.LogInDTO;
 import com.hatiko.ripple.database.rest.dto.response.StatusDTO;
 import com.hatiko.ripple.database.service.UserDataBaseOperator;
@@ -20,8 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/db/login")
 public class CheckLogInController {
 
-	UserDataBaseOperator userDataBaseOperator;
-	ObjectMapper objectMapper;
+	private final UserDataBaseOperator userDataBaseOperator;
 
 	@PostMapping
 	public ResponseEntity<StatusDTO> CheckLogIn(@RequestBody LogInDTO logInDTO) {
