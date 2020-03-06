@@ -9,7 +9,7 @@ import com.hatiko.ripple.database.dto.UserEntity;
 
 public interface UserRepo extends JpaRepository<UserEntity, Long> {
 	
-	Optional<UserEntity> findOneByUsername(String username);
+	UserEntity findOneByUsername(String username);
 	
 	List<UserEntity> findAllLikeUsername(String username);
 }

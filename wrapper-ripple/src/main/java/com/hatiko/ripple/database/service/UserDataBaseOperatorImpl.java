@@ -37,15 +37,15 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		log.info("Getting userEntity by username | username : {}", username);
 
-		Optional<UserEntity> entity = userRepo.findOneByUsername(username);
+		UserEntity entity = userRepo.findOneByUsername(username);
 
 		log.info("Transform of userEntity DTO userDTO");
 
-		if (entity.isEmpty()) {
-			return new UserDTO();
-		}
-
-		UserEntity userEntity = entity.get();
+		UserEntity userEntity = Optional.of(entity).orElseGet(() -> new UserEntity());
+		
+//		if (entity.isEmpty()) {
+//			return new UserDTO();
+//		}
 
 		return UserConverter.toUserDTO(userEntity);
 
@@ -77,15 +77,17 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 	@Override
 	public Boolean checkLogIn(String username, String password) {
 
-		Optional<UserEntity> userEntity = userRepo.findOneByUsername(username);
+		UserEntity userEntity = userRepo.findOneByUsername(username);
 
 		log.info("Check for log in | username : {}, password : {}");
 		
-		if (userEntity.isPresent()) {
-			return userEntity.get().getPassword().contentEquals(password);
-		} else {
-			return Boolean.FALSE;
-		}
+		return Optional.of(userEntity).orElseGet(() -> new UserEntity()).getPassword().equals(password);
+		
+//		if (userEntity.isPresent()) {
+//			return userEntity.get().getPassword().contentEquals(password);
+//		} else {
+//			return Boolean.FALSE;
+//		}
 	}
 
 	@Override
