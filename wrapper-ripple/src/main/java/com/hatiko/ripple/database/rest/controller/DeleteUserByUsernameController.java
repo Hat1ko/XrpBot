@@ -1,14 +1,12 @@
 package com.hatiko.ripple.database.rest.controller;
 
-import java.util.Optional;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hatiko.ripple.database.rest.dto.request.UsernameDTO;
+import com.hatiko.ripple.database.rest.dto.request.LogInDTO;
 import com.hatiko.ripple.database.rest.dto.response.StatusDTO;
 import com.hatiko.ripple.database.service.UserDataBaseOperator;
 
@@ -16,24 +14,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor
 @RestController
-@RequestMapping("/db/registry")
-public class CheckRegistryStatusController {
+@RequiredArgsConstructor
+@RequestMapping(path = "/db/user")
+public class DeleteUserByUsernameController {
 
 	private final UserDataBaseOperator userDataBaseOperator;
 	
-	@PostMapping
-	public ResponseEntity<StatusDTO> checkRegistryStatus(@RequestBody UsernameDTO usernameDTO){
+	@DeleteMapping
+	public ResponseEntity<StatusDTO> deleteUserByUsername(@RequestBody LogInDTO logInDTO) {
 		
-		String username = Optional.ofNullable(usernameDTO).orElseGet(null).getUsername();
+		String username = logInDTO.getUsername();
+		String password = logInDTO.getPassword();
 		
-		log.info("Check registry status for username");
+		log.info("Request to delete user | Username : ", username);
 		
-		Boolean status = userDataBaseOperator.checkRegistryStatus(username);
-
-		log.info("Response status from check registry status : {}", status);
+		Boolean status = userDataBaseOperator.deleteUserByUsername(username, password);
+		
+		log.info("Response status of deleting user : {} | username : {}", status, username);
 		
 		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}
+	
 }

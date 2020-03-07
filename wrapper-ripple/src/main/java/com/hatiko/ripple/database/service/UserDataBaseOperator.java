@@ -13,4 +13,5 @@ public interface UserDataBaseOperator {
 	
 	Boolean checkLogIn(String username, String password);
 	Boolean checkRegistryStatus(String username);
+	Boolean deleteUserByUsername(String username, String password);
 }

@@ -39,10 +39,16 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		UserEntity entity = userRepo.findOneByUsername(username);
 
+		try {
+			log.info("Response from db : {}", objectMapper.writeValueAsString(entity));
+		} catch (JsonProcessingException e) {
+			log.error(e.getMessage());
+		}
+
 		log.info("Transform of userEntity DTO userDTO");
 
-		UserEntity userEntity = Optional.of(entity).orElseGet(() -> new UserEntity());
-		
+		UserEntity userEntity = Optional.ofNullable(entity).orElseGet(UserEntity::new);
+
 		return UserConverter.toUserDTO(userEntity);
 	}
 
@@ -73,26 +79,55 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 	@Override
 	public Boolean checkLogIn(String username, String password) {
 
+		if (Optional.ofNullable(username).isEmpty() || Optional.ofNullable(password).isEmpty()) {
+			return Boolean.FALSE;
+		}
+
 		UserEntity userEntity = userRepo.findOneByUsername(username);
 
 		log.info("Check for log in | username : {}, password : {}", username, password);
-		
-		return Optional.of(userEntity).orElseGet(() -> new UserEntity()).getPassword().equals(password);
+
+		Boolean status = Optional.ofNullable(userEntity).filter(e -> e.getPassword().equals(password)).isPresent();
+		log.info("Login status : {}", status);
+
+		return status;
 	}
 
 	@Override
 	public Boolean checkRegistryStatus(String username) {
 
 		List<UserEntity> users = userRepo.findAllByUsername(username);
-		
+
 		log.info("Check for user being registered by username = {}", username);
-		
+
 		users = users.stream().filter(e -> e.getUsername().equals(username)).collect(Collectors.toList());
-		
+
 		Boolean response = users.size() > 0;
-		
+
 		log.info("Registry state : {}", response);
-		
+
 		return response;
+	}
+
+	@Override
+	public Boolean deleteUserByUsername(String username, String password) {
+
+		if (!checkLogIn(username, password)) {
+			return Boolean.FALSE;
+		}
+
+		UserEntity userToDelete = Optional.ofNullable(userRepo.findOneByUsername(username)).orElseGet(UserEntity::new);
+
+		log.info("Checking if the user exists");
+
+		if (userToDelete.getUsername() == null) {
+			return Boolean.FALSE;
+		}
+
+		log.info("Deleting user with username : {}", username);
+
+		userRepo.delete(userToDelete);
+
+		return Boolean.TRUE;
 	}
 }
