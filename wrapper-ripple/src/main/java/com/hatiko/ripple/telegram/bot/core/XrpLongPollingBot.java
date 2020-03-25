@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class XrpLongPollingBot extends TelegramLongPollingBot{
 
 	private final XrpBotProperties xrpBotProperties;
-	
+
 	@Override
 	public void onUpdateReceived(Update update) {
 
