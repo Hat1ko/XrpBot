@@ -23,7 +23,7 @@ import lombok.Setter;
 public class TelegramChat {
 
 	@Id
-	private Integer id;
+	private Long id;
 	private LocalDateTime creationDate;
 	private Boolean userChat;
 	private Boolean groupChat;
