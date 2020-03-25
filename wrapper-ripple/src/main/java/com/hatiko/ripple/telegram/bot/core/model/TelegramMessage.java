@@ -24,7 +24,7 @@ public class TelegramMessage {
 
 	@Id
 	private Integer id;
-	private LocalDateTime creationTime;
+	private LocalDateTime creationDate;
 	private String text;
 	
 	@ManyToOne
