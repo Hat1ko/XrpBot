@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,18 +18,14 @@ import lombok.Setter;
 @Setter
 @Builder
 @EqualsAndHashCode(of = {"id"})
-@AllArgsConstructor
 @NoArgsConstructor
-public class TelegramChat {
+@AllArgsConstructor
+public class TelegramUpdate {
 
 	@Id
 	private Integer id;
 	private LocalDateTime creationDate;
-	private Boolean userChat;
-	private Boolean groupChat;
-	private Boolean channelChat;
-	private Boolean superGroupChat;
 	
-	@ManyToOne
-	TelegramUser user;
+	@OneToOne
+	private TelegramMessage message;
 }
