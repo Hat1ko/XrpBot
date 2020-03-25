@@ -11,7 +11,10 @@ public class MessageToTelegramMessageTransformer implements Transformer<Message,
 	@Override
 	public TelegramMessage transform(Message message) {
 
-		return TelegramMessage.builder().id(message.getMessageId()).creationDate(LocalDateTime.now())
-				.text(message.getText()).build();
+		return TelegramMessage.builder()
+				.id(message.getMessageId())
+				.creationDate(LocalDateTime.now())
+				.text(message.getText())
+				.build();
 	}
 }
