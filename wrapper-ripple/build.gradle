@@ -45,6 +45,6 @@ dependencies {
     implementation 'junit:junit:4.12'
     
     compile group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '4.6'
-    //implementation 'org.telegram.telegrambots-spring-boot-starter:4.6'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 }
 
