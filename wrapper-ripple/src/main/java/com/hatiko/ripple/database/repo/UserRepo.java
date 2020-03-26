@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.hatiko.ripple.database.dto.UserEntity;
+import com.hatiko.ripple.database.model.UserEntity;
 
 public interface UserRepo extends JpaRepository<UserEntity, Long> {
 	

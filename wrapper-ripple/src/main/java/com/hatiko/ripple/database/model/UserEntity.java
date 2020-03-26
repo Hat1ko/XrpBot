@@ -1,4 +1,4 @@
-package com.hatiko.ripple.database.dto;
+package com.hatiko.ripple.database.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

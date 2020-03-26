@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hatiko.ripple.database.converter.UserConverter;
 import com.hatiko.ripple.database.dto.UserDTO;
-import com.hatiko.ripple.database.dto.UserEntity;
+import com.hatiko.ripple.database.model.UserEntity;
 import com.hatiko.ripple.database.repo.UserRepo;
 
 import lombok.RequiredArgsConstructor;

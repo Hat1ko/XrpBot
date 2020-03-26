@@ -1,7 +1,7 @@
 package com.hatiko.ripple.database.converter;
 
 import com.hatiko.ripple.database.dto.UserDTO;
-import com.hatiko.ripple.database.dto.UserEntity;
+import com.hatiko.ripple.database.model.UserEntity;
 
 public final class UserConverter {
 	
