@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/db/user")
+@RequestMapping(path = "db/user")
 public class DeleteUserByUsernameController {
 
 	private final XrpDatabaseOperator userDataBaseOperator;

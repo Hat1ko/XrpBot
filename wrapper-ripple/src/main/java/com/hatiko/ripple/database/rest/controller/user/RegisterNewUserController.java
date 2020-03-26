@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/db/register")
+@RequestMapping(path = "db/register")
 public class RegisterNewUserController {
 
 	private final XrpDatabaseOperator userDataBaseOperator;

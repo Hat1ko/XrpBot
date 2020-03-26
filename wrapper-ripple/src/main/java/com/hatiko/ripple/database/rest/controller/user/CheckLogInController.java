@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/db/login")
+@RequestMapping("db/login")
 public class CheckLogInController {
 
 	private final XrpDatabaseOperator userDataBaseOperator;

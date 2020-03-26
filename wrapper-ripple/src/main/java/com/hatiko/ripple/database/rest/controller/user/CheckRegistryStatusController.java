@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/db/registry")
+@RequestMapping("db/registry")
 public class CheckRegistryStatusController {
 
 	private final XrpDatabaseOperator userDataBaseOperator;

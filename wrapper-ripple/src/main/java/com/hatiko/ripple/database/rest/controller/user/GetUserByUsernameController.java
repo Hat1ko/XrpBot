@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/db/user")
+@RequestMapping(path = "db/user")
 public class GetUserByUsernameController {
 
 	private final XrpDatabaseOperator userDataBaseOperator;
