@@ -1,4 +1,4 @@
-package com.hatiko.ripple.database.rest.controller;
+package com.hatiko.ripple.database.rest.controller.user;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
