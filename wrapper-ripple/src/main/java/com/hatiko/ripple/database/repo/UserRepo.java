@@ -9,9 +9,6 @@ import com.hatiko.ripple.database.model.UserEntity;
 
 @Repository
 public interface UserRepo extends JpaRepository<UserEntity, Long> {
-	
 	UserEntity findOneByUsername(String username);
-	
 	List<UserEntity> findAllByUsername(String username);
-	
 }

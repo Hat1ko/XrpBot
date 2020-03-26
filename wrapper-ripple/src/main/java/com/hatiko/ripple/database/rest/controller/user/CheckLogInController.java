@@ -35,5 +35,4 @@ public class CheckLogInController {
 
 		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}
-
 }

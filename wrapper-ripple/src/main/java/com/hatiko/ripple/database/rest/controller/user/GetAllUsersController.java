@@ -32,5 +32,4 @@ public class GetAllUsersController {
 		
 		return ResponseEntity.ok(response);
 	}
-	
 }

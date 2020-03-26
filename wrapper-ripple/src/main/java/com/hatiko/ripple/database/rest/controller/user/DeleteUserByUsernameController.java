@@ -35,5 +35,4 @@ public class DeleteUserByUsernameController {
 		
 		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}
-	
 }
