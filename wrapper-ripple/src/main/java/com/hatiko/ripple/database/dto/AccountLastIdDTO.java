@@ -14,6 +14,6 @@ import lombok.Setter;
 public class AccountLastIdDTO {
 	
 	private String publicKey;
-	private String lastId;
-	private String lastLedger;
+	private Integer lastId;
+	private Integer lastLedger;
 }

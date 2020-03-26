@@ -29,7 +29,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		log.info("Getting all userDTO from db");
 
-		return userRepo.findAll().stream().map(e -> UserConverter.toUserDTO(e)).collect(Collectors.toList());
+		return userRepo.findAll().stream().map(e -> UserConverter.toDTO(e)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -49,13 +49,13 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		UserEntity userEntity = Optional.ofNullable(entity).orElseGet(UserEntity::new);
 
-		return UserConverter.toUserDTO(userEntity);
+		return UserConverter.toDTO(userEntity);
 	}
 
 	@Override
 	public UserDTO registerNewUser(UserDTO userDTO) {
 
-		UserEntity userEntity = UserConverter.toUserEntity(userDTO);
+		UserEntity userEntity = UserConverter.toEntity(userDTO);
 
 		try {
 			log.info("Saving user to db : {}", objectMapper.writeValueAsString(userEntity));
@@ -71,7 +71,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 			log.error(e.getMessage());
 		}
 
-		UserDTO response = UserConverter.toUserDTO(entityResponse);
+		UserDTO response = UserConverter.toDTO(entityResponse);
 
 		return response;
 	}
