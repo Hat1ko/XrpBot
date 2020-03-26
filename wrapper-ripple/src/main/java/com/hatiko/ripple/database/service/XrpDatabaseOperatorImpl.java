@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hatiko.ripple.database.converter.AccountLastIdConverter;
 import com.hatiko.ripple.database.converter.UserConverter;
+import com.hatiko.ripple.database.dto.AccountLastIdDTO;
 import com.hatiko.ripple.database.dto.UserDTO;
-import com.hatiko.ripple.database.dto.UserEntity;
+import com.hatiko.ripple.database.model.AccountLastIdEntity;
+import com.hatiko.ripple.database.model.UserEntity;
+import com.hatiko.ripple.database.repo.AccountLastIdRepository;
 import com.hatiko.ripple.database.repo.UserRepo;
 
 import lombok.RequiredArgsConstructor;
@@ -19,9 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
+public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 
 	private final UserRepo userRepo;
+	private final AccountLastIdRepository accountLastIdRepo;
 	private final ObjectMapper objectMapper;
 
 	@Override
@@ -29,7 +34,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		log.info("Getting all userDTO from db");
 
-		return userRepo.findAll().stream().map(e -> UserConverter.toUserDTO(e)).collect(Collectors.toList());
+		return userRepo.findAll().stream().map(UserConverter::toDTO).collect(Collectors.toList());
 	}
 
 	@Override
@@ -49,13 +54,13 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		UserEntity userEntity = Optional.ofNullable(entity).orElseGet(UserEntity::new);
 
-		return UserConverter.toUserDTO(userEntity);
+		return UserConverter.toDTO(userEntity);
 	}
 
 	@Override
 	public UserDTO registerNewUser(UserDTO userDTO) {
 
-		UserEntity userEntity = UserConverter.toUserEntity(userDTO);
+		UserEntity userEntity = UserConverter.toEntity(userDTO);
 
 		try {
 			log.info("Saving user to db : {}", objectMapper.writeValueAsString(userEntity));
@@ -71,7 +76,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 			log.error(e.getMessage());
 		}
 
-		UserDTO response = UserConverter.toUserDTO(entityResponse);
+		UserDTO response = UserConverter.toDTO(entityResponse);
 
 		return response;
 	}
@@ -88,6 +93,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 		log.info("Check for log in | username : {}, password : {}", username, password);
 
 		Boolean status = Optional.ofNullable(userEntity).filter(e -> e.getPassword().equals(password)).isPresent();
+
 		log.info("Login status : {}", status);
 
 		return status;
@@ -129,5 +135,59 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 		userRepo.delete(userToDelete);
 
 		return Boolean.TRUE;
+	}
+
+	@Override
+	public List<AccountLastIdDTO> getAllAccountLastIds() {
+
+		log.info("Getting all account_last_id instances");
+		
+		return accountLastIdRepo.findAll().stream().map(AccountLastIdConverter::toDTO).collect(Collectors.toList());
+	}
+
+	@Override
+	public AccountLastIdDTO getAccountLastIdbyPublicKey(String publicKey) {
+
+		log.info("Gettion account by public key : {}", publicKey);
+		
+		return AccountLastIdConverter.toDTO(accountLastIdRepo.findOneByPublicKey(publicKey));
+	}
+
+	@Override
+	public AccountLastIdDTO updateData(AccountLastIdDTO accountLastIdDTO) {
+
+		AccountLastIdEntity entity = AccountLastIdConverter.toEntity(accountLastIdDTO);
+		
+		AccountLastIdEntity searchForId = accountLastIdRepo.findOneByPublicKey(accountLastIdDTO.getPublicKey());
+
+		log.info("Searching for id response | public key : {}, id : {}", searchForId.getPublicKey(), searchForId.getId());
+		
+		entity.setId(searchForId.getId());
+		
+		AccountLastIdEntity response = accountLastIdRepo.save(entity);
+		
+		return AccountLastIdConverter.toDTO(response);
+	}
+
+	@Override
+	public Boolean deleteAccountLastIdByPublicKey(String publicKey) {
+		
+		AccountLastIdEntity entityToDelete = accountLastIdRepo.findOneByPublicKey(publicKey);
+		
+		log.info("Deleting account_last_id | public key : {}", publicKey);
+		
+		if(Optional.ofNullable(entityToDelete).isEmpty()) {
+			
+			log.info("instance doesnt exist | public key : {}", publicKey);
+			return Boolean.TRUE;
+		}
+		
+		accountLastIdRepo.delete(entityToDelete);
+		
+		Boolean status = Optional.ofNullable(accountLastIdRepo.findOneByPublicKey(publicKey)).isEmpty();
+		
+		log.info("Deletion status | public key : {}, status : {}", publicKey, status);
+		
+		return status;
 	}
 }

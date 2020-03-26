@@ -1,4 +1,4 @@
-package com.hatiko.ripple.database.rest.controller;
+package com.hatiko.ripple.database.rest.controller.user;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hatiko.ripple.database.dto.UserDTO;
-import com.hatiko.ripple.database.service.UserDataBaseOperator;
+import com.hatiko.ripple.database.service.XrpDatabaseOperator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/db/user")
+@RequestMapping(path = "db/user")
 public class GetAllUsersController {
 	
-	private final UserDataBaseOperator userDataBaseOperator;
+	private final XrpDatabaseOperator userDataBaseOperator;
 	
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> getAllUsers(){
@@ -32,5 +32,4 @@ public class GetAllUsersController {
 		
 		return ResponseEntity.ok(response);
 	}
-	
 }

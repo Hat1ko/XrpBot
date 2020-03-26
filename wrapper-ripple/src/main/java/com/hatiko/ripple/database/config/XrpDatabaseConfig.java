@@ -20,15 +20,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(	basePackages = "com.hatiko.ripple.database.repo", 
-						entityManagerFactoryRef = "userEntityManager", 
+						entityManagerFactoryRef = "xrpDatabaseEntityManager", 
 						transactionManagerRef = "userTransactionManager")
-public class UserConfig {
+public class XrpDatabaseConfig {
 
 	@Autowired
 	Environment env;
 
 	@Bean
-	public DataSource userDataSource() {
+	public DataSource xrpDatabaseDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
 		dataSource.setDriverClassName(env.getProperty("database.driver"));
@@ -40,12 +40,12 @@ public class UserConfig {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean userEntityManager() {
+	public LocalContainerEntityManagerFactoryBean xrpDatabaseEntityManager() {
 		LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
 
-		entityManager.setDataSource(userDataSource());
+		entityManager.setDataSource(xrpDatabaseDataSource());
 		entityManager.setPackagesToScan(new String[] { Constants.USER_PACKAGE });
-		entityManager.setPersistenceUnitName(Constants.JPA_UNIT_USER);
+		entityManager.setPersistenceUnitName(Constants.JPA_UNIT_XRP_DATABASE);
 		entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
 		Map<String, Object> properties = new HashMap<>();
@@ -59,10 +59,10 @@ public class UserConfig {
 	}
 
 	@Bean
-	public PlatformTransactionManager userTransactionManager() {
+	public PlatformTransactionManager xrpDatabaseTransactionManager() {
 
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(userEntityManager().getObject());
+		transactionManager.setEntityManagerFactory(xrpDatabaseEntityManager().getObject());
 		return transactionManager;
 	}
 

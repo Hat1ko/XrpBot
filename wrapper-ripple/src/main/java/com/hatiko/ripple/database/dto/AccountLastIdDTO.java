@@ -1,4 +1,4 @@
-package com.hatiko.ripple.database.rest.dto.request;
+package com.hatiko.ripple.database.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,9 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsernameDTO {
-	private String username;
+public class AccountLastIdDTO {
+	
+	private String publicKey;
+	private Integer lastId;
+	private Integer lastLedger;
 }

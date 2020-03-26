@@ -1,4 +1,4 @@
-package com.hatiko.ripple.database.rest.controller;
+package com.hatiko.ripple.database.rest.controller.user;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hatiko.ripple.database.rest.dto.request.LogInDTO;
 import com.hatiko.ripple.database.rest.dto.response.StatusDTO;
-import com.hatiko.ripple.database.service.UserDataBaseOperator;
+import com.hatiko.ripple.database.service.XrpDatabaseOperator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/db/login")
+@RequestMapping("db/login")
 public class CheckLogInController {
 
-	private final UserDataBaseOperator userDataBaseOperator;
+	private final XrpDatabaseOperator userDataBaseOperator;
 
 	@PostMapping
 	public ResponseEntity<StatusDTO> CheckLogIn(@RequestBody LogInDTO logInDTO) {
@@ -35,5 +35,4 @@ public class CheckLogInController {
 
 		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}
-
 }
