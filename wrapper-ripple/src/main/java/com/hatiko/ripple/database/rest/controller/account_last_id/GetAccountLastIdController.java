@@ -1,5 +1,8 @@
 package com.hatiko.ripple.database.rest.controller.account_last_id;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +26,7 @@ public class GetAccountLastIdController {
 	private final AccountLastIdRepository repo;
 
 	@GetMapping
-	public ResponseEntity<AccountLastIdDTO> getAccountLastId(@RequestParam("public_key") String publicKey) {
+	public ResponseEntity<AccountLastIdDTO> getAccountLastId(@Valid @NotNull @RequestParam("public_key") String publicKey) {
 
 		log.info("GET for info about last ids and ledger | public key : {}", publicKey);
 
