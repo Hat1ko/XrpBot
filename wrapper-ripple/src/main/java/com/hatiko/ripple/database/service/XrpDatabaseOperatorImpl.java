@@ -12,6 +12,7 @@ import com.hatiko.ripple.database.converter.AccountLastIdConverter;
 import com.hatiko.ripple.database.converter.UserConverter;
 import com.hatiko.ripple.database.dto.AccountLastIdDTO;
 import com.hatiko.ripple.database.dto.UserDTO;
+import com.hatiko.ripple.database.model.AccountLastIdEntity;
 import com.hatiko.ripple.database.model.UserEntity;
 import com.hatiko.ripple.database.repo.AccountLastIdRepository;
 import com.hatiko.ripple.database.repo.UserRepo;
@@ -144,19 +145,35 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 
 	@Override
 	public AccountLastIdDTO getAccountLastIdbyPublicKey(String publicKey) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return AccountLastIdConverter.toDTO(accountLastIdRepo.findOneByPublicKey(publicKey));
 	}
 
 	@Override
 	public AccountLastIdDTO updateData(AccountLastIdDTO accountLastIdDTO) {
-		// TODO Auto-generated method stub
-		return null;
+
+		AccountLastIdEntity entity = AccountLastIdConverter.toEntity(accountLastIdDTO);
+		
+		AccountLastIdEntity searchForId = accountLastIdRepo.findOneByPublicKey(accountLastIdDTO.getPublicKey());
+		
+		entity.setId(searchForId.getId());
+		
+		AccountLastIdEntity response = accountLastIdRepo.save(entity);
+		
+		return AccountLastIdConverter.toDTO(response);
 	}
 
 	@Override
 	public Boolean deleteAccountLastIdByPublicKey(String publicKey) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		AccountLastIdEntity entityToDelete = accountLastIdRepo.findOneByPublicKey(publicKey);
+		
+		if(Optional.ofNullable(entityToDelete).isEmpty()) {
+			return Boolean.TRUE;
+		}
+		
+		accountLastIdRepo.delete(entityToDelete);
+		
+		return Optional.ofNullable(accountLastIdRepo.findOneByPublicKey(publicKey)).isEmpty();
 	}
 }
