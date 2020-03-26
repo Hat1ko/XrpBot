@@ -1,14 +1,14 @@
 package com.hatiko.ripple.database.rest.controller.user;
 
-import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hatiko.ripple.database.rest.dto.request.UsernameDTO;
 import com.hatiko.ripple.database.rest.dto.response.StatusDTO;
 import com.hatiko.ripple.database.service.XrpDatabaseOperator;
 
@@ -23,10 +23,8 @@ public class CheckRegistryStatusController {
 
 	private final XrpDatabaseOperator userDataBaseOperator;
 	
-	@PostMapping
-	public ResponseEntity<StatusDTO> checkRegistryStatus(@RequestBody UsernameDTO usernameDTO){
-		
-		String username = Optional.ofNullable(usernameDTO).orElseGet(null).getUsername();
+	@GetMapping
+	public ResponseEntity<StatusDTO> checkRegistryStatus(@Valid @NotNull @RequestParam("username") String username){
 		
 		log.info("Check registry status for username");
 		

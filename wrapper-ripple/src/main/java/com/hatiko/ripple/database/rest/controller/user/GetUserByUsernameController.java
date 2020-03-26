@@ -1,13 +1,15 @@
 package com.hatiko.ripple.database.rest.controller.user;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hatiko.ripple.database.dto.UserDTO;
-import com.hatiko.ripple.database.rest.dto.request.UsernameDTO;
 import com.hatiko.ripple.database.service.XrpDatabaseOperator;
 
 import lombok.RequiredArgsConstructor;
@@ -21,10 +23,8 @@ public class GetUserByUsernameController {
 
 	private final XrpDatabaseOperator userDataBaseOperator;
 
-	@PostMapping
-	public ResponseEntity<UserDTO> getUserByUsername(@RequestBody UsernameDTO usernameDTO) {
-
-		String username = usernameDTO.getUsername();
+	@GetMapping
+	public ResponseEntity<UserDTO> getUserByUsername(@Valid @NotNull @RequestParam("username") String username) {
 
 		log.info("Getting user from userDataBaseOperator by username : {}", username);
 
