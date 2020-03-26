@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hatiko.ripple.database.converter.AccountLastIdConverter;
 import com.hatiko.ripple.database.dto.AccountLastIdDTO;
-import com.hatiko.ripple.database.model.AccountLastIdEntity;
-import com.hatiko.ripple.database.repo.AccountLastIdRepository;
+import com.hatiko.ripple.database.service.XrpDatabaseOperator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,18 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "db/account-last-id")
-public class GetAccountLastIdController {
+public class GetAccountLastIdByPublicKeyController {
 
-	private final AccountLastIdRepository repo;
+	private final XrpDatabaseOperator databaseOperator;
 
 	@GetMapping
-	public ResponseEntity<AccountLastIdDTO> getAccountLastId(@Valid @NotNull @RequestParam("public_key") String publicKey) {
+	public ResponseEntity<AccountLastIdDTO> getAccountLastIdByPublicKey(@Valid @NotNull @RequestParam("public_key") String publicKey) {
 
 		log.info("GET for info about last ids and ledger | public key : {}", publicKey);
 
-		AccountLastIdEntity entity = repo.findOneByPublicKey(publicKey);
-
-		AccountLastIdDTO dto = AccountLastIdConverter.toDTO(entity);
+		AccountLastIdDTO dto = databaseOperator.getAccountLastIdbyPublicKey(publicKey);
 
 		log.info("Response for info about last ids and ledger | public key : {}, last id : {}, last ledger : {}",
 				dto.getPublicKey(), dto.getLastId(), dto.getLastLedger());
