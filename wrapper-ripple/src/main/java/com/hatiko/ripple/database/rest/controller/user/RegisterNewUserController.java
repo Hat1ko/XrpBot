@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hatiko.ripple.database.dto.UserDTO;
-import com.hatiko.ripple.database.service.UserDataBaseOperator;
+import com.hatiko.ripple.database.service.XrpDatabaseOperator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(path = "/db/register")
 public class RegisterNewUserController {
 
-	private final UserDataBaseOperator userDataBaseOperator;
+	private final XrpDatabaseOperator userDataBaseOperator;
 
 	@PostMapping
 	public ResponseEntity<UserDTO> registerNewUser(@RequestBody UserDTO newUser) {

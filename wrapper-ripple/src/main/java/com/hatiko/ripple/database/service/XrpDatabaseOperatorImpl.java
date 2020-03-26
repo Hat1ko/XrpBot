@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hatiko.ripple.database.converter.AccountLastIdConverter;
 import com.hatiko.ripple.database.converter.UserConverter;
+import com.hatiko.ripple.database.dto.AccountLastIdDTO;
 import com.hatiko.ripple.database.dto.UserDTO;
 import com.hatiko.ripple.database.model.UserEntity;
+import com.hatiko.ripple.database.repo.AccountLastIdRepository;
 import com.hatiko.ripple.database.repo.UserRepo;
 
 import lombok.RequiredArgsConstructor;
@@ -19,9 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
+public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 
 	private final UserRepo userRepo;
+	private final AccountLastIdRepository accountLastIdRepo;
 	private final ObjectMapper objectMapper;
 
 	@Override
@@ -29,7 +33,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 
 		log.info("Getting all userDTO from db");
 
-		return userRepo.findAll().stream().map(e -> UserConverter.toDTO(e)).collect(Collectors.toList());
+		return userRepo.findAll().stream().map(UserConverter::toDTO).collect(Collectors.toList());
 	}
 
 	@Override
@@ -88,6 +92,7 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 		log.info("Check for log in | username : {}, password : {}", username, password);
 
 		Boolean status = Optional.ofNullable(userEntity).filter(e -> e.getPassword().equals(password)).isPresent();
+
 		log.info("Login status : {}", status);
 
 		return status;
@@ -129,5 +134,29 @@ public class UserDataBaseOperatorImpl implements UserDataBaseOperator {
 		userRepo.delete(userToDelete);
 
 		return Boolean.TRUE;
+	}
+
+	@Override
+	public List<AccountLastIdDTO> getAllAccountLastIds() {
+
+		return accountLastIdRepo.findAll().stream().map(AccountLastIdConverter::toDTO).collect(Collectors.toList());
+	}
+
+	@Override
+	public AccountLastIdDTO getAccountLastIdbyPublicKey(String publicKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccountLastIdDTO updateData(AccountLastIdDTO accountLastIdDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteAccountLastIdByPublicKey(String publicKey) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
