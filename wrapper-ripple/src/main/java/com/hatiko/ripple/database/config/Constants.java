@@ -2,6 +2,6 @@ package com.hatiko.ripple.database.config;
 
 public final class Constants {
 	
-	public static final String USER_PACKAGE = "com.hatiko.ripple.database.dto";
-	public static final String JPA_UNIT_USER = "PERSISTANCE_UNIT_USER";
+	public static final String USER_PACKAGE = "com.hatiko.ripple.database.model";
+	public static final String JPA_UNIT_XRP_DATABASE = "PERSISTANCE_UNIT_XRP_DATABASE";
 }

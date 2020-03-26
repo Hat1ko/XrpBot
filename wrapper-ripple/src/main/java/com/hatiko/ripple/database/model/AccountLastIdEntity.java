@@ -2,6 +2,8 @@ package com.hatiko.ripple.database.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +21,9 @@ import lombok.Setter;
 public class AccountLastIdEntity {
 	
 	@Id 
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 	
 	@Column(name = "public_key",length = 64, unique = true)
 	private String publicKey;
