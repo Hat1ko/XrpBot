@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
-@Service
+//@Service
 public class TelegramUpdateServiceImpl implements TelegramUpdateService {
 
 	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer;

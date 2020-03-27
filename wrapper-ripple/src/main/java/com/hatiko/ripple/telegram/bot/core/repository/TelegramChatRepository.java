@@ -7,10 +7,10 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.hatiko.ripple.telegram.bot.core.model.TelegramChat;
 
-@RepositoryRestResource(collectionResourceRel = "telegram_chats", path = "chats")
+//@RepositoryRestResource(collectionResourceRel = "telegram_chats", path = "chats")
 public interface TelegramChatRepository extends PagingAndSortingRepository<TelegramChat, Long>{
 	
 	Optional<TelegramChat> findByUser_Id(Integer userId);
 
-//	Optional<TelegramChat> findByUser_Person_Is(Integer personId);
+//	Optional<TelegramChat> findByUser_Person_Id(Integer personId);
 }

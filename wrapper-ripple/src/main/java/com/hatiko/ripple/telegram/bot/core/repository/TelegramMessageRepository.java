@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.hatiko.ripple.telegram.bot.core.model.TelegramMessage;
 
-@RepositoryRestResource(collectionResourceRel = "telegram_message", path = "messages")
+//@RepositoryRestResource(collectionResourceRel = "telegram_message", path = "messages")
 public interface TelegramMessageRepository extends PagingAndSortingRepository<TelegramMessage, Integer> {
 
 }

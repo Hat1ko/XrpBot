@@ -19,6 +19,7 @@ import com.hatiko.ripple.telegram.bot.core.model.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.core.properties.CommandProperties;
 import com.hatiko.ripple.telegram.bot.core.properties.XrpBotProperties;
 import com.hatiko.ripple.telegram.bot.core.service.TelegramUpdateService;
+import com.hatiko.ripple.telegram.bot.core.transformer.Transformer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,26 +32,29 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 //	@Autowired
 	private final List<TelegramMessageHandler> telegramMessageHandlers;
 
-	private final TelegramUpdateService telegramUpdateService;
+//	private final TelegramUpdateService telegramUpdateService;
 	private final XrpBotProperties xrpBotProperties;
 	private final CommandProperties commandProperties;
+	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdate;
 
 	// instead of requiredArgcConstructor as cycling so obliged to use lazy
 	// invokation
 	@Autowired
 	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
-			TelegramUpdateService telegramUpdateService, XrpBotProperties xrpBotProperties,
-			CommandProperties commandProperties) {
+//			TelegramUpdateService telegramUpdateService, 
+			XrpBotProperties xrpBotProperties, CommandProperties commandProperties, Transformer<Update, TelegramUpdate> updateToTelegramUpdate) {
 
 		this.telegramMessageHandlers = telegramMessageHandlers;
-		this.telegramUpdateService = telegramUpdateService;
+//		this.telegramUpdateService = telegramUpdateService;
 		this.xrpBotProperties = xrpBotProperties;
 		this.commandProperties = commandProperties;
+		this.updateToTelegramUpdate = updateToTelegramUpdate;
 	}
 
 	@Override
 	public void onUpdateReceived(Update update) {
-		TelegramUpdate telegramUpdate = telegramUpdateService.save(update);
+//		TelegramUpdate telegramUpdate = telegramUpdateService.save(update);
+		TelegramUpdate telegramUpdate = updateToTelegramUpdate.transform(update); 
 		telegramMessageHandlers.forEach(telegramMessageHandler -> telegramMessageHandler.handle(telegramUpdate));
 	}
 
