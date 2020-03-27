@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import com.hatiko.ripple.telegram.bot.core.model.TelegramMessage;
+import com.hatiko.ripple.telegram.bot.core.dto.TelegramMessage;
 
 @Component
 public class MessageToTelegramMessageTransformer implements Transformer<Message, TelegramMessage> {

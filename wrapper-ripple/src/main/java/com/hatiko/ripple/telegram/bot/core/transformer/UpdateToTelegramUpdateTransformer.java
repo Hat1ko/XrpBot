@@ -8,10 +8,10 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
-import com.hatiko.ripple.telegram.bot.core.model.TelegramChat;
-import com.hatiko.ripple.telegram.bot.core.model.TelegramMessage;
-import com.hatiko.ripple.telegram.bot.core.model.TelegramUpdate;
-import com.hatiko.ripple.telegram.bot.core.model.TelegramUser;
+import com.hatiko.ripple.telegram.bot.core.dto.TelegramChat;
+import com.hatiko.ripple.telegram.bot.core.dto.TelegramMessage;
+import com.hatiko.ripple.telegram.bot.core.dto.TelegramUpdate;
+import com.hatiko.ripple.telegram.bot.core.dto.TelegramUser;
 
 import lombok.RequiredArgsConstructor;
 

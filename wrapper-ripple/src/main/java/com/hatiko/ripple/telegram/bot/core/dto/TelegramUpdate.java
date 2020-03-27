@@ -1,4 +1,4 @@
-package com.hatiko.ripple.telegram.bot.core.model;
+package com.hatiko.ripple.telegram.bot.core.dto;
 
 import java.time.LocalDateTime;
 
