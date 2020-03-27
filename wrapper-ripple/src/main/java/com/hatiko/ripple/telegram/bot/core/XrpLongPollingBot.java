@@ -41,32 +41,23 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	private final XrpBotProperties xrpBotProperties;
 	private final ActionProperties commandProperties;
 	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer;
-	private final Transformer<Message, TelegramMessage> messageToTelegramMessageTransformer;
-	private final Transformer<Chat, TelegramChat> chatToTelegramChatTransformer;
-	private final Transformer<User, TelegramUser> userToTelegramUserTransformer;
-	
+
 	// instead of requiredArgcConstructor as cycling so obliged to use lazy
 	// invokation
 	@Autowired
 	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
-			XrpBotProperties xrpBotProperties, ActionProperties commandProperties, 
-			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer,
-			Transformer<Message, TelegramMessage> messageToTelegramMessageTransformer,
-			Transformer<Chat, TelegramChat> chatToTelegramChatTransformer,
-			Transformer<User, TelegramUser> userToTelegramUserTransformer) {
+			XrpBotProperties xrpBotProperties, ActionProperties commandProperties,
+			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer) {
 
 		this.telegramMessageHandlers = telegramMessageHandlers;
 		this.xrpBotProperties = xrpBotProperties;
 		this.commandProperties = commandProperties;
 		this.updateToTelegramUpdateTransformer = updateToTelegramUpdateTransformer;
-		this.messageToTelegramMessageTransformer = messageToTelegramMessageTransformer;
-		this.chatToTelegramChatTransformer = chatToTelegramChatTransformer;
-		this.userToTelegramUserTransformer = userToTelegramUserTransformer;
 	}
 
 	@Override
 	public void onUpdateReceived(Update update) {
-		
+
 		TelegramUpdate telegramUpdate = updateToTelegramUpdateTransformer.transform(update);
 		telegramMessageHandlers.forEach(telegramMessageHandler -> telegramMessageHandler.handle(telegramUpdate));
 	}
@@ -108,10 +99,14 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 		List<KeyboardRow> keyboard = new ArrayList<>();
 
 		KeyboardRow firstKeyboardRow = new KeyboardRow();
-		firstKeyboardRow.add(new KeyboardButton(commandProperties.getHello()));
+		KeyboardButton HelloButton = new KeyboardButton(commandProperties.getCommand().getHello());
+		HelloButton.setText(commandProperties.getButton().getHello());
+		firstKeyboardRow.add(HelloButton);
 
 		KeyboardRow secondKeyboardRow = new KeyboardRow();
-		secondKeyboardRow.add(new KeyboardButton(commandProperties.getHelp()));
+		KeyboardButton HelpButton = new KeyboardButton(commandProperties.getCommand().getHelp());
+		HelpButton.setText(commandProperties.getButton().getHelp());
+		secondKeyboardRow.add(HelpButton);
 
 		keyboard.add(firstKeyboardRow);
 		keyboard.add(secondKeyboardRow);
