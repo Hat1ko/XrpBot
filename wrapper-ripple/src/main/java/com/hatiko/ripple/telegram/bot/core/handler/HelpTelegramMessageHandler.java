@@ -28,10 +28,6 @@ public class HelpTelegramMessageHandler implements TelegramMessageHandler {
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		String text;
 
-//		if(Objects.isNull(telegramUpdate.getMessage().getFrom().getPerson())) {
-//			
-//		}
-
 		text = "We will help you";
 
 		TelegramUser user = telegramUpdate.getMessage().getFrom();

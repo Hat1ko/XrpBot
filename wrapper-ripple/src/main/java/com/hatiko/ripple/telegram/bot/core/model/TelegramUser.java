@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @Builder
@@ -21,7 +20,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TelegramUser {
 
-//	@Id
 	private Integer id;
 	private LocalDateTime creationDate;
 	private String userName;

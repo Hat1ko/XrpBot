@@ -49,7 +49,6 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	// invokation
 	@Autowired
 	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
-//			TelegramUpdateService telegramUpdateService, 
 			XrpBotProperties xrpBotProperties, CommandProperties commandProperties, 
 			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer,
 			Transformer<Message, TelegramMessage> messageToTelegramMessageTransformer,
@@ -57,7 +56,6 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 			Transformer<User, TelegramUser> userToTelegramUserTransformer) {
 
 		this.telegramMessageHandlers = telegramMessageHandlers;
-//		this.telegramUpdateService = telegramUpdateService;
 		this.xrpBotProperties = xrpBotProperties;
 		this.commandProperties = commandProperties;
 		this.updateToTelegramUpdateTransformer = updateToTelegramUpdateTransformer;
@@ -68,34 +66,8 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 
 	@Override
 	public void onUpdateReceived(Update update) {
-//		TelegramUpdate telegramUpdate = telegramUpdateService.save(update);
-
-		
-//		TelegramUpdate telegramUpdate = updateToTelegramUpdateTransformer.transform(update);
-//		TelegramMessage telegramMessage = messageToTelegramMessageTransformer.transform(update.getMessage());
-//		telegramUpdate.setMessage(telegramMessage);
-		
 		
 		TelegramUpdate telegramUpdate = updateToTelegramUpdateTransformer.transform(update);
-		
-//		Message message = update.getMessage();
-//		TelegramMessage telegramMessage = messageToTelegramMessageTransformer.transform(message);
-//		
-//		Chat chat = message.getChat();
-//		TelegramChat telegramChat = chatToTelegramChatTransformer.transform(chat); 
-//		
-//		User user = message.getFrom();
-//		TelegramUser telegramUser = userToTelegramUserTransformer.transform(user);
-//		
-//		telegramChat.setUser(telegramUser);
-//		
-//		telegramMessage.setChat(telegramChat);
-//		telegramMessage.setFrom(telegramUser);
-//		
-//		telegramUpdate.setMessage(telegramMessage);
-//		
-		
-		
 		telegramMessageHandlers.forEach(telegramMessageHandler -> telegramMessageHandler.handle(telegramUpdate));
 	}
 

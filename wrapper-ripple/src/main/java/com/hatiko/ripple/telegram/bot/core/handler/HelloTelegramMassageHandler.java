@@ -29,8 +29,11 @@ public class HelloTelegramMassageHandler implements TelegramMessageHandler {
 				.getMessage()
 				.getChat()
 				.getId();
-		String text = String.format("Hello, @%s", telegramUpdate.getMessage().getFrom().getUserName());
+		
+		String text = String.format("Hello, %s", telegramUpdate.getMessage().getFrom().getFirstName());
 
+		log.info(telegramUpdate.getMessage().getFrom().getUserName());
+		
 		xrpLongPollingBot.sendTextMessage(chatId, text);
 	}
 }
