@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.core.model.TelegramUpdate;
+import com.hatiko.ripple.telegram.bot.core.model.TelegramUser;
+import com.hatiko.ripple.telegram.bot.core.properties.CommandProperties;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +15,26 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class HelpTelegramMessageHandler implements TelegramMessageHandler {
 
-	private final XrpLongPollingBot xrpLongPollingBot; 
-	
+	private final XrpLongPollingBot xrpLongPollingBot;
+	private final CommandProperties commandsProperties;
+
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		
+		if (!telegramUpdate.getMessage().getText().startsWith(commandsProperties.getHelp())) {
+			return;
+		}
+
+		Long chatId = telegramUpdate.getMessage().getChat().getId();
+		String text;
+
+//		if(Objects.isNull(telegramUpdate.getMessage().getFrom().getPerson())) {
+//			
+//		}
+
+		text = "We will help you";
+
+		TelegramUser user = telegramUpdate.getMessage().getFrom();
+		xrpLongPollingBot.sendTextMessage(chatId, text);
 	}
-	
 }

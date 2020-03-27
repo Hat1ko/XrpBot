@@ -1,5 +1,6 @@
 package com.hatiko.ripple.telegram.bot.core.handler;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;

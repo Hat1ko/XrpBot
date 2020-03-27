@@ -14,8 +14,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class CommandsProperties {
+public class CommandProperties {
 
+	private String start;
 	private String hello;
 	private String help;
 	private String getBalance;
