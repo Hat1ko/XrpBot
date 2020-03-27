@@ -22,7 +22,7 @@ import com.hatiko.ripple.telegram.bot.core.model.TelegramChat;
 import com.hatiko.ripple.telegram.bot.core.model.TelegramMessage;
 import com.hatiko.ripple.telegram.bot.core.model.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.core.model.TelegramUser;
-import com.hatiko.ripple.telegram.bot.core.properties.CommandProperties;
+import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.properties.XrpBotProperties;
 import com.hatiko.ripple.telegram.bot.core.transformer.Transformer;
 
@@ -39,7 +39,7 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 
 //	private final TelegramUpdateService telegramUpdateService;
 	private final XrpBotProperties xrpBotProperties;
-	private final CommandProperties commandProperties;
+	private final ActionProperties commandProperties;
 	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer;
 	private final Transformer<Message, TelegramMessage> messageToTelegramMessageTransformer;
 	private final Transformer<Chat, TelegramChat> chatToTelegramChatTransformer;
@@ -49,7 +49,7 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	// invokation
 	@Autowired
 	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
-			XrpBotProperties xrpBotProperties, CommandProperties commandProperties, 
+			XrpBotProperties xrpBotProperties, ActionProperties commandProperties, 
 			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer,
 			Transformer<Message, TelegramMessage> messageToTelegramMessageTransformer,
 			Transformer<Chat, TelegramChat> chatToTelegramChatTransformer,

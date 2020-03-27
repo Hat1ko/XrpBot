@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.core.model.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.core.model.TelegramUser;
-import com.hatiko.ripple.telegram.bot.core.properties.CommandProperties;
+import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HelpTelegramMessageHandler implements TelegramMessageHandler {
 
 	private final XrpLongPollingBot xrpLongPollingBot;
-	private final CommandProperties commandProperties;
+	private final ActionProperties commandProperties;
 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
