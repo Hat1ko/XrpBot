@@ -78,22 +78,22 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 		
 		TelegramUpdate telegramUpdate = updateToTelegramUpdateTransformer.transform(update);
 		
-		Message message = update.getMessage();
-		TelegramMessage telegramMessage = messageToTelegramMessageTransformer.transform(message);
-		
-		Chat chat = message.getChat();
-		TelegramChat telegramChat = chatToTelegramChatTransformer.transform(chat); 
-		
-		User user = message.getFrom();
-		TelegramUser telegramUser = userToTelegramUserTransformer.transform(user);
-		
-		telegramChat.setUser(telegramUser);
-		
-		telegramMessage.setChat(telegramChat);
-		telegramMessage.setFrom(telegramUser);
-		
-		telegramUpdate.setMessage(telegramMessage);
-		
+//		Message message = update.getMessage();
+//		TelegramMessage telegramMessage = messageToTelegramMessageTransformer.transform(message);
+//		
+//		Chat chat = message.getChat();
+//		TelegramChat telegramChat = chatToTelegramChatTransformer.transform(chat); 
+//		
+//		User user = message.getFrom();
+//		TelegramUser telegramUser = userToTelegramUserTransformer.transform(user);
+//		
+//		telegramChat.setUser(telegramUser);
+//		
+//		telegramMessage.setChat(telegramChat);
+//		telegramMessage.setFrom(telegramUser);
+//		
+//		telegramUpdate.setMessage(telegramMessage);
+//		
 		
 		
 		telegramMessageHandlers.forEach(telegramMessageHandler -> telegramMessageHandler.handle(telegramUpdate));
