@@ -8,20 +8,14 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
-import com.hatiko.ripple.telegram.bot.core.model.TelegramChat;
-import com.hatiko.ripple.telegram.bot.core.model.TelegramMessage;
 import com.hatiko.ripple.telegram.bot.core.model.TelegramUpdate;
-import com.hatiko.ripple.telegram.bot.core.model.TelegramUser;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.properties.XrpBotProperties;
 import com.hatiko.ripple.telegram.bot.core.transformer.Transformer;
@@ -29,15 +23,11 @@ import com.hatiko.ripple.telegram.bot.core.transformer.Transformer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@RequiredArgsConstructor
 @Component
 public class XrpLongPollingBot extends TelegramLongPollingBot {
 
-//	@Lazy
-//	@Autowired
 	private final List<TelegramMessageHandler> telegramMessageHandlers;
 
-//	private final TelegramUpdateService telegramUpdateService;
 	private final XrpBotProperties xrpBotProperties;
 	private final ActionProperties commandProperties;
 	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer;
