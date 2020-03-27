@@ -57,7 +57,7 @@ public class TelegramUpdateServiceImpl implements TelegramUpdateService {
 		telegramMessage.setChat(telegramChat);
 		
 		//mb gonna use later
-		TelegramMessage savedTelegramMessage = telegramMessageRepository.save(telegramMessage);
+		/*TelegramMessage savedTelegramMessage =*/ telegramMessageRepository.save(telegramMessage);
 		
 		TelegramUpdate telegramUpdate = updateToTelegramUpdateTransformer.transform(update);
 		telegramUpdate.setMessage(telegramMessage);
