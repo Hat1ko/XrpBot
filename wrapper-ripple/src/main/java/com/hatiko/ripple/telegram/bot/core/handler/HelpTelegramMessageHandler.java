@@ -16,12 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 public class HelpTelegramMessageHandler implements TelegramMessageHandler {
 
 	private final XrpLongPollingBot xrpLongPollingBot;
-	private final CommandProperties commandsProperties;
+	private final CommandProperties commandProperties;
 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if (!telegramUpdate.getMessage().getText().startsWith(commandsProperties.getHelp())) {
+		if (!telegramUpdate.getMessage().getText().startsWith(commandProperties.getHelp())) {
 			return;
 		}
 

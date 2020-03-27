@@ -2,10 +2,12 @@ package com.hatiko.ripple.telegram.bot.core.transformer;
 
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import com.hatiko.ripple.telegram.bot.core.model.TelegramChat;
 
+@Component
 public class ChatToTelegramChatTransformer implements Transformer<Chat, TelegramChat> {
 
 	@Override

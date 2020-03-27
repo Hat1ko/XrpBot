@@ -2,10 +2,12 @@ package com.hatiko.ripple.telegram.bot.core.transformer;
 
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import com.hatiko.ripple.telegram.bot.core.model.TelegramUser;
 
+@Component
 public class UserToTelegramUserTransformer implements Transformer<User, TelegramUser> {
 
 	@Override

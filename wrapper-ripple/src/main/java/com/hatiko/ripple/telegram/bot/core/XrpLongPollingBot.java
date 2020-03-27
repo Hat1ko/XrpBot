@@ -20,7 +20,6 @@ import com.hatiko.ripple.telegram.bot.core.properties.CommandProperties;
 import com.hatiko.ripple.telegram.bot.core.properties.XrpBotProperties;
 import com.hatiko.ripple.telegram.bot.core.service.TelegramUpdateService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
