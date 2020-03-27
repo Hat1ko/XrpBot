@@ -17,6 +17,7 @@ import lombok.Setter;
 public class CommandsProperties {
 
 	private String hello;
+	private String help;
 	private String getBalance;
 	private String generateMemo;
 	private String getTransactionInfo;
