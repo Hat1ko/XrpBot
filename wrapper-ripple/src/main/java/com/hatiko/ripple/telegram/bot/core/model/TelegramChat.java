@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+//@Entity
 @Getter
 @Setter
 @Builder
@@ -22,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TelegramChat {
 
-	@Id
+//	@Id
 	private Long id;
 	private LocalDateTime creationDate;
 	private Boolean userChat;
@@ -30,6 +30,6 @@ public class TelegramChat {
 	private Boolean channelChat;
 	private Boolean superGroupChat;
 	
-	@ManyToOne
+//	@ManyToOne
 	TelegramUser user;
 }

@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+//@Entity
 @Getter
 @Setter
 @Builder
@@ -22,14 +22,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TelegramMessage {
 
-	@Id
+//	@Id
 	private Integer id;
 	private LocalDateTime creationDate;
 	private String text;
 	
-	@ManyToOne
+//	@ManyToOne
 	private TelegramUser from;
 	
-	@ManyToOne
+//	@ManyToOne
 	private TelegramChat chat;
 }

@@ -21,7 +21,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TelegramUser {
 
-	@Id
+//	@Id
 	private Integer id;
 	private LocalDateTime creationDate;
 	private String userName;

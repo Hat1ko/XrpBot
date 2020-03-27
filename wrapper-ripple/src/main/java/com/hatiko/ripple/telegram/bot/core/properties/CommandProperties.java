@@ -1,5 +1,6 @@
 package com.hatiko.ripple.telegram.bot.core.properties;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
+@ConfigurationProperties("telegram.bot.command")
 public class CommandProperties {
 
 	private String start;

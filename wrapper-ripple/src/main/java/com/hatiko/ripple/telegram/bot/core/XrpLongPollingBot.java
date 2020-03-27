@@ -8,17 +8,22 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
+import com.hatiko.ripple.telegram.bot.core.model.TelegramChat;
+import com.hatiko.ripple.telegram.bot.core.model.TelegramMessage;
 import com.hatiko.ripple.telegram.bot.core.model.TelegramUpdate;
+import com.hatiko.ripple.telegram.bot.core.model.TelegramUser;
 import com.hatiko.ripple.telegram.bot.core.properties.CommandProperties;
 import com.hatiko.ripple.telegram.bot.core.properties.XrpBotProperties;
-import com.hatiko.ripple.telegram.bot.core.service.TelegramUpdateService;
 import com.hatiko.ripple.telegram.bot.core.transformer.Transformer;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,26 +40,62 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 //	private final TelegramUpdateService telegramUpdateService;
 	private final XrpBotProperties xrpBotProperties;
 	private final CommandProperties commandProperties;
-	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdate;
-
+	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer;
+	private final Transformer<Message, TelegramMessage> messageToTelegramMessageTransformer;
+	private final Transformer<Chat, TelegramChat> chatToTelegramChatTransformer;
+	private final Transformer<User, TelegramUser> userToTelegramUserTransformer;
+	
 	// instead of requiredArgcConstructor as cycling so obliged to use lazy
 	// invokation
 	@Autowired
 	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
 //			TelegramUpdateService telegramUpdateService, 
-			XrpBotProperties xrpBotProperties, CommandProperties commandProperties, Transformer<Update, TelegramUpdate> updateToTelegramUpdate) {
+			XrpBotProperties xrpBotProperties, CommandProperties commandProperties, 
+			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer,
+			Transformer<Message, TelegramMessage> messageToTelegramMessageTransformer,
+			Transformer<Chat, TelegramChat> chatToTelegramChatTransformer,
+			Transformer<User, TelegramUser> userToTelegramUserTransformer) {
 
 		this.telegramMessageHandlers = telegramMessageHandlers;
 //		this.telegramUpdateService = telegramUpdateService;
 		this.xrpBotProperties = xrpBotProperties;
 		this.commandProperties = commandProperties;
-		this.updateToTelegramUpdate = updateToTelegramUpdate;
+		this.updateToTelegramUpdateTransformer = updateToTelegramUpdateTransformer;
+		this.messageToTelegramMessageTransformer = messageToTelegramMessageTransformer;
+		this.chatToTelegramChatTransformer = chatToTelegramChatTransformer;
+		this.userToTelegramUserTransformer = userToTelegramUserTransformer;
 	}
 
 	@Override
 	public void onUpdateReceived(Update update) {
 //		TelegramUpdate telegramUpdate = telegramUpdateService.save(update);
-		TelegramUpdate telegramUpdate = updateToTelegramUpdate.transform(update); 
+
+		
+//		TelegramUpdate telegramUpdate = updateToTelegramUpdateTransformer.transform(update);
+//		TelegramMessage telegramMessage = messageToTelegramMessageTransformer.transform(update.getMessage());
+//		telegramUpdate.setMessage(telegramMessage);
+		
+		
+		TelegramUpdate telegramUpdate = updateToTelegramUpdateTransformer.transform(update);
+		
+		Message message = update.getMessage();
+		TelegramMessage telegramMessage = messageToTelegramMessageTransformer.transform(message);
+		
+		Chat chat = message.getChat();
+		TelegramChat telegramChat = chatToTelegramChatTransformer.transform(chat); 
+		
+		User user = message.getFrom();
+		TelegramUser telegramUser = userToTelegramUserTransformer.transform(user);
+		
+		telegramChat.setUser(telegramUser);
+		
+		telegramMessage.setChat(telegramChat);
+		telegramMessage.setFrom(telegramUser);
+		
+		telegramUpdate.setMessage(telegramMessage);
+		
+		
+		
 		telegramMessageHandlers.forEach(telegramMessageHandler -> telegramMessageHandler.handle(telegramUpdate));
 	}
 
