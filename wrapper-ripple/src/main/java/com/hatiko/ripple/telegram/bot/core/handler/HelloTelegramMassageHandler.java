@@ -20,8 +20,8 @@ public class HelloTelegramMassageHandler implements TelegramMessageHandler {
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if (!telegramUpdate.getMessage().getText().startsWith(commandProperties.getHello())
-				&& !telegramUpdate.getMessage().getText().startsWith(commandProperties.getStart())) {
+		if (!telegramUpdate.getMessage().getText().startsWith(commandProperties.getCommand().getHello())
+				&& !telegramUpdate.getMessage().getText().startsWith(commandProperties.getCommand().getStart())) {
 			return;
 		}
 
