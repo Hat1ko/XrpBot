@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class MainMassageHandler implements TelegramMessageHandler {
 
-	private final XrpLongPollingBot xrpLongPollngBot;
+	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
 
@@ -27,7 +27,9 @@ public class MainMassageHandler implements TelegramMessageHandler {
 			return;
 		}
 
-		Integer messageId = xrpLongPollngBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), null,
+		String text = "You are now at the Main menu";
+		
+		Integer messageId = xrpLongPollingBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), text,
 				keyboardPreparator.getMainKeyboard());
 	}
 }

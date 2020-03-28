@@ -19,16 +19,17 @@ public class StartMessageHandler implements TelegramMessageHandler {
 	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
-	
+
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getCommand().getStart())) {
+		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getCommand().getStart())) {
 			return;
 		}
-		
+
 		String text = String.format("Hello, %s", telegramUpdate.getMessage().getFrom().getFirstName());
-		
-		Integer messageId = xrpLongPollingBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), text, keyboardPreparator.getStartKeyboard());
+
+		Integer messageId = xrpLongPollingBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), text,
+				keyboardPreparator.getStartKeyboard());
 	}
 }

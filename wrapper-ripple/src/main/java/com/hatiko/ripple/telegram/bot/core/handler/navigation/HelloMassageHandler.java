@@ -27,13 +27,14 @@ public class HelloMassageHandler implements TelegramMessageHandler {
 			return;
 		}
 
-		Long chatId = telegramUpdate
-				.getMessage()
-				.getChat()
-				.getId();
-		
+//		Long chatId = telegramUpdate
+//				.getMessage()
+//				.getChat()
+//				.getId();
+
 		String text = String.format("Hello, %s", telegramUpdate.getMessage().getFrom().getFirstName());
 
-		Integer messageId = xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
+		Integer messageId = xrpLongPollingBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), text,
+				keyboardPreparator.getStartKeyboard());
 	}
 }

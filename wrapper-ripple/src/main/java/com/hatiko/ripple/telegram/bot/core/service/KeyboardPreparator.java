@@ -66,7 +66,7 @@ public class KeyboardPreparator {
 		buttons.put("register", registerButton);
 		
 		KeyboardButton logInButton = new KeyboardButton();
-		helpButton.setText(actionProperties.getButton().getLogIn());
+		logInButton.setText(actionProperties.getButton().getLogIn());
 		buttons.put("logIn", logInButton);
 
 		KeyboardButton getBalanceButton = new KeyboardButton();
@@ -94,7 +94,7 @@ public class KeyboardPreparator {
 
 	private void createStartKeyboard() {
 
-		startKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+		startKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
 
 		List<KeyboardRow> keyboard = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public class KeyboardPreparator {
 
 	private void createMainKeyboard() {
 		
-		mainKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+		mainKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
 		
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		
@@ -135,7 +135,7 @@ public class KeyboardPreparator {
 	}
 
 	private void createLogInKeyboard() {
-		logInKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+		logInKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
 		
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		

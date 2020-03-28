@@ -31,8 +31,7 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 
 	@Autowired
 	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
-			XrpBotProperties xrpBotProperties, 
-			KeyboardPreparator keyboardPreparator,
+			XrpBotProperties xrpBotProperties, KeyboardPreparator keyboardPreparator,
 			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer) {
 
 		this.telegramMessageHandlers = telegramMessageHandlers;
@@ -59,22 +58,19 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	}
 
 	public synchronized Integer sendMessage(Long chatId, String text, ReplyKeyboardMarkup keyboard) {
-		
+
 		SendMessage sendMessage = new SendMessage();
-		
+
+		sendMessage.enableMarkdown(Boolean.TRUE);
 		sendMessage.setChatId(chatId);
 		sendMessage.setText(text);
-		sendMessage.enableMarkdown(Boolean.TRUE);
 		sendMessage.setReplyMarkup(keyboard);
-		
-		Integer messageId = null;
-		
+
 		try {
-			messageId = execute(sendMessage).getMessageId();
+			return execute(sendMessage).getMessageId();
 		} catch (TelegramApiException e) {
 			log.error("Error while sending message : {}", e.getMessage());
 		}
-		
-		return messageId;
+		return null;
 	}
 }
