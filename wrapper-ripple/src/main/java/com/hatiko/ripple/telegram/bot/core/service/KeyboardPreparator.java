@@ -57,6 +57,10 @@ public class KeyboardPreparator {
 		nextButton.setText(actionProperties.getButton().getNext());
 		buttons.put("next", nextButton);
 
+		KeyboardButton mainButton = new KeyboardButton(actionProperties.getCommand().getMain());
+		mainButton.setText(actionProperties.getButton().getMain());
+		buttons.put("main", mainButton);
+		
 		KeyboardButton logInButton = new KeyboardButton(actionProperties.getCommand().getLogIn());
 		helpButton.setText(actionProperties.getButton().getLogIn());
 		buttons.put("logIn", logInButton);
