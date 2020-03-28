@@ -33,7 +33,8 @@ public class LongTermOperationService {
 
 	public Object insertArgument(String argv, Integer chatId) {
 
-		return operations.parallelStream().filter(oper -> chatId.equals(oper.getChatId())).map(oper -> {
+		return operations.parallelStream().filter(oper -> chatId.equals(oper.getChatId()))
+				.map(oper -> {
 			oper.getParams().add(argv);
 			if (oper.getArgc().equals(oper.getParams().size())) {
 				try {
