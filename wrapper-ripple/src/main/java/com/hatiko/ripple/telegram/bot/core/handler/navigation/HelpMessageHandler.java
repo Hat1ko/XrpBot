@@ -21,7 +21,7 @@ public class HelpMessageHandler implements TelegramMessageHandler {
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getCommand().getHelp())) {
+		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButton().getHelp())) {
 			return;
 		}
 

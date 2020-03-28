@@ -45,35 +45,35 @@ public class KeyboardPreparator {
 
 		buttons = new HashMap<String, KeyboardButton>();
 
-		KeyboardButton helloButton = new KeyboardButton(actionProperties.getCommand().getHello());
+		KeyboardButton helloButton = new KeyboardButton();
 		helloButton.setText(actionProperties.getButton().getHello());
 		buttons.put("hello", helloButton);
 
-		KeyboardButton helpButton = new KeyboardButton(actionProperties.getCommand().getHelp());
+		KeyboardButton helpButton = new KeyboardButton();
 		helpButton.setText(actionProperties.getButton().getHelp());
 		buttons.put("help", helpButton);
 
-		KeyboardButton nextButton = new KeyboardButton(actionProperties.getCommand().getNext());
+		KeyboardButton nextButton = new KeyboardButton();
 		nextButton.setText(actionProperties.getButton().getNext());
 		buttons.put("next", nextButton);
 
-		KeyboardButton mainButton = new KeyboardButton(actionProperties.getCommand().getMain());
+		KeyboardButton mainButton = new KeyboardButton();
 		mainButton.setText(actionProperties.getButton().getMain());
 		buttons.put("main", mainButton);
 
-		KeyboardButton registerButton = new KeyboardButton(actionProperties.getCommand().getRegister());
+		KeyboardButton registerButton = new KeyboardButton();
 		registerButton.setText(actionProperties.getButton().getRegister());
 		buttons.put("register", registerButton);
 		
-		KeyboardButton logInButton = new KeyboardButton(actionProperties.getCommand().getLogIn());
+		KeyboardButton logInButton = new KeyboardButton();
 		helpButton.setText(actionProperties.getButton().getLogIn());
 		buttons.put("logIn", logInButton);
 
-		KeyboardButton getBalanceButton = new KeyboardButton(actionProperties.getCommand().getGetBalance());
+		KeyboardButton getBalanceButton = new KeyboardButton();
 		getBalanceButton.setText(actionProperties.getButton().getGetBalance());
 		buttons.put("getBalance", getBalanceButton);
 
-		KeyboardButton generateMemoButton = new KeyboardButton(actionProperties.getCommand().getGenerateMemo());
+		KeyboardButton generateMemoButton = new KeyboardButton();
 		generateMemoButton.setText(actionProperties.getButton().getGenerateMemo());
 		buttons.put("generateMemo", generateMemoButton);
 
@@ -85,7 +85,7 @@ public class KeyboardPreparator {
 		KeyboardButton getLastTransactionsButton = new KeyboardButton(
 				actionProperties.getCommand().getGetLastTransactions());
 		getLastTransactionsButton.setText(actionProperties.getButton().getGetLastTransactions());
-		buttons.put("getLastTranactions", getLastTransactionsButton);
+		buttons.put("getLastTransactions", getLastTransactionsButton);
 
 		KeyboardButton withdrawButton = new KeyboardButton(actionProperties.getCommand().getWithdraw());
 		withdrawButton.setText(actionProperties.getButton().getWithdraw());

@@ -1,6 +1,5 @@
 package com.hatiko.ripple.telegram.bot.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +8,10 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.hatiko.ripple.telegram.bot.core.dto.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
-import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.properties.XrpBotProperties;
 import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.core.transformer.Transformer;
@@ -30,19 +25,17 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	private final List<TelegramMessageHandler> telegramMessageHandlers;
 
 	private final XrpBotProperties xrpBotProperties;
-	private final ActionProperties commandProperties;
 	private final KeyboardPreparator keyboardPreparator;
 	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer;
 
 	@Autowired
 	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
-			XrpBotProperties xrpBotProperties, ActionProperties commandProperties,
+			XrpBotProperties xrpBotProperties, 
 			KeyboardPreparator keyboardPreparator,
 			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer) {
 
 		this.telegramMessageHandlers = telegramMessageHandlers;
 		this.xrpBotProperties = xrpBotProperties;
-		this.commandProperties = commandProperties;
 		this.keyboardPreparator = keyboardPreparator;
 		this.updateToTelegramUpdateTransformer = updateToTelegramUpdateTransformer;
 	}
