@@ -37,6 +37,7 @@ public class ActionProperties {
 		private String getBalance;
 		private String generateMemo;
 		private String getTransactionInfo;
+		private String getLastTransactions;
 		private String withdraw;
 	}
 	
@@ -56,6 +57,7 @@ public class ActionProperties {
 		private String getBalance;
 		private String generateMemo;
 		private String getTransactionInfo;
+		private String getLastTransactions;
 		private String withdraw;
 	}
 }
