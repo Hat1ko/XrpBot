@@ -33,6 +33,7 @@ public class ActionProperties {
 		private String help;
 		private String next;
 		private String main;
+		private String register;
 		private String logIn;
 		private String getBalance;
 		private String generateMemo;
@@ -54,6 +55,7 @@ public class ActionProperties {
 		private String next;
 		private String main;
 		private String logIn;
+		private String register;
 		private String getBalance;
 		private String generateMemo;
 		private String getTransactionInfo;

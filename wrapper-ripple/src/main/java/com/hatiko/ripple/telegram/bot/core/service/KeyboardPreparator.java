@@ -34,7 +34,7 @@ public class KeyboardPreparator {
 	private ReplyKeyboardMarkup logInKeyboard;
 
 	@PostConstruct
-	public void prepareKeyboards() {
+	private void prepareKeyboards() {
 		createButtons();
 		createStartKeyboard();
 		createMainKeyboard();
@@ -61,6 +61,10 @@ public class KeyboardPreparator {
 		mainButton.setText(actionProperties.getButton().getMain());
 		buttons.put("main", mainButton);
 
+		KeyboardButton registerButton = new KeyboardButton(actionProperties.getCommand().getRegister());
+		registerButton.setText(actionProperties.getButton().getRegister());
+		buttons.put("register", registerButton);
+		
 		KeyboardButton logInButton = new KeyboardButton(actionProperties.getCommand().getLogIn());
 		helpButton.setText(actionProperties.getButton().getLogIn());
 		buttons.put("logIn", logInButton);
@@ -137,6 +141,7 @@ public class KeyboardPreparator {
 		
 		KeyboardRow firstRow = new KeyboardRow();
 		firstRow.add(buttons.get("logIn"));
+		firstRow.add(buttons.get("register"));
 		
 		KeyboardRow secondRow = new KeyboardRow();
 		secondRow.add(buttons.get("main"));
