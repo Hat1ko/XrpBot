@@ -31,6 +31,7 @@ public class ActionProperties {
 		private String start;
 		private String hello;
 		private String help;
+		private String next;
 		private String logIn;
 		private String getBalance;
 		private String generateMemo;
@@ -48,6 +49,7 @@ public class ActionProperties {
 		private String start;
 		private String hello;
 		private String help;
+		private String next;
 		private String logIn;
 		private String getBalance;
 		private String generateMemo;

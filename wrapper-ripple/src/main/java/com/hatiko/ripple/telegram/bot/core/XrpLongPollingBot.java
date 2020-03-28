@@ -84,7 +84,7 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 		ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
 		keyboardMarkup.setSelective(Boolean.TRUE);
 		keyboardMarkup.setResizeKeyboard(Boolean.TRUE);
-		keyboardMarkup.setOneTimeKeyboard(false);
+		keyboardMarkup.setOneTimeKeyboard(Boolean.FALSE);
 
 		List<KeyboardRow> keyboard = new ArrayList<>();
 
