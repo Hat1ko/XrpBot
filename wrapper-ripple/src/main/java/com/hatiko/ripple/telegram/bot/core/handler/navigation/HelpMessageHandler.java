@@ -6,6 +6,7 @@ import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.core.dto.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
+import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,8 @@ public class HelpMessageHandler implements TelegramMessageHandler {
 
 	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
-
+	private final KeyboardPreparator keyboardPreparator;
+	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
@@ -30,6 +32,6 @@ public class HelpMessageHandler implements TelegramMessageHandler {
 
 		text = "We will help you";
 
-		xrpLongPollingBot.sendTextMessage(chatId, text);
+		xrpLongPollingBot.sendMessage(chatId, text, null);
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.hatiko.ripple.telegram.bot.core.dto.TelegramUpdate;
@@ -57,20 +58,23 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 		return xrpBotProperties.getToken();
 	}
 
-	public synchronized void sendTextMessage(Long chatId, String text) {
-
+	public synchronized Integer sendMessage(Long chatId, String text, ReplyKeyboardMarkup keyboard) {
+		
 		SendMessage sendMessage = new SendMessage();
-
-		sendMessage.enableMarkdown(Boolean.TRUE);
+		
 		sendMessage.setChatId(chatId);
 		sendMessage.setText(text);
-
-		sendMessage.setReplyMarkup(keyboardPreparator.getMainKeyboard());
-
+		sendMessage.enableMarkdown(Boolean.TRUE);
+		sendMessage.setReplyMarkup(keyboard);
+		
+		Integer messageId = null;
+		
 		try {
-			execute(sendMessage);
+			messageId = execute(sendMessage).getMessageId();
 		} catch (TelegramApiException e) {
-			log.error("TelegramApiException : {}", e.getMessage());
+			log.error("Error while sending message : {}", e.getMessage());
 		}
+		
+		return messageId;
 	}
 }
