@@ -131,7 +131,21 @@ public class KeyboardPreparator {
 	}
 
 	private void createLogInKeyboard() {
-
+		logInKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+		
+		List<KeyboardRow> keyboard = new ArrayList<>();
+		
+		KeyboardRow firstRow = new KeyboardRow();
+		firstRow.add(buttons.get("logIn"));
+		
+		KeyboardRow secondRow = new KeyboardRow();
+		secondRow.add(buttons.get("main"));
+		
+		
+		keyboard.add(firstRow);
+		keyboard.add(secondRow);
+		
+		logInKeyboard.setKeyboard(keyboard);
 	}
 
 	private ReplyKeyboardMarkup configKeyboard(Boolean selective, Boolean resizeKeyboard, Boolean oneTimeKeyboard) {
