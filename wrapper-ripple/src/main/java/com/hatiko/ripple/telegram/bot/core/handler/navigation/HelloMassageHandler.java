@@ -34,6 +34,6 @@ public class HelloMassageHandler implements TelegramMessageHandler {
 		
 		String text = String.format("Hello, %s", telegramUpdate.getMessage().getFrom().getFirstName());
 
-		Long messageId = xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
+		Integer messageId = xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
 	}
 }
