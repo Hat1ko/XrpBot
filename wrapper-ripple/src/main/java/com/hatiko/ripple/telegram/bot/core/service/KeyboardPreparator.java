@@ -94,7 +94,7 @@ public class KeyboardPreparator {
 
 	private void createStartKeyboard() {
 
-		startKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
+		startKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
 
 		List<KeyboardRow> keyboard = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public class KeyboardPreparator {
 
 	private void createMainKeyboard() {
 		
-		mainKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
+		mainKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
 		
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		
@@ -135,7 +135,7 @@ public class KeyboardPreparator {
 	}
 
 	private void createLogInKeyboard() {
-		logInKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
+		logInKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
 		
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		

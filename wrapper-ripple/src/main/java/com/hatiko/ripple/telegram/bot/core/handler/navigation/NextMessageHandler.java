@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class MainMassageHandler implements TelegramMessageHandler {
+public class NextMessageHandler implements TelegramMessageHandler {
 
 	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
@@ -23,12 +23,12 @@ public class MainMassageHandler implements TelegramMessageHandler {
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButton().getMain())) {
+		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButton().getNext())) {
 			return;
 		}
 
-		String text = "You are now at the Main menu";
-		
+		String text = "You stay unlogged in";
+
 		Integer messageId = xrpLongPollingBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), text,
 				keyboardPreparator.getMainKeyboard());
 	}

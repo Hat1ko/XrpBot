@@ -3,7 +3,7 @@ package com.hatiko.ripple.telegram.bot.core.handler.operations;
 import com.hatiko.ripple.telegram.bot.core.dto.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 
-public class GetMessageHandler implements TelegramMessageHandler {
+public class WithdrawMessageHandler implements TelegramMessageHandler {
 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
