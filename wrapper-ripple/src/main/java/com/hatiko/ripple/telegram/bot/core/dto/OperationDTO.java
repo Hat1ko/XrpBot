@@ -21,5 +21,6 @@ public class OperationDTO {
 	private String operation;
 	private Method method;
 	private List<Object> params;
+	private Object operator;
 	private Integer argc;
 }

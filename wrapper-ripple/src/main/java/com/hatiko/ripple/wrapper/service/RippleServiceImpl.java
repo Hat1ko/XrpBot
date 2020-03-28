@@ -63,6 +63,14 @@ public class RippleServiceImpl implements RippleService {
                 .amount(RippleBalanceConverter.toDouble(rippleAccountInfoResponse.getResult().getAccountData().getBalance()))
                 .build();
     }
+    
+    @Override
+    public BalanceResponse getWalletBalanceByAccountAddress(String accoutnAddress) {
+
+    	walletProperties.setAccount(accoutnAddress);
+    	
+    	return getWalletBalance();
+    }
 
     @Override
     public AddressResponse getAccountAddress() {
@@ -137,5 +145,6 @@ public class RippleServiceImpl implements RippleService {
         String memo = sb.toString().substring(0, walletProperties.getMemoLength());
         return MemoResponse.builder().walletMemo(memo).build();
     }
+
 
 }

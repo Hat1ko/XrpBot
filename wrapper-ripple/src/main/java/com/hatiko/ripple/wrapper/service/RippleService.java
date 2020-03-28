@@ -16,6 +16,8 @@ public interface RippleService {
 	 */
 	BalanceResponse getWalletBalance();
 	
+	
+	BalanceResponse getWalletBalanceByAccountAddress(String accoutnAddress);
 	/**
 	 * Gets account address from application.properties
 	 */
