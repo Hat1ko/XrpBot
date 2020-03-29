@@ -29,7 +29,7 @@ public class GetTransactionInfoMessageHandler implements TelegramMessageHandler 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButton().getGetTransactionInfo())) {
+		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getGetTransactionInfo())) {
 			return;
 		}
 		

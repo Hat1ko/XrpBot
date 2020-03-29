@@ -46,49 +46,49 @@ public class KeyboardPreparator {
 		buttons = new HashMap<String, KeyboardButton>();
 
 		KeyboardButton helloButton = new KeyboardButton();
-		helloButton.setText(actionProperties.getButton().getHello());
+		helloButton.setText(actionProperties.getButtonOperation().getHello());
 		buttons.put("hello", helloButton);
 
 		KeyboardButton helpButton = new KeyboardButton();
-		helpButton.setText(actionProperties.getButton().getHelp());
+		helpButton.setText(actionProperties.getButtonOperation().getHelp());
 		buttons.put("help", helpButton);
 
 		KeyboardButton nextButton = new KeyboardButton();
-		nextButton.setText(actionProperties.getButton().getNext());
+		nextButton.setText(actionProperties.getButtonOperation().getNext());
 		buttons.put("next", nextButton);
 
 		KeyboardButton mainButton = new KeyboardButton();
-		mainButton.setText(actionProperties.getButton().getMain());
+		mainButton.setText(actionProperties.getButtonOperation().getMain());
 		buttons.put("main", mainButton);
 
 		KeyboardButton registerButton = new KeyboardButton();
-		registerButton.setText(actionProperties.getButton().getRegister());
+		registerButton.setText(actionProperties.getButtonOperation().getRegister());
 		buttons.put("register", registerButton);
 		
 		KeyboardButton logInButton = new KeyboardButton();
-		logInButton.setText(actionProperties.getButton().getLogIn());
+		logInButton.setText(actionProperties.getButtonOperation().getLogIn());
 		buttons.put("logIn", logInButton);
 
 		KeyboardButton getBalanceButton = new KeyboardButton();
-		getBalanceButton.setText(actionProperties.getButton().getGetBalance());
+		getBalanceButton.setText(actionProperties.getButtonOperation().getGetBalance());
 		buttons.put("getBalance", getBalanceButton);
 
 		KeyboardButton generateMemoButton = new KeyboardButton();
-		generateMemoButton.setText(actionProperties.getButton().getGenerateMemo());
+		generateMemoButton.setText(actionProperties.getButtonOperation().getGenerateMemo());
 		buttons.put("generateMemo", generateMemoButton);
 
 		KeyboardButton getTransactionInfoButton = new KeyboardButton(
-				actionProperties.getCommand().getGetTransactionInfo());
-		getTransactionInfoButton.setText(actionProperties.getButton().getGetTransactionInfo());
+				actionProperties.getButtonOperation().getGetTransactionInfo());
+		getTransactionInfoButton.setText(actionProperties.getButtonOperation().getGetTransactionInfo());
 		buttons.put("getTransactionInfo", getTransactionInfoButton);
 
 		KeyboardButton getLastTransactionsButton = new KeyboardButton(
-				actionProperties.getCommand().getGetLastTransactions());
-		getLastTransactionsButton.setText(actionProperties.getButton().getGetLastTransactions());
+				actionProperties.getButtonOperation().getGetLastTransactions());
+		getLastTransactionsButton.setText(actionProperties.getButtonOperation().getGetLastTransactions());
 		buttons.put("getLastTransactions", getLastTransactionsButton);
 
-		KeyboardButton withdrawButton = new KeyboardButton(actionProperties.getCommand().getWithdraw());
-		withdrawButton.setText(actionProperties.getButton().getWithdraw());
+		KeyboardButton withdrawButton = new KeyboardButton(actionProperties.getButtonOperation().getWithdraw());
+		withdrawButton.setText(actionProperties.getButtonOperation().getWithdraw());
 		buttons.put("withdraw", withdrawButton);
 	}
 

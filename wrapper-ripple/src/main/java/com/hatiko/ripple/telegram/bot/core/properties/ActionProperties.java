@@ -24,48 +24,25 @@ import lombok.Setter;
 public class ActionProperties {
 
 	private List<String> commands;
-	private Command command;
-	private Button button;
+	private ButtonOperation buttonOperation;
 	
 	@PostConstruct
 	private void prepareCommandsList() {
 		
 		commands = new ArrayList<>();
 		
-		commands.add(command.getStart());
-		commands.add(button.getHello());
-		commands.add(button.getHelp());
-		commands.add(button.getNext());
-		commands.add(button.getMain());
-		commands.add(button.getLogIn());
-		commands.add(button.getRegister());
-		commands.add(button.getGetBalance());
-		commands.add(button.getGenerateMemo());
-		commands.add(button.getGetTransactionInfo());
-		commands.add(button.getGetLastTransactions());
-		commands.add(button.getWithdraw());
-	}
-	
-	
-	@Getter
-	@Setter
-	@Builder
-	@AllArgsConstructor
-	@NoArgsConstructor
-	public static class Command {
-		
-		private String start;
-		private String hello;
-		private String help;
-		private String next;
-		private String main;
-		private String register;
-		private String logIn;
-		private String getBalance;
-		private String generateMemo;
-		private String getTransactionInfo;
-		private String getLastTransactions;
-		private String withdraw;
+		commands.add(buttonOperation.getStart());
+		commands.add(buttonOperation.getHello());
+		commands.add(buttonOperation.getHelp());
+		commands.add(buttonOperation.getNext());
+		commands.add(buttonOperation.getMain());
+		commands.add(buttonOperation.getLogIn());
+		commands.add(buttonOperation.getRegister());
+		commands.add(buttonOperation.getGetBalance());
+		commands.add(buttonOperation.getGenerateMemo());
+		commands.add(buttonOperation.getGetTransactionInfo());
+		commands.add(buttonOperation.getGetLastTransactions());
+		commands.add(buttonOperation.getWithdraw());
 	}
 	
 	@Getter
@@ -73,7 +50,7 @@ public class ActionProperties {
 	@Builder
 	@AllArgsConstructor
 	@NoArgsConstructor
-	public static class Button {
+	public static class ButtonOperation {
 		
 		private String start;
 		private String hello;

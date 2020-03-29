@@ -31,7 +31,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				.filter(e -> telegramUpdate.getMessage().getText().startsWith(e)).count() > 0) {
 			return;
 		}
-		
+
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
 		String argv = telegramUpdate.getMessage().getText();
@@ -39,6 +39,11 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		Object response = operationService.insertArgument(argv, chatId);
 		
 		String responseMessage = null;
+
+		if(response instanceof String) {
+			String responseText = (String)response;
+			
+		}
 		if(response instanceof BalanceResponse) {
 			responseMessage = String.format("Your balance is %s", ((BalanceResponse) response).getAmount());
 		}

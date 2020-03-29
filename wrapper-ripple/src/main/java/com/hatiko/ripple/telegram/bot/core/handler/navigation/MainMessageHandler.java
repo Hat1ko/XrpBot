@@ -23,7 +23,7 @@ public class MainMessageHandler implements TelegramMessageHandler {
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButton().getMain())) {
+		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getMain())) {
 			return;
 		}
 

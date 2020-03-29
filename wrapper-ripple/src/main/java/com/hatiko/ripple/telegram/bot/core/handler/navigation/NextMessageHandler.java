@@ -23,7 +23,7 @@ public class NextMessageHandler implements TelegramMessageHandler {
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButton().getNext())) {
+		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getNext())) {
 			return;
 		}
 

@@ -29,7 +29,7 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 		
-		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButton().getGetBalance())) {
+		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getGetBalance())) {
 			return;
 		}
 		

@@ -25,7 +25,7 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 		
-		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButton().getGetLastTransactions())) {
+		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getGetLastTransactions())) {
 			return;
 		}
 		
