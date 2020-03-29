@@ -38,9 +38,9 @@ public class WithdrawMessageHandler implements TelegramMessageHandler {
 
 		try {
 			Method method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getWithdraw(),
-					String.class, String.class, String.class, String.class);
+					String.class, String.class, String.class, String.class, Double.class);
 			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getWithdraw(),
-					rippleService, method, 4);
+					rippleService, method, 5);
 		} catch (NoSuchMethodException e) {
 			log.error(e.getMessage());
 			return;

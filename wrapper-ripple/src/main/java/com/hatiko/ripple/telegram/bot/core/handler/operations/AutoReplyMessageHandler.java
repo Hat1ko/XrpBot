@@ -38,13 +38,20 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		Integer messageId = telegramUpdate.getMessage().getId();
 		String argv = telegramUpdate.getMessage().getText();
 
-		Long argvInteger = null;
-		try {
-			argvInteger = Long.valueOf(argv);
-		} catch (Exception e) {
-			log.info("Argument is not a number");
+		Object argvInteger = null;
+		if (argv.contains(".")) {
+			try {
+				argvInteger = Double.valueOf(argv);
+			} catch (Exception e) {
+				log.info("Argument is not a number");
+			}
+		} else {
+			try {
+				argvInteger = Long.valueOf(argv);
+			} catch (Exception e) {
+				log.info("Argument is not a number");
+			}
 		}
-
 		Object response = operationService.insertArgument(argvInteger == null ? argv : argvInteger, chatId);
 
 		String responseMessage = null;
@@ -70,6 +77,10 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				}
 				if (numOfArgs.equals(3)) {
 					String text = "Insert memo";
+					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
+				}
+				if (numOfArgs.equals(4)) {
+					String text = "Insert sum (min ->0.000001)";
 					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
 				}
 			}
