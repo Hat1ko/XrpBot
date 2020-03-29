@@ -116,6 +116,16 @@ public class RippleServiceImpl implements RippleService {
     }
 
     @Override
+    public TransactionResponse withdrawByCredentials(String publicKey, String privateKey, String destinationKey, String memo) {
+
+    	walletProperties.setAccount(publicKey);
+    	walletProperties.setSecretKey(privateKey);
+    	WithdrawRequest request = WithdrawRequest.builder().memo(memo).to(destinationKey).build();
+    	
+    	return withdraw(request);
+    }
+
+    @Override
     public TransactionResponse getTransactionByHash(String transactionHash) {
         RippleTrxByHashRequest request = RippleTrxByHashRequest.builder()
                 .method(rippleBlockchainProperties.getMethod().getTransaction())
@@ -145,6 +155,7 @@ public class RippleServiceImpl implements RippleService {
         String memo = sb.toString().substring(0, walletProperties.getMemoLength());
         return MemoResponse.builder().walletMemo(memo).build();
     }
+
 
 
 }

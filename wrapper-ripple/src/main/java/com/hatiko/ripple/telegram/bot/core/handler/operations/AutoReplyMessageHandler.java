@@ -41,34 +41,52 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		Long argvInteger = null;
 		try {
 			argvInteger = Long.valueOf(argv);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			log.info("Argument is not a number");
 		}
-		
+
 		Object response = operationService.insertArgument(argvInteger == null ? argv : argvInteger, chatId);
-		
+
 		String responseMessage = null;
 
-		if(response instanceof Integer) {
+		if (response instanceof Integer) {
 			Integer numOfArgs = (Integer) response;
-			
-			if(operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getGetLastTransactions())) {
-				if(numOfArgs.equals(1)) {
+
+			if (operationService.getMethodName(chatId)
+					.equals(actionProperties.getMethodName().getGetLastTransactions())) {
+				if (numOfArgs.equals(1)) {
 					String text = "Insert number of transactions";
 					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
 				}
 			}
-			
+			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
+				if (numOfArgs.equals(1)) {
+					String text = "Insert private key";
+					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
+				}
+				if (numOfArgs.equals(2)) {
+					String text = "Insert distanation account(public key)";
+					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
+				}
+				if (numOfArgs.equals(3)) {
+					String text = "Insert memo";
+					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
+				}
+			}
+
 		}
-		if(response instanceof BalanceResponse) {
+		if (response instanceof BalanceResponse) {
 			responseMessage = String.format("Your balance is %s", ((BalanceResponse) response).getAmount());
 		}
-		if(response instanceof TransactionResponse) {
+		if (response instanceof TransactionResponse) {
 			responseMessage = String.format("Sum of transaction is %s", ((TransactionResponse) response).getAmount());
 		}
-		if(response instanceof ArrayList) {
-			responseMessage = String.format("Num of transactions is %s", ((ArrayList<TransactionResponse>) response).size());
+		if (response instanceof ArrayList) {
+			responseMessage = String.format("Num of transactions is %s",
+					((ArrayList<TransactionResponse>) response).size());
 		}
-		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+
+		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, responseMessage,
+				keyboardPreparator.getMainKeyboard());
 	}
 }
