@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +31,7 @@ public class ActionProperties {
 	@PostConstruct
 	private void prepare() {
 		prepareCommandsList();
+		prepareMethodNames();
 	}
 	
 	private void prepareCommandsList() {
@@ -69,6 +71,7 @@ public class ActionProperties {
 	}
 	
 	@Getter
+	@Setter
 	@Builder
 	@AllArgsConstructor
 	@NoArgsConstructor
@@ -89,6 +92,7 @@ public class ActionProperties {
 	}
 	
 	@Getter
+	@Setter
 	@Builder
 	@AllArgsConstructor
 	@NoArgsConstructor
