@@ -36,7 +36,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		Integer messageId = telegramUpdate.getMessage().getId();
 		String argv = telegramUpdate.getMessage().getText();
 		
-		Object response = operationService.insertArgument(argv, (int)(long) chatId);
+		Object response = operationService.insertArgument(argv, chatId);
 		
 		String responseMessage = null;
 		if(response instanceof BalanceResponse) {
@@ -46,6 +46,6 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			responseMessage = String.format("Sum of transaction is %s", ((TransactionResponse) response).getAmount());
 		}
 		
-		xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
 	}
 }

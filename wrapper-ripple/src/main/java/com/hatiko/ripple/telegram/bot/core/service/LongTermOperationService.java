@@ -20,18 +20,22 @@ public class LongTermOperationService {
 
 	private List<OperationDTO> operations = new ArrayList<>();
 
+	public void removeOperation(Long chatId) {
+		operations = operations.stream().filter(oper -> !oper.getChatId().equals(chatId)).collect(Collectors.toList());
+	}
+	
 	public void addOpearion(Long chatId, Integer messageId, String operation, Object operator, Method method,
 			Integer argc) {
 
 		OperationDTO operationDTO = OperationDTO.builder().chatId((int) (long) chatId).messageId(messageId)
 				.operator(operator).method(method).operation(operation).argc(argc).params(new ArrayList<>()).build();
 
-		operations = operations.stream().filter(oper -> oper.getChatId().equals(chatId)).collect(Collectors.toList());
-
+		removeOperation(chatId);	
+		
 		operations.add(operationDTO);
 	}
 
-	public Object insertArgument(String argv, Integer chatId) {
+	public Object insertArgument(String argv, Long chatId) {
 
 		return operations.parallelStream().filter(oper -> chatId.equals(oper.getChatId()))
 				.map(oper -> {
@@ -50,7 +54,10 @@ public class LongTermOperationService {
 					return null;
 				}
 			}
-			return oper.getOperation();
+			if(oper.getArgc() < oper.getParams().size()) {
+				removeOperation((long)(int)oper.getChatId());
+			}
+			return String.format("%s%d", oper.getOperation(), oper.getParams().size());
 		}).findAny().get();
 	}
 }
