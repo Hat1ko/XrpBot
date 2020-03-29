@@ -21,24 +21,29 @@ public class LongTermOperationService {
 	private List<OperationDTO> operations = new ArrayList<>();
 
 	public void removeOperation(Long chatId) {
-		operations = operations.stream().filter(oper -> !oper.getChatId().equals((int)(long)chatId)).collect(Collectors.toList());
+		operations = operations.stream().filter(oper -> !oper.getChatId().equals((int) (long) chatId))
+				.collect(Collectors.toList());
 	}
-	
+
 	public void addOpearion(Long chatId, Integer messageId, String operation, Object operator, Method method,
 			Integer argc) {
 
 		OperationDTO operationDTO = OperationDTO.builder().chatId((int) (long) chatId).messageId(messageId)
 				.operator(operator).method(method).operation(operation).argc(argc).params(new ArrayList<>()).build();
 
-		removeOperation(chatId);	
-		
+		removeOperation(chatId);
+
 		operations.add(operationDTO);
 	}
 
-	public Object insertArgument(String argv, Long chatId) {
+	public String getMethodName(Long chatId) {
+		return operations.parallelStream().filter(oper -> oper.getChatId().equals((int) (long) chatId)).findAny().get()
+				.getOperation();
+	}
 
-		return operations.parallelStream().filter(oper -> chatId.equals((long)oper.getChatId()))
-				.map(oper -> {
+	public Object insertArgument(Object argv, Long chatId) {
+
+		return operations.parallelStream().filter(oper -> chatId.equals((long) oper.getChatId())).map(oper -> {
 			oper.getParams().add(argv);
 			if (oper.getArgc().equals(oper.getParams().size())) {
 				try {
@@ -54,11 +59,11 @@ public class LongTermOperationService {
 					return null;
 				}
 			}
-			if(oper.getArgc() < oper.getParams().size()) {
-				removeOperation((long)(int)oper.getChatId());
+			if (oper.getArgc() < oper.getParams().size()) {
+				removeOperation((long) (int) oper.getChatId());
 				return null;
 			}
-			return String.format("%s%d", oper.getOperation(), oper.getParams().size());
+			return oper.getParams().size();
 		}).findAny().get();
 	}
 }

@@ -1,5 +1,7 @@
 package com.hatiko.ripple.telegram.bot.core.handler.operations;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
@@ -35,13 +37,27 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
 		String argv = telegramUpdate.getMessage().getText();
+
+		Long argvInteger = null;
+		try {
+			argvInteger = Long.valueOf(argv);
+		}catch(Exception e) {
+			log.info("Argument is not a number");
+		}
 		
-		Object response = operationService.insertArgument(argv, chatId);
+		Object response = operationService.insertArgument(argvInteger == null ? argv : argvInteger, chatId);
 		
 		String responseMessage = null;
 
-		if(response instanceof String) {
-			String responseText = (String)response;
+		if(response instanceof Integer) {
+			Integer numOfArgs = (Integer) response;
+			
+			if(operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getGetLastTransactions())) {
+				if(numOfArgs.equals(1)) {
+					String text = "Insert number of transactions";
+					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
+				}
+			}
 			
 		}
 		if(response instanceof BalanceResponse) {
@@ -50,7 +66,9 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		if(response instanceof TransactionResponse) {
 			responseMessage = String.format("Sum of transaction is %s", ((TransactionResponse) response).getAmount());
 		}
-		
+		if(response instanceof ArrayList) {
+			responseMessage = String.format("Num of transactions is %s", ((ArrayList<TransactionResponse>) response).size());
+		}
 		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
 	}
 }

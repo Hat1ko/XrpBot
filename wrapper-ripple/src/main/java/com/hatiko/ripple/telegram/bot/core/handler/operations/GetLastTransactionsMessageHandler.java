@@ -1,5 +1,7 @@
 package com.hatiko.ripple.telegram.bot.core.handler.operations;
 
+import java.lang.reflect.Method;
+
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
@@ -8,6 +10,8 @@ import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.core.service.LongTermOperationService;
+import com.hatiko.ripple.wrapper.service.RippleService;
+import com.hatiko.ripple.wrapper.service.TransactionService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,18 +25,34 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
 	private final LongTermOperationService operationService;
-	
+	private final TransactionService transactionService;
+
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
-		
-		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getGetLastTransactions())) {
+
+		if (!telegramUpdate.getMessage().getText()
+				.startsWith(actionProperties.getButtonOperation().getGetLastTransactions())) {
+			return;
+		}
+
+		Long chatId = telegramUpdate.getMessage().getChat().getId();
+		Integer messageId = telegramUpdate.getMessage().getId();
+
+		try {
+			Method method = TransactionService.class
+					.getDeclaredMethod(actionProperties.getMethodName().getGetLastTransactions(),
+					String.class, Long.class);
+			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getGetLastTransactions(),
+					transactionService, method, 2);
+		} catch (NoSuchMethodException e) {
+			log.error(e.getMessage());
+			return;
+		} catch (SecurityException e) {
+			log.error(e.getMessage());
 			return;
 		}
 		
-		Long chatId = telegramUpdate.getMessage().getChat().getId();
-		Integer messageId = telegramUpdate.getMessage().getId();
-		
-//		operationService.addOpearion(chatId, messageId, "getLastTransactions", method, 2);
+		String text = "Insert your walletAddress (public key)";
+		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, text, null);
 	}
-
 }

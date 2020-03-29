@@ -17,7 +17,7 @@ public interface TransactionService {
 	 * @return Transaction Dtos that appear to be unprocessed
 	 */
 	List<TransactionResponse> getNewBlockchainTransactionsToProcess(Long lastSequence);
-
+	
 	/**
 	 * Gets the last processed sequence from CryptoPayment MS
 	 * @return
@@ -29,5 +29,7 @@ public interface TransactionService {
 	 * @param Trnsaction Dtos that should be processed by CryptoPayment MS
 	 */
 	void sendNewTransactionsList(List<TransactionResponse> transactions);
+
+	List<TransactionResponse> getLastTransactions(String walletAddress, Long numOfTransactions);
 
 }
