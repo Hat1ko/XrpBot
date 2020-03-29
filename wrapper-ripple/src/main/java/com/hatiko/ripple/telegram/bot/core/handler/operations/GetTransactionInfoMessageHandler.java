@@ -37,12 +37,10 @@ public class GetTransactionInfoMessageHandler implements TelegramMessageHandler 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
 				
-		String operation = "getTransactionInfo";
-		
 		Method method;
 		try {
-			method = RippleService.class.getDeclaredMethod("getTransactionByHash", String.class);
-			operationService.addOpearion(chatId, messageId, operation, rippleService, method, 1);
+			method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getGetTransactionInfo(), String.class);
+			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getGetTransactionInfo(), rippleService, method, 1);
 		} catch (NoSuchMethodException e) {
 			log.error(e.getMessage());
 		} catch (SecurityException e) {

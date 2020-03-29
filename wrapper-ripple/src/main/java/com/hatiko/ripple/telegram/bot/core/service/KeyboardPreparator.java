@@ -47,49 +47,49 @@ public class KeyboardPreparator {
 
 		KeyboardButton helloButton = new KeyboardButton();
 		helloButton.setText(actionProperties.getButtonOperation().getHello());
-		buttons.put("hello", helloButton);
+		buttons.put(actionProperties.getMethodName().getHello(), helloButton);
 
 		KeyboardButton helpButton = new KeyboardButton();
 		helpButton.setText(actionProperties.getButtonOperation().getHelp());
-		buttons.put("help", helpButton);
+		buttons.put(actionProperties.getMethodName().getHelp(), helpButton);
 
 		KeyboardButton nextButton = new KeyboardButton();
 		nextButton.setText(actionProperties.getButtonOperation().getNext());
-		buttons.put("next", nextButton);
+		buttons.put(actionProperties.getMethodName().getNext(), nextButton);
 
 		KeyboardButton mainButton = new KeyboardButton();
 		mainButton.setText(actionProperties.getButtonOperation().getMain());
-		buttons.put("main", mainButton);
+		buttons.put(actionProperties.getMethodName().getMain(), mainButton);
 
 		KeyboardButton registerButton = new KeyboardButton();
 		registerButton.setText(actionProperties.getButtonOperation().getRegister());
-		buttons.put("register", registerButton);
+		buttons.put(actionProperties.getMethodName().getRegister(), registerButton);
 		
 		KeyboardButton logInButton = new KeyboardButton();
 		logInButton.setText(actionProperties.getButtonOperation().getLogIn());
-		buttons.put("logIn", logInButton);
+		buttons.put(actionProperties.getMethodName().getLogIn(), logInButton);
 
 		KeyboardButton getBalanceButton = new KeyboardButton();
 		getBalanceButton.setText(actionProperties.getButtonOperation().getGetBalance());
-		buttons.put("getBalance", getBalanceButton);
+		buttons.put(actionProperties.getMethodName().getGetBalance(), getBalanceButton);
 
 		KeyboardButton generateMemoButton = new KeyboardButton();
 		generateMemoButton.setText(actionProperties.getButtonOperation().getGenerateMemo());
-		buttons.put("generateMemo", generateMemoButton);
+		buttons.put(actionProperties.getMethodName().getGenerateMemo(), generateMemoButton);
 
 		KeyboardButton getTransactionInfoButton = new KeyboardButton(
 				actionProperties.getButtonOperation().getGetTransactionInfo());
 		getTransactionInfoButton.setText(actionProperties.getButtonOperation().getGetTransactionInfo());
-		buttons.put("getTransactionInfo", getTransactionInfoButton);
+		buttons.put(actionProperties.getMethodName().getGetTransactionInfo(), getTransactionInfoButton);
 
 		KeyboardButton getLastTransactionsButton = new KeyboardButton(
 				actionProperties.getButtonOperation().getGetLastTransactions());
 		getLastTransactionsButton.setText(actionProperties.getButtonOperation().getGetLastTransactions());
-		buttons.put("getLastTransactions", getLastTransactionsButton);
+		buttons.put(actionProperties.getMethodName().getGetLastTransactions(), getLastTransactionsButton);
 
 		KeyboardButton withdrawButton = new KeyboardButton(actionProperties.getButtonOperation().getWithdraw());
 		withdrawButton.setText(actionProperties.getButtonOperation().getWithdraw());
-		buttons.put("withdraw", withdrawButton);
+		buttons.put(actionProperties.getMethodName().getWithdraw(), withdrawButton);
 	}
 
 	private void createStartKeyboard() {
@@ -99,10 +99,10 @@ public class KeyboardPreparator {
 		List<KeyboardRow> keyboard = new ArrayList<>();
 
 		KeyboardRow firstRow = new KeyboardRow();
-		firstRow.add(buttons.get("logIn"));
+		firstRow.add(buttons.get(actionProperties.getMethodName().getLogIn()));
 
 		KeyboardRow secondRow = new KeyboardRow();
-		secondRow.add(buttons.get("next"));
+		secondRow.add(buttons.get(actionProperties.getMethodName().getNext()));
 
 		keyboard.add(firstRow);
 		keyboard.add(secondRow);
@@ -117,15 +117,15 @@ public class KeyboardPreparator {
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		
 		KeyboardRow firstRow = new KeyboardRow();
-		firstRow.add(buttons.get("getBalance"));
-		firstRow.add(buttons.get("getLastTransactions"));
+		firstRow.add(buttons.get(actionProperties.getMethodName().getGetBalance()));
+		firstRow.add(buttons.get(actionProperties.getMethodName().getGetLastTransactions()));
 		
 		KeyboardRow secondRow = new KeyboardRow();
-		secondRow.add(buttons.get("getTransactionInfo"));
-		secondRow.add(buttons.get("generateMemo"));
+		secondRow.add(buttons.get(actionProperties.getMethodName().getGetTransactionInfo()));
+		secondRow.add(buttons.get(actionProperties.getMethodName().getGenerateMemo()));
 		
 		KeyboardRow thirdRow = new KeyboardRow();
-		thirdRow.add(buttons.get("withdraw"));
+		thirdRow.add(buttons.get(actionProperties.getMethodName().getWithdraw()));
 		
 		keyboard.add(firstRow);
 		keyboard.add(secondRow);
@@ -140,11 +140,11 @@ public class KeyboardPreparator {
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		
 		KeyboardRow firstRow = new KeyboardRow();
-		firstRow.add(buttons.get("logIn"));
-		firstRow.add(buttons.get("register"));
+		firstRow.add(buttons.get(actionProperties.getMethodName().getLogIn()));
+		firstRow.add(buttons.get(actionProperties.getMethodName().getRegister()));
 		
 		KeyboardRow secondRow = new KeyboardRow();
-		secondRow.add(buttons.get("main"));
+		secondRow.add(buttons.get(actionProperties.getMethodName().getMain()));
 		
 		
 		keyboard.add(firstRow);

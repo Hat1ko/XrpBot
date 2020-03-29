@@ -27,7 +27,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if (actionProperties.getCommands().stream()
+		if (actionProperties.getButtonOperations().stream()
 				.filter(e -> telegramUpdate.getMessage().getText().startsWith(e)).count() > 0) {
 			return;
 		}
