@@ -10,6 +10,7 @@ import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.core.service.LongTermOperationService;
+import com.hatiko.ripple.telegram.bot.core.service.ResponseMessageOperator;
 import com.hatiko.ripple.wrapper.service.RippleService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 	private final KeyboardPreparator keboardPreparator;
 	private final LongTermOperationService operationService;
 	private final RippleService rippleService;
+	private final ResponseMessageOperator responseMessageOperator;
 	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -43,14 +45,13 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			log.error(e.getMessage());
+			return;
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			log.error(e.getMessage());
+			return;
 		} 
 		
-		
-		String text = "Insert your wallet (public key)";
-		
-		Integer SentMessageId = xrpLongPollingBot.sendMessage(chatId, text, null);
+		Integer SentMessageId = responseMessageOperator.responseGetBalance(null, chatId, 0);
 	}
 }

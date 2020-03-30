@@ -10,6 +10,7 @@ import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.core.service.LongTermOperationService;
+import com.hatiko.ripple.telegram.bot.core.service.ResponseMessageOperator;
 import com.hatiko.ripple.wrapper.web.model.BalanceResponse;
 import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
 
@@ -25,6 +26,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
 	private final LongTermOperationService operationService;
+	private final ResponseMessageOperator responseMessageOperator;
 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -87,7 +89,8 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
 		}
 		if (response instanceof BalanceResponse) {
-			responseMessage = String.format("Your balance is %s", ((BalanceResponse) response).getAmount());
+			Integer sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse)response, chatId, 1);
+//			responseMessage = String.format("Your balance is %s", ((BalanceResponse) response).getAmount());
 		}
 		if (response instanceof TransactionResponse) {
 			responseMessage = String.format("Sum of transaction is %s", ((TransactionResponse) response).getAmount());

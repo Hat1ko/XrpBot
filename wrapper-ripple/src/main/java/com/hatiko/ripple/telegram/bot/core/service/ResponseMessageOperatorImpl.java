@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
+import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
+import com.hatiko.ripple.wrapper.web.model.BalanceResponse;
 import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	
 	private final XrpLongPollingBot xrpLongPollingBot;
+	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
 
 	@Override
@@ -75,9 +78,18 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	}
 
 	@Override
-	public Integer responseGetBalance(Double balance, Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer responseGetBalance(Object responseObject, Long chatId, Integer operationCounter) {
+
+		String responseMessage = null;
+		if(operationCounter.equals(0)) {
+			responseMessage = "Insert your wallet (public key)";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(1)) {
+			responseMessage = String.format("Your balance is %s", ((BalanceResponse) responseObject).getAmount());
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		}
+		return responseErrorMessage(actionProperties.getMethodName().getGetBalance(), chatId);
 	}
 
 	@Override
