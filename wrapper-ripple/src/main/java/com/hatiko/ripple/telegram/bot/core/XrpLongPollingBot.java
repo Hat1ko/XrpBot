@@ -15,6 +15,7 @@ import com.hatiko.ripple.telegram.bot.core.dto.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.core.properties.XrpBotProperties;
 import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
+import com.hatiko.ripple.telegram.bot.core.service.ResponseMessageOperator;
 import com.hatiko.ripple.telegram.bot.core.transformer.Transformer;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,16 +29,19 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	private final XrpBotProperties xrpBotProperties;
 	private final KeyboardPreparator keyboardPreparator;
 	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer;
-
+	private final ResponseMessageOperator responseMessageOperator; 
+	
 	@Autowired
 	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
 			XrpBotProperties xrpBotProperties, KeyboardPreparator keyboardPreparator,
-			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer) {
+			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer,
+			@Lazy ResponseMessageOperator responseMessageOperator) {
 
 		this.telegramMessageHandlers = telegramMessageHandlers;
 		this.xrpBotProperties = xrpBotProperties;
 		this.keyboardPreparator = keyboardPreparator;
 		this.updateToTelegramUpdateTransformer = updateToTelegramUpdateTransformer;
+		this.responseMessageOperator = responseMessageOperator;
 	}
 
 	@Override
