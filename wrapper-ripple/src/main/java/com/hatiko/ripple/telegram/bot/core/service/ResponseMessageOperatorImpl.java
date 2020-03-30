@@ -51,8 +51,9 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 	@Override
 	public Integer responseHelp(Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String text = "We will help you";
+		return xrpLongPollingBot.sendMessage(chatId, text, null);
 	}
 
 	@Override
