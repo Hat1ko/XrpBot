@@ -74,7 +74,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			Integer sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
 		}
 		if (response instanceof TransactionResponse) {
-			responseMessage = String.format("Sum of transaction is %s", ((TransactionResponse) response).getAmount());
+			Integer sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId);
 		}
 		if (response instanceof ArrayList) {
 			Integer sentMessageId = responseMessageOperator.responseGetLastTransactions(response, chatId, 2);
