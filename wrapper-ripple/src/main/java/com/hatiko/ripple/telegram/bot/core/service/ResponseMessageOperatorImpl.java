@@ -3,6 +3,7 @@ package com.hatiko.ripple.telegram.bot.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
@@ -14,13 +15,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
+
+	public ResponseMessageOperatorImpl(@Lazy XrpLongPollingBot xrpLongPollingBot, ActionProperties actionProperties,
+			KeyboardPreparator keyboardPreparator) {
+		this.xrpLongPollingBot = xrpLongPollingBot;
+		this.actionProperties = actionProperties;
+		this.keyboardPreparator = keyboardPreparator;
+	}
 
 	@Override
 	public Integer responseStart(String firstName, Long chatId) {

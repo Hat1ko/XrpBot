@@ -29,19 +29,16 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	private final XrpBotProperties xrpBotProperties;
 	private final KeyboardPreparator keyboardPreparator;
 	private final Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer;
-	private final ResponseMessageOperator responseMessageOperator; 
 	
 	@Autowired
 	public XrpLongPollingBot(List<TelegramMessageHandler> telegramMessageHandlers,
 			XrpBotProperties xrpBotProperties, KeyboardPreparator keyboardPreparator,
-			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer,
-			@Lazy ResponseMessageOperator responseMessageOperator) {
+			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer) {
 
 		this.telegramMessageHandlers = telegramMessageHandlers;
 		this.xrpBotProperties = xrpBotProperties;
 		this.keyboardPreparator = keyboardPreparator;
 		this.updateToTelegramUpdateTransformer = updateToTelegramUpdateTransformer;
-		this.responseMessageOperator = responseMessageOperator;
 	}
 
 	@Override
