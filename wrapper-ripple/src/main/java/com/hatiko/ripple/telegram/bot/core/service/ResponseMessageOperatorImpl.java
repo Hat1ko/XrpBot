@@ -151,7 +151,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	public Integer responseGetTransactionInfo(Object responseObject, Long chatId, Integer operationCounter) {
 
 		String responseMessage;
-		
+
 		if (operationCounter.equals(0)) {
 			responseMessage = "Insert transaction hash";
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
@@ -166,7 +166,8 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 	@Override
 	public Integer responseErrorMessage(String operation, Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String responseMessage = String.format("%s operation has failed", operation);
+		return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
 	}
 }

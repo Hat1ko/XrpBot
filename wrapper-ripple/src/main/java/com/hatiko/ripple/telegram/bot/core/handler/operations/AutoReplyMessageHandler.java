@@ -1,6 +1,8 @@
 package com.hatiko.ripple.telegram.bot.core.handler.operations;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -52,11 +54,28 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				log.info("Argument is not a number");
 			}
 		}
-		
-		Object response = operationService.insertArgument(argvInteger == null ? argv : argvInteger, chatId);
 
 		Integer sentMessageId;
-		
+		Object response;
+
+		try {
+			response = operationService.insertArgument(argvInteger == null ? argv : argvInteger, chatId);
+		} catch (NullPointerException e) {
+			log.error("Response is null");
+			sentMessageId = responseMessageOperator.responseErrorMessage("autoReply", chatId);
+			return;
+		}
+		// TODO: finaly save index to db
+
+		if (response instanceof BalanceResponse) {
+			sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
+		}
+		if (response instanceof TransactionResponse) {
+			sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId, 1);
+		}
+		if (response instanceof ArrayList) {
+			sentMessageId = responseMessageOperator.responseGetLastTransactions(response, chatId, 2);
+		}
 		if (response instanceof Integer) {
 			Integer numOfArgs = (Integer) response;
 
@@ -66,16 +85,8 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			}
 			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
 				sentMessageId = responseMessageOperator.responseWithdraw(null, chatId, numOfArgs);
+
 			}
-		}
-		if (response instanceof BalanceResponse) {
-			sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
-		}
-		if (response instanceof TransactionResponse) {
-			sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId, 1);
-		}
-		if (response instanceof ArrayList) {
-			sentMessageId = responseMessageOperator.responseGetLastTransactions(response, chatId, 2);
 		}
 	}
 }
