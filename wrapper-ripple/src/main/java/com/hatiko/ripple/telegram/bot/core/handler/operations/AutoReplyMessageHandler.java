@@ -66,22 +66,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				Integer sentMessage = responseMessageOperator.responseGetLastTransactions(null, chatId, numOfArgs);
 			}
 			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
-				if (numOfArgs.equals(1)) {
-					String text = "Insert private key";
-					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
-				}
-				if (numOfArgs.equals(2)) {
-					String text = "Insert distanation account(public key)";
-					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
-				}
-				if (numOfArgs.equals(3)) {
-					String text = "Insert memo";
-					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
-				}
-				if (numOfArgs.equals(4)) {
-					String text = "Insert sum (min ->0.000001)";
-					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
-				}
+				Integer sentMessage = responseMessageOperator.responseWithdraw(null, chatId, numOfArgs);
 			}
 
 		}

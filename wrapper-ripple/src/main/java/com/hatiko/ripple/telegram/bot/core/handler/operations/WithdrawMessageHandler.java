@@ -10,6 +10,7 @@ import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.core.service.LongTermOperationService;
+import com.hatiko.ripple.telegram.bot.core.service.ResponseMessageOperator;
 import com.hatiko.ripple.wrapper.service.RippleService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class WithdrawMessageHandler implements TelegramMessageHandler {
 	private final KeyboardPreparator keyboardPreparator;
 	private final LongTermOperationService operationService;
 	private final RippleService rippleService;
+	private final ResponseMessageOperator responseMessageOperator;
 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -49,8 +51,6 @@ public class WithdrawMessageHandler implements TelegramMessageHandler {
 			return;
 		}
 
-		String text = "Insert your wallet adress(public key)";
-
-		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, text, null);
+		Integer sentMessageId = responseMessageOperator.responseWithdraw(null, chatId, 0);
 	}
 }

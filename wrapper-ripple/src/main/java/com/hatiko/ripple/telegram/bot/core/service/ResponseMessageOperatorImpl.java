@@ -114,9 +114,38 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	}
 
 	@Override
-	public Integer responseWithdraw(TransactionResponse transactionResponse, Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer responseWithdraw(Object responseObject, Long chatId, Integer operationCounter) {
+
+		String responseMessage = null;
+		if (operationCounter.equals(0)) {
+			responseMessage = "Insert your wallet adress(public key)";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(1)) {
+			responseMessage = "Insert private key";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(2)) {
+			responseMessage = "Insert distanation account(public key)";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(3)) {
+			responseMessage = "Insert memo";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(4)) {
+			responseMessage = "Insert sum (min ->0.000001)";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		return responseErrorMessage(actionProperties.getMethodName().getWithdraw(), chatId);
+	}
+
+	@Override
+	public Integer responseGetTransactionInfo(Object responseObject, Long chatId) {
+
+		String responseMessage = String.format("Sum of transaction is %s",
+				((TransactionResponse) responseObject).getAmount());
+		return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override

@@ -18,7 +18,8 @@ public interface ResponseMessageOperator {
 	Integer responseGenerateMemo(String walletMemo, Long chatId);
 	Integer responseGetBalance(Object responseObject, Long chatId, Integer operationCounter);
 	Integer responseGetLastTransactions(Object responseObject, Long chatId, Integer operationCounter);
-	Integer responseWithdraw(TransactionResponse transactionResponse, Long chatId);
+	Integer responseWithdraw(Object responseObject, Long chatId, Integer operationCounter);
+	Integer responseGetTransactionInfo(Object responseObject, Long chatId);
 	
 	Integer responseErrorMessage(String operation, Long chatId);
 }
