@@ -67,13 +67,12 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
 				sentMessageId = responseMessageOperator.responseWithdraw(null, chatId, numOfArgs);
 			}
-
 		}
 		if (response instanceof BalanceResponse) {
 			sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
 		}
 		if (response instanceof TransactionResponse) {
-			sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId);
+			sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId, 1);
 		}
 		if (response instanceof ArrayList) {
 			sentMessageId = responseMessageOperator.responseGetLastTransactions(response, chatId, 2);

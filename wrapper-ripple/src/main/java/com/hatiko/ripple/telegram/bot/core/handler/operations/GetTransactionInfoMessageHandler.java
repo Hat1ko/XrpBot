@@ -47,6 +47,6 @@ public class GetTransactionInfoMessageHandler implements TelegramMessageHandler 
 			log.error(e.getMessage());
 		}
 		
-		Integer sentMessageId = responseMessageOperator.responseGetTransactionInfo(null, chatId);
+		Integer sentMessageId = responseMessageOperator.responseGetTransactionInfo(null, chatId, 0);
 	}
 }

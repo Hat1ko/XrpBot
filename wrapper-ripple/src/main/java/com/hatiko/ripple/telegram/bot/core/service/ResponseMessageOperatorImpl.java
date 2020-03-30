@@ -148,11 +148,20 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	}
 
 	@Override
-	public Integer responseGetTransactionInfo(Object responseObject, Long chatId) {
+	public Integer responseGetTransactionInfo(Object responseObject, Long chatId, Integer operationCounter) {
 
-		String responseMessage = String.format("Sum of transaction is %s",
-				((TransactionResponse) responseObject).getAmount());
-		return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		String responseMessage;
+		
+		if (operationCounter.equals(0)) {
+			responseMessage = "Insert transaction hash";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(1)) {
+			responseMessage = String.format("Sum of transaction is %s",
+					((TransactionResponse) responseObject).getAmount());
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		}
+		return responseErrorMessage(actionProperties.getMethodName().getGetTransactionInfo(), chatId);
 	}
 
 	@Override

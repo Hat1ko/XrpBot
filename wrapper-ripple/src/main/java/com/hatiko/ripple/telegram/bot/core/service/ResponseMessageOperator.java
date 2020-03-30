@@ -15,7 +15,7 @@ public interface ResponseMessageOperator {
 	Integer responseGetBalance(Object responseObject, Long chatId, Integer operationCounter);
 	Integer responseGetLastTransactions(Object responseObject, Long chatId, Integer operationCounter);
 	Integer responseWithdraw(Object responseObject, Long chatId, Integer operationCounter);
-	Integer responseGetTransactionInfo(Object responseObject, Long chatId);
+	Integer responseGetTransactionInfo(Object responseObject, Long chatId, Integer operationCounter);
 	
 	Integer responseErrorMessage(String operation, Long chatId);
 }
