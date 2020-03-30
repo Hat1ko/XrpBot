@@ -54,33 +54,31 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				log.info("Argument is not a number");
 			}
 		}
+		
 		Object response = operationService.insertArgument(argvInteger == null ? argv : argvInteger, chatId);
 
-		String responseMessage = null;
-
+		Integer sentMessageId;
+		
 		if (response instanceof Integer) {
 			Integer numOfArgs = (Integer) response;
 
 			if (operationService.getMethodName(chatId)
 					.equals(actionProperties.getMethodName().getGetLastTransactions())) {
-				Integer sentMessage = responseMessageOperator.responseGetLastTransactions(null, chatId, numOfArgs);
+				sentMessageId = responseMessageOperator.responseGetLastTransactions(null, chatId, numOfArgs);
 			}
 			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
-				Integer sentMessage = responseMessageOperator.responseWithdraw(null, chatId, numOfArgs);
+				sentMessageId = responseMessageOperator.responseWithdraw(null, chatId, numOfArgs);
 			}
 
 		}
 		if (response instanceof BalanceResponse) {
-			Integer sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
+			sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
 		}
 		if (response instanceof TransactionResponse) {
-			Integer sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId);
+			sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId);
 		}
 		if (response instanceof ArrayList) {
-			Integer sentMessageId = responseMessageOperator.responseGetLastTransactions(response, chatId, 2);
+			sentMessageId = responseMessageOperator.responseGetLastTransactions(response, chatId, 2);
 		}
-
-		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, responseMessage,
-				keyboardPreparator.getMainKeyboard());
 	}
 }
