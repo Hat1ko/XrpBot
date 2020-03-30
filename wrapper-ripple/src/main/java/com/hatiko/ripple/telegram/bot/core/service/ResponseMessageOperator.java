@@ -7,7 +7,7 @@ import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
 public interface ResponseMessageOperator {
 	
 	Integer responseStart(String firstName, Long chatId);
-	Integer responseHello(Long chatId);
+	Integer responseHello(String firstName, Long chatId);
 	Integer responseMain(Long chatId);
 	Integer responseNext(Long chatId);
 	Integer responseHelp(Long chatId);
