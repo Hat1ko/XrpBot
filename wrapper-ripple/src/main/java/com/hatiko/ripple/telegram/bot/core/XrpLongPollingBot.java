@@ -32,7 +32,7 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	private final ResponseMessageOperator responseMessageOperator; 
 	
 	@Autowired
-	public XrpLongPollingBot(@Lazy List<TelegramMessageHandler> telegramMessageHandlers,
+	public XrpLongPollingBot(List<TelegramMessageHandler> telegramMessageHandlers,
 			XrpBotProperties xrpBotProperties, KeyboardPreparator keyboardPreparator,
 			Transformer<Update, TelegramUpdate> updateToTelegramUpdateTransformer,
 			@Lazy ResponseMessageOperator responseMessageOperator) {

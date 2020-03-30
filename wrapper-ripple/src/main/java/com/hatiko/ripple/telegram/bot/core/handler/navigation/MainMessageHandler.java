@@ -7,6 +7,7 @@ import com.hatiko.ripple.telegram.bot.core.dto.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
+import com.hatiko.ripple.telegram.bot.core.service.ResponseMessageOperator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,8 @@ public class MainMessageHandler implements TelegramMessageHandler {
 	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
-
+	private final ResponseMessageOperator responseMessageOperator;
+	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
@@ -27,9 +29,6 @@ public class MainMessageHandler implements TelegramMessageHandler {
 			return;
 		}
 
-		String text = "You are now at the Main menu";
-		
-		Integer messageId = xrpLongPollingBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), text,
-				keyboardPreparator.getMainKeyboard());
+		Integer messageId = responseMessageOperator.responseMain(telegramUpdate.getMessage().getChat().getId());
 	}
 }

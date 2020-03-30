@@ -36,8 +36,10 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 	@Override
 	public Integer responseMain(Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String text = "You are at main now";
+		
+		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override
