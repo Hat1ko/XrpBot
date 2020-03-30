@@ -70,8 +70,8 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 	@Override
 	public Integer responseGenerateMemo(String walletMemo, Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return xrpLongPollingBot.sendMessage(chatId, walletMemo, keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override

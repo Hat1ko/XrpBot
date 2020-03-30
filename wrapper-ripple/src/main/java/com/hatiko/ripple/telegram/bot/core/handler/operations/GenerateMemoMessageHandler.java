@@ -21,19 +21,18 @@ public class GenerateMemoMessageHandler implements TelegramMessageHandler {
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
 	private final RippleService rippleService;
-	
+
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
-		if(!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getGenerateMemo())) {
+		if (!telegramUpdate.getMessage().getText()
+				.startsWith(actionProperties.getButtonOperation().getGenerateMemo())) {
 			return;
 		}
-		
-		Long chatId = telegramUpdate.getMessage().getChat().getId();
-		Integer messageId = telegramUpdate.getMessage().getId();
-		
+
 		String walletMemo = rippleService.generateMemo().getWalletMemo();
-		
-		Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, walletMemo, keyboardPreparator.getMainKeyboard()); 
+
+		Integer messageId = xrpLongPollingBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), walletMemo,
+				keyboardPreparator.getMainKeyboard());
 	}
 }
