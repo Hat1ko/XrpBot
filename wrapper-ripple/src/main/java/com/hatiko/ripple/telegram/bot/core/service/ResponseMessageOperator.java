@@ -6,19 +6,19 @@ import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
 
 public interface ResponseMessageOperator {
 	
-	Integer responseStart();
-	Integer responseHello();
-	Integer responseMain();
-	Integer responseNext();
-	Integer responseHelp();
+	Integer responseStart(String firstName, Long chatId);
+	Integer responseHello(Long chatId);
+	Integer responseMain(Long chatId);
+	Integer responseNext(Long chatId);
+	Integer responseHelp(Long chatId);
 
-	Integer responseLogIn();
-	Integer responseRegister();
+	Integer responseLogIn(Long chatId);
+	Integer responseRegister(Long chatId);
 	
-	Integer responseGenerateMemo(String walletMemo);
-	Integer responseGetBalance(Double balance);
-	Integer responseGetLastTransactions(List<TransactionResponse> transactionResponse);
-	Integer responseWithdraw(TransactionResponse transactionResponse);
+	Integer responseGenerateMemo(String walletMemo, Long chatId);
+	Integer responseGetBalance(Double balance, Long chatId);
+	Integer responseGetLastTransactions(List<TransactionResponse> transactionResponse, Long chatId);
+	Integer responseWithdraw(TransactionResponse transactionResponse, Long chatId);
 	
-	Integer responseErrorMessage(String operation);
+	Integer responseErrorMessage(String operation, Long chatId);
 }

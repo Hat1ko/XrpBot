@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
 import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -14,76 +15,80 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	
+	private final XrpLongPollingBot xrpLongPollingBot;
+	private final KeyboardPreparator keyboardPreparator;
+
 	@Override
-	public Integer responseStart() {
+	public Integer responseStart(String firstName, Long chatId) {
+
+		String text = String.format("Hello, %s", firstName);
+		
+		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
+	}
+
+	@Override
+	public Integer responseHello(Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseHello() {
+	public Integer responseMain(Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseMain() {
+	public Integer responseNext(Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseNext() {
+	public Integer responseHelp(Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseHelp() {
+	public Integer responseLogIn(Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseLogIn() {
+	public Integer responseRegister(Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseRegister() {
+	public Integer responseGenerateMemo(String walletMemo, Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseGenerateMemo(String walletMemo) {
+	public Integer responseGetBalance(Double balance, Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseGetBalance(Double balance) {
+	public Integer responseGetLastTransactions(List<TransactionResponse> transactionResponse, Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseGetLastTransactions(List<TransactionResponse> transactionResponse) {
+	public Integer responseWithdraw(TransactionResponse transactionResponse, Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer responseWithdraw(TransactionResponse transactionResponse) {
+	public Integer responseErrorMessage(String operation, Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public Integer responseErrorMessage(String operation) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
