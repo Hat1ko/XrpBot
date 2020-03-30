@@ -21,9 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class GetBalanceMessageHandler implements TelegramMessageHandler {
 	
-	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
-	private final KeyboardPreparator keboardPreparator;
 	private final LongTermOperationService operationService;
 	private final RippleService rippleService;
 	private final ResponseMessageOperator responseMessageOperator;

@@ -1,5 +1,6 @@
 package com.hatiko.ripple.telegram.bot.core.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Component
 public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
-	
+
 	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
@@ -25,7 +26,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	public Integer responseStart(String firstName, Long chatId) {
 
 		String text = String.format("Hello, %s", firstName);
-		
+
 		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
 	}
 
@@ -33,7 +34,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	public Integer responseHello(String firstName, Long chatId) {
 
 		String text = String.format("Hello, %s", firstName);
-		
+
 		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
 	}
 
@@ -41,7 +42,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	public Integer responseMain(Long chatId) {
 
 		String text = "You are at main now";
-		
+
 		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getMainKeyboard());
 	}
 
@@ -81,7 +82,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	public Integer responseGetBalance(Object responseObject, Long chatId, Integer operationCounter) {
 
 		String responseMessage = null;
-		if(operationCounter.equals(0)) {
+		if (operationCounter.equals(0)) {
 			responseMessage = "Insert your wallet (public key)";
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
 		}
@@ -93,9 +94,23 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	}
 
 	@Override
-	public Integer responseGetLastTransactions(List<TransactionResponse> transactionResponse, Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer responseGetLastTransactions(Object responseObject, Long chatId, Integer operationCounter) {
+
+		String responseMessage = null;
+		if (operationCounter.equals(0)) {
+			responseMessage = "Insert your walletAddress (public key)";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(1)) {
+			responseMessage = "Insert number of transactions";
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(2)) {
+			List<TransactionResponse> transactions = (ArrayList<TransactionResponse>) responseObject;
+			responseMessage = String.format("Num of transactions is %s", transactions.size());
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		}
+		return responseErrorMessage(actionProperties.getMethodName().getGetLastTransactions(), chatId);
 	}
 
 	@Override

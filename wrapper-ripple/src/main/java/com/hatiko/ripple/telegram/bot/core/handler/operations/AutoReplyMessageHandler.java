@@ -63,10 +63,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
 			if (operationService.getMethodName(chatId)
 					.equals(actionProperties.getMethodName().getGetLastTransactions())) {
-				if (numOfArgs.equals(1)) {
-					String text = "Insert number of transactions";
-					Integer sentMessage = xrpLongPollingBot.sendMessage(chatId, text, null);
-				}
+				Integer sentMessage = responseMessageOperator.responseGetLastTransactions(null, chatId, numOfArgs);
 			}
 			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
 				if (numOfArgs.equals(1)) {
@@ -89,15 +86,13 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
 		}
 		if (response instanceof BalanceResponse) {
-			Integer sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse)response, chatId, 1);
-//			responseMessage = String.format("Your balance is %s", ((BalanceResponse) response).getAmount());
+			Integer sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
 		}
 		if (response instanceof TransactionResponse) {
 			responseMessage = String.format("Sum of transaction is %s", ((TransactionResponse) response).getAmount());
 		}
 		if (response instanceof ArrayList) {
-			responseMessage = String.format("Num of transactions is %s",
-					((ArrayList<TransactionResponse>) response).size());
+			Integer sentMessageId = responseMessageOperator.responseGetLastTransactions(response, chatId, 2);
 		}
 
 		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, responseMessage,

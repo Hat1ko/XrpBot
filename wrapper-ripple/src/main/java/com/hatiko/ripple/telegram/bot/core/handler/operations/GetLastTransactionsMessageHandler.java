@@ -10,6 +10,7 @@ import com.hatiko.ripple.telegram.bot.core.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.core.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.core.service.LongTermOperationService;
+import com.hatiko.ripple.telegram.bot.core.service.ResponseMessageOperator;
 import com.hatiko.ripple.wrapper.service.RippleService;
 import com.hatiko.ripple.wrapper.service.TransactionService;
 
@@ -21,12 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class GetLastTransactionsMessageHandler implements TelegramMessageHandler {
 
-	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
-	private final KeyboardPreparator keyboardPreparator;
 	private final LongTermOperationService operationService;
 	private final TransactionService transactionService;
-
+	private final ResponseMessageOperator responseMessageOperator;
+	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
@@ -52,7 +52,6 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 			return;
 		}
 		
-		String text = "Insert your walletAddress (public key)";
-		Integer sentMessageId = xrpLongPollingBot.sendMessage(chatId, text, null);
+		Integer sentMessageId = responseMessageOperator.responseGetLastTransactions(null, chatId, 0);
 	}
 }
