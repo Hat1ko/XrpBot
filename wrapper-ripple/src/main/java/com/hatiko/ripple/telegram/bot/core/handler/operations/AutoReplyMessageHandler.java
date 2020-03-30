@@ -63,9 +63,9 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		} catch (NullPointerException e) {
 			log.error("Response is null");
 			sentMessageId = responseMessageOperator.responseErrorMessage("autoReply", chatId);
+			// TODO: finaly save index to db
 			return;
 		}
-		// TODO: finaly save index to db
 
 		if (response instanceof BalanceResponse) {
 			sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
@@ -88,5 +88,6 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
 			}
 		}
+		// TODO: finaly save index to db
 	}
 }

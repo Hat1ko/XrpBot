@@ -28,9 +28,6 @@ public class StartMessageHandler implements TelegramMessageHandler {
 			return;
 		}
 
-//		Integer messageId = xrpLongPollingBot.sendMessage(telegramUpdate.getMessage().getChat().getId(), text,
-//				keyboardPreparator.getStartKeyboard());
-
 		Integer messageId = responseMessageOperator.responseStart(telegramUpdate.getMessage().getFrom().getFirstName(),
 				telegramUpdate.getMessage().getChat().getId());
 	}
