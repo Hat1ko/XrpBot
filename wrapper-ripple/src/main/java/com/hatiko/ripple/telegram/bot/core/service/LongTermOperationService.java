@@ -47,6 +47,7 @@ public class LongTermOperationService {
 			oper.getParams().add(argv);
 			if (oper.getArgc().equals(oper.getParams().size())) {
 				try {
+					removeOperation(chatId);
 					return oper.getMethod().invoke(oper.getOperator(), oper.getParams().toArray());
 				} catch (IllegalAccessException e) {
 					log.error(e.getMessage());
