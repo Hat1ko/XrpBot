@@ -44,8 +44,9 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 	@Override
 	public Integer responseNext(Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String text = "You stay unlogged in";
+		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override
