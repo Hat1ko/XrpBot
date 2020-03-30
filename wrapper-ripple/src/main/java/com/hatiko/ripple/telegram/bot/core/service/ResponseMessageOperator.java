@@ -1,13 +1,24 @@
 package com.hatiko.ripple.telegram.bot.core.service;
 
-import org.springframework.stereotype.Component;
+import java.util.List;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
 
-@Slf4j
-@RequiredArgsConstructor
-@Component
-public class ResponseMessageOperator {
+public interface ResponseMessageOperator {
+	
+	Integer responseStart();
+	Integer responseHello();
+	Integer responseMain();
+	Integer responseNext();
+	Integer responseHelp();
 
+	Integer responseLogIn();
+	Integer responseRegister();
+	
+	Integer responseGenerateMemo(String walletMemo);
+	Integer responseGetBalance(Double balance);
+	Integer responseGetLastTransactions(List<TransactionResponse> transactionResponse);
+	Integer responseWithdraw(TransactionResponse transactionResponse);
+	
+	Integer responseErrorMessage(String operation);
 }
