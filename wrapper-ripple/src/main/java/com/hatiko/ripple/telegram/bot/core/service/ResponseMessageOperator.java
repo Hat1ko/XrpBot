@@ -1,9 +1,5 @@
 package com.hatiko.ripple.telegram.bot.core.service;
 
-import java.util.List;
-
-import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
-
 public interface ResponseMessageOperator {
 	
 	Integer responseStart(String firstName, Long chatId);

@@ -22,9 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
-	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
-	private final KeyboardPreparator keyboardPreparator;
 	private final LongTermOperationService operationService;
 	private final ResponseMessageOperator responseMessageOperator;
 
