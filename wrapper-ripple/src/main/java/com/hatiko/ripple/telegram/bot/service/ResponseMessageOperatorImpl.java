@@ -71,8 +71,8 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 	@Override
 	public Integer responseLogOut(Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getLogOut(), keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override
