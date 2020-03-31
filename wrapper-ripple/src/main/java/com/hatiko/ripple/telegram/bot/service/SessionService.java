@@ -4,7 +4,7 @@ import com.hatiko.ripple.telegram.bot.dto.session.ChatSession;
 
 public interface SessionService {
 	
-	void createSession(Long chatId, String username);
+	Boolean createSession(Long chatId, String username, String password);
 	ChatSession getSession(Long chatId);
 	void deleteSession(Long chatId);
 	void logOutSessions();//scheduled
