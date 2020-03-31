@@ -34,39 +34,33 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	@Override
 	public Integer responseStart(String firstName, Long chatId) {
 
-		String text = String.format(messageProperties.getStart(), firstName);
-
-		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, String.format(messageProperties.getStart(), firstName),
+				keyboardPreparator.getStartKeyboard());
 	}
 
 	@Override
 	public Integer responseHello(String firstName, Long chatId) {
 
-		String text = String.format(messageProperties.getHello(), firstName);
-
-		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, String.format(messageProperties.getHello(), firstName),
+				keyboardPreparator.getStartKeyboard());
 	}
 
 	@Override
 	public Integer responseMain(Long chatId) {
 
-		String text = messageProperties.getMain();
-
-		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getMainKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getMain(), keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override
 	public Integer responseNext(Long chatId) {
 
-		String text = messageProperties.getNext();
-		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getMainKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getNext(), keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override
 	public Integer responseHelp(Long chatId) {
 
-		String text = messageProperties.getHelp();
-		return xrpLongPollingBot.sendMessage(chatId, text, null);
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getHelp(), null);
 	}
 
 	@Override
@@ -127,26 +121,8 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	@Override
 	public Integer responseWithdraw(Object responseObject, Long chatId, Integer operationCounter) {
 
-		String responseMessage = null;
-		if (operationCounter.equals(0)) {
-			responseMessage = messageProperties.getWithdraw().get(operationCounter);
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
-		}
-		if (operationCounter.equals(1)) {
-			responseMessage = messageProperties.getWithdraw().get(operationCounter);
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
-		}
-		if (operationCounter.equals(2)) {
-			responseMessage = messageProperties.getWithdraw().get(operationCounter);
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
-		}
-		if (operationCounter.equals(3)) {
-			responseMessage = messageProperties.getWithdraw().get(operationCounter);
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
-		}
-		if (operationCounter.equals(4)) {
-			responseMessage = messageProperties.getWithdraw().get(operationCounter);
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		if (operationCounter > -1 && operationCounter < 5) {
+			return xrpLongPollingBot.sendMessage(chatId, messageProperties.getWithdraw().get(operationCounter), null);
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getWithdraw(), chatId);
 	}
@@ -171,7 +147,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	@Override
 	public Integer responseErrorMessage(String operation, Long chatId) {
 
-		String responseMessage = String.format(messageProperties.getError(), operation);
-		return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, String.format(messageProperties.getError(), operation),
+				keyboardPreparator.getMainKeyboard());
 	}
 }
