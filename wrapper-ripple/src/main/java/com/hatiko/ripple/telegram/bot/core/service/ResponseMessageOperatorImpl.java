@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.core.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.core.properties.ActionProperties;
+import com.hatiko.ripple.telegram.bot.core.properties.ResponseMessageProperties;
 import com.hatiko.ripple.wrapper.web.model.BalanceResponse;
 import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,50 +21,46 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	private final XrpLongPollingBot xrpLongPollingBot;
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
+	private final ResponseMessageProperties messageProperties;
 
 	public ResponseMessageOperatorImpl(@Lazy XrpLongPollingBot xrpLongPollingBot, ActionProperties actionProperties,
-			KeyboardPreparator keyboardPreparator) {
+			KeyboardPreparator keyboardPreparator, ResponseMessageProperties messageProperties) {
 		this.xrpLongPollingBot = xrpLongPollingBot;
 		this.actionProperties = actionProperties;
 		this.keyboardPreparator = keyboardPreparator;
+		this.messageProperties = messageProperties;
 	}
 
 	@Override
 	public Integer responseStart(String firstName, Long chatId) {
 
-		String text = String.format("Hello, %s", firstName);
-
-		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, String.format(messageProperties.getStart(), firstName),
+				keyboardPreparator.getStartKeyboard());
 	}
 
 	@Override
 	public Integer responseHello(String firstName, Long chatId) {
 
-		String text = String.format("Hello, %s", firstName);
-
-		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getStartKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, String.format(messageProperties.getHello(), firstName),
+				keyboardPreparator.getStartKeyboard());
 	}
 
 	@Override
 	public Integer responseMain(Long chatId) {
 
-		String text = "You are at main now";
-
-		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getMainKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getMain(), keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override
 	public Integer responseNext(Long chatId) {
 
-		String text = "You stay unlogged in";
-		return xrpLongPollingBot.sendMessage(chatId, text, keyboardPreparator.getMainKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getNext(), keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override
 	public Integer responseHelp(Long chatId) {
 
-		String text = "We will help you";
-		return xrpLongPollingBot.sendMessage(chatId, text, null);
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getHelp(), null);
 	}
 
 	@Override
@@ -90,11 +86,12 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 		String responseMessage = null;
 		if (operationCounter.equals(0)) {
-			responseMessage = "Insert your wallet (public key)";
+			responseMessage = messageProperties.getGetBalance().get(operationCounter);
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
 		}
 		if (operationCounter.equals(1)) {
-			responseMessage = String.format("Your balance is %s", ((BalanceResponse) responseObject).getAmount());
+			responseMessage = String.format(messageProperties.getGetBalance().get(operationCounter),
+					((BalanceResponse) responseObject).getAmount());
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getGetBalance(), chatId);
@@ -105,16 +102,17 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 
 		String responseMessage = null;
 		if (operationCounter.equals(0)) {
-			responseMessage = "Insert your walletAddress (public key)";
+			responseMessage = messageProperties.getGetLastTransactions().get(operationCounter);
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
 		}
 		if (operationCounter.equals(1)) {
-			responseMessage = "Insert number of transactions";
+			responseMessage = messageProperties.getGetLastTransactions().get(operationCounter);
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
 		}
 		if (operationCounter.equals(2)) {
 			List<TransactionResponse> transactions = (ArrayList<TransactionResponse>) responseObject;
-			responseMessage = String.format("Num of transactions is %s", transactions.size());
+			responseMessage = String.format(messageProperties.getGetLastTransactions().get(operationCounter),
+					transactions.size());
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getGetLastTransactions(), chatId);
@@ -123,26 +121,8 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	@Override
 	public Integer responseWithdraw(Object responseObject, Long chatId, Integer operationCounter) {
 
-		String responseMessage = null;
-		if (operationCounter.equals(0)) {
-			responseMessage = "Insert your wallet adress(public key)";
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
-		}
-		if (operationCounter.equals(1)) {
-			responseMessage = "Insert private key";
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
-		}
-		if (operationCounter.equals(2)) {
-			responseMessage = "Insert distanation account(public key)";
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
-		}
-		if (operationCounter.equals(3)) {
-			responseMessage = "Insert memo";
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
-		}
-		if (operationCounter.equals(4)) {
-			responseMessage = "Insert sum (min ->0.000001)";
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		if (operationCounter > -1 && operationCounter < 5) {
+			return xrpLongPollingBot.sendMessage(chatId, messageProperties.getWithdraw().get(operationCounter), null);
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getWithdraw(), chatId);
 	}
@@ -153,11 +133,11 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 		String responseMessage;
 
 		if (operationCounter.equals(0)) {
-			responseMessage = "Insert transaction hash";
+			responseMessage = messageProperties.getGetTransactionInfo().get(operationCounter);
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
 		}
 		if (operationCounter.equals(1)) {
-			responseMessage = String.format("Sum of transaction is %s",
+			responseMessage = String.format(messageProperties.getGetTransactionInfo().get(operationCounter),
 					((TransactionResponse) responseObject).getAmount());
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
 		}
@@ -167,7 +147,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	@Override
 	public Integer responseErrorMessage(String operation, Long chatId) {
 
-		String responseMessage = String.format("%s operation has failed", operation);
-		return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, String.format(messageProperties.getError(), operation),
+				keyboardPreparator.getMainKeyboard());
 	}
 }
