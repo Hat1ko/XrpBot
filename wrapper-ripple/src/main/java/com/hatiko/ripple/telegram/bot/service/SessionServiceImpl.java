@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SessionServiceImpl implements SessionService {
 
 	private final XrpDatabaseOperator databaseOperator;
+	@Value("$(telegram.bot.session.minutes)")
+	private final Long sessionTime; 
 	private List<ChatSession> sessions = new ArrayList<>();
 
 	@Override
@@ -57,6 +60,6 @@ public class SessionServiceImpl implements SessionService {
 	@Scheduled(cron = "0 * * ? * *")
 	public void logOutSessions() {
 
-		sessions.removeIf(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) > 14L);
+		sessions.removeIf(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L);
 	}
 }
