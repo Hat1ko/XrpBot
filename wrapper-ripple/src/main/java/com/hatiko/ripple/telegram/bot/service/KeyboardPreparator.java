@@ -69,6 +69,11 @@ public class KeyboardPreparator {
 		logInButton.setText(actionProperties.getButtonOperation().getLogIn());
 		buttons.put(actionProperties.getMethodName().getLogIn(), logInButton);
 
+		KeyboardButton logOutButton = new KeyboardButton();
+		logOutButton.setText(actionProperties.getButtonOperation().getLogIn());
+		buttons.put(actionProperties.getMethodName().getLogOut(), logOutButton);
+
+		
 		KeyboardButton getBalanceButton = new KeyboardButton();
 		getBalanceButton.setText(actionProperties.getButtonOperation().getGetBalance());
 		buttons.put(actionProperties.getMethodName().getGetBalance(), getBalanceButton);

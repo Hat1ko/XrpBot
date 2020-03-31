@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SessionServiceImpl implements SessionService {
 
 	private final XrpDatabaseOperator databaseOperator;
+	private final ResponseMessageOperator responseMessageOperator;
 	private List<ChatSession> sessions = new ArrayList<>();
 
 	@Override
@@ -58,6 +59,10 @@ public class SessionServiceImpl implements SessionService {
 	@Scheduled(cron = "${telegram.bot.session.cron}")
 	public void logOutSessions() {
 
-		sessions.removeIf(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L);
+//		sessions.removeIf(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L);
+		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L).forEach(s -> {
+			deleteSession(s.getChatId());
+			responseMessageOperator.responseLogOut(s.getChatId());
+		});
 	}
 }

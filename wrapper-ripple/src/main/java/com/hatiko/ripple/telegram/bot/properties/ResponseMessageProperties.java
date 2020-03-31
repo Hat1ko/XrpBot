@@ -39,9 +39,11 @@ public class ResponseMessageProperties {
 	@Getter
 	private String main;
 	@Getter
+	private String register;
+	@Getter
 	private String logIn;
 	@Getter
-	private String register;
+	private String logOut;
 	private String getBalance;
 	private String getTransactionInfo;
 	private String getLastTransactions;

@@ -70,6 +70,12 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	}
 
 	@Override
+	public Integer responseLogOut(Long chatId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public Integer responseRegister(Long chatId) {
 		// TODO Auto-generated method stub
 		return null;
@@ -150,4 +156,5 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 		return xrpLongPollingBot.sendMessage(chatId, String.format(messageProperties.getError(), operation),
 				keyboardPreparator.getMainKeyboard());
 	}
+
 }

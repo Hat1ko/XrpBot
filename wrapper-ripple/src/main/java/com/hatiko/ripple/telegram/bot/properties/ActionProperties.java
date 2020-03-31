@@ -44,6 +44,7 @@ public class ActionProperties {
 		buttonOperations.add(buttonOperation.getNext());
 		buttonOperations.add(buttonOperation.getMain());
 		buttonOperations.add(buttonOperation.getLogIn());
+		buttonOperations.add(buttonOperation.getLogOut());
 		buttonOperations.add(buttonOperation.getRegister());
 		buttonOperations.add(buttonOperation.getGetBalance());
 		buttonOperations.add(buttonOperation.getGenerateMemo());
@@ -62,6 +63,7 @@ public class ActionProperties {
 		methodNames.add(methodName.getNext());
 		methodNames.add(methodName.getMain());
 		methodNames.add(methodName.getLogIn());
+		methodNames.add(methodName.getLogOut());
 		methodNames.add(methodName.getRegister());
 		methodNames.add(methodName.getGetBalance());
 		methodNames.add(methodName.getGenerateMemo());
@@ -83,6 +85,7 @@ public class ActionProperties {
 		private String next;
 		private String main;
 		private String logIn;
+		private String logOut;
 		private String register;
 		private String getBalance;
 		private String generateMemo;
@@ -104,6 +107,7 @@ public class ActionProperties {
 		private String next;
 		private String main;
 		private String logIn;
+		private String logOut;
 		private String register;
 		private String getBalance;
 		private String generateMemo;

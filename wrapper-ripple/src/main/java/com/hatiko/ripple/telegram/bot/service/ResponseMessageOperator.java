@@ -9,6 +9,7 @@ public interface ResponseMessageOperator {
 	Integer responseHelp(Long chatId);
 
 	Integer responseLogIn(Long chatId);
+	Integer responseLogOut(Long chatId);
 	Integer responseRegister(Long chatId);
 	
 	Integer responseGenerateMemo(String walletMemo, Long chatId);
