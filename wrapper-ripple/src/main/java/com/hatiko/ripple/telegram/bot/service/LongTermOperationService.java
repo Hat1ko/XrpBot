@@ -21,8 +21,7 @@ public class LongTermOperationService {
 	private List<OperationDTO> operations = new ArrayList<>();
 
 	public void removeOperation(Long chatId) {
-		operations = operations.stream().filter(oper -> !oper.getChatId().equals((int) (long) chatId))
-				.collect(Collectors.toList());
+		operations.removeIf(oper -> oper.getChatId().equals((int)(long) chatId));
 	}
 
 	public void addOpearion(Long chatId, Integer messageId, String operation, Object operator, Method method,

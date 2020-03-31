@@ -1,12 +1,13 @@
 package com.hatiko.ripple.telegram.bot.service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.hatiko.ripple.telegram.bot.database.converter.UserConverter;
 import com.hatiko.ripple.telegram.bot.database.dto.UserDTO;
 import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 import com.hatiko.ripple.telegram.bot.dto.session.ChatSession;
@@ -49,13 +50,13 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public void deleteSession(Long chatId) {
-		// TODO Auto-generated method stub
-
+		sessions.removeIf(e -> e.getChatId().equals(chatId));
 	}
 
 	@Override
+	@Scheduled(cron = "0 * * ? * *")
 	public void logOutSessions() {
-		// TODO Auto-generated method stub
 
+		sessions.removeIf(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) > 14L);
 	}
 }
