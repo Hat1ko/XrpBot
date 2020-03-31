@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
 @Builder
 @AllArgsConstructor
@@ -29,17 +28,25 @@ public class ResponseMessageProperties {
 	private List<String> getLastTransactionsList;	
 	private List<String> withdrawList;
 	
+	@Getter
 	private String start;
+	@Getter
 	private String hello;
+	@Getter
 	private String next;
+	@Getter
 	private String help;
+	@Getter
 	private String main;
+	@Getter
 	private String logIn;
+	@Getter
 	private String register;
 	private String getBalance;
 	private String getTransactionInfo;
 	private String getLastTransactions;
 	private String withdraw;
+	@Getter
 	private String error;
 	
 	private String separator; 
