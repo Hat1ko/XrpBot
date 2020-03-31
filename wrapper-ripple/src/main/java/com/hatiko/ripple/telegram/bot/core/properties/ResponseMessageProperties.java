@@ -22,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Component
 @ConfigurationProperties("telegram.bot.message.response")
-public class MessageResponseProperties {
+public class ResponseMessageProperties {
 
 	private List<String> getBalanceList;
 	private List<String> getTransactionInfoList;
@@ -37,7 +37,6 @@ public class MessageResponseProperties {
 	private String logIn;
 	private String register;
 	private String getBalance;
-	private String generateMemo;
 	private String getTransactionInfo;
 	private String getLastTransactions;
 	private String withdraw;
