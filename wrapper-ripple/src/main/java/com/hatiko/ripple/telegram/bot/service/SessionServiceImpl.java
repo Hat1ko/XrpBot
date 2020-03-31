@@ -22,8 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 public class SessionServiceImpl implements SessionService {
 
 	private final XrpDatabaseOperator databaseOperator;
-	@Value("$(telegram.bot.session.minutes)")
-	private final Long sessionTime; 
 	private List<ChatSession> sessions = new ArrayList<>();
 
 	@Override
@@ -57,7 +55,7 @@ public class SessionServiceImpl implements SessionService {
 	}
 
 	@Override
-	@Scheduled(cron = "0 * * ? * *")
+	@Scheduled(cron = "${telegram.bot.session.cron}")
 	public void logOutSessions() {
 
 		sessions.removeIf(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L);
