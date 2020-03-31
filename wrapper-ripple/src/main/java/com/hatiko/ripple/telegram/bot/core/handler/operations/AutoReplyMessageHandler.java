@@ -41,7 +41,8 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		String argv = telegramUpdate.getMessage().getText();
 
 		Object argvInteger = null;
-		if (argv.contains(".")) {
+		if (argv.contains(".")
+				|| operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
 			try {
 				argvInteger = Double.valueOf(argv);
 			} catch (Exception e) {
