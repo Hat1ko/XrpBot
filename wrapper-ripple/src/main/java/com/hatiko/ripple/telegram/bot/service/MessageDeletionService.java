@@ -1,5 +1,6 @@
 package com.hatiko.ripple.telegram.bot.service;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
@@ -14,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class MessageDeletionService {
 	
-	private final SessionService sessionService;
 	private final XrpDatabaseOperator databaseOperator;
 	private final XrpLongPollingBot xrpLongPollingBot;
 	
@@ -27,5 +27,9 @@ public class MessageDeletionService {
 		databaseOperator.updateMessageId(chatId, requestToDelete.getLastSent(), requestToDelete.getLastSent());
 	}
 	
-	
+	@Scheduled(cron = "${telegram.bot.every-day-delete.cron}")
+	public void deleteEachChat() {
+		
+		databaseOperator.getAllMessageIds().stream().forEach(m -> deleteMessages(m.getCahtId()));
+	}
 }

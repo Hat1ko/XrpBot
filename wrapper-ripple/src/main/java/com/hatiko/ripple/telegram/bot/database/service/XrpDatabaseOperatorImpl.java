@@ -199,6 +199,12 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	}
 
 	@Override
+	public List<MessageIdDTO> getAllMessageIds() {
+
+		return messageIdRepo.findAll().stream().map(MessageIdConverter::toDTO).collect(Collectors.toList());
+	}
+	
+	@Override
 	public MessageIdDTO getMessageId(Long chatId) {
 
 		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(MessageIdEntity::new);
@@ -233,4 +239,6 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 		messageIdRepo.delete(entity.get());
 		return messageIdRepo.findById(chatId).isEmpty();
 	}
+
+	
 }
