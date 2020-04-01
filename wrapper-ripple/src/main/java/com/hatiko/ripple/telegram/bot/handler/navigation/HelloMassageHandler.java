@@ -3,6 +3,7 @@ package com.hatiko.ripple.telegram.bot.handler.navigation;
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
+import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
@@ -20,7 +21,8 @@ public class HelloMassageHandler implements TelegramMessageHandler {
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
 	private final ResponseMessageOperator responseMessageOperator;
-
+	private final XrpDatabaseOperator databaseOperator; 
+	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
@@ -28,7 +30,9 @@ public class HelloMassageHandler implements TelegramMessageHandler {
 			return;
 		}
 
-		Integer messageId = responseMessageOperator.responseHello(telegramUpdate.getMessage().getFrom().getFirstName(),
-				telegramUpdate.getMessage().getChat().getId());
+		Long chatId = telegramUpdate.getMessage().getChat().getId();
+		Integer sentMessageId = responseMessageOperator.responseHello(telegramUpdate.getMessage().getFrom().getFirstName(),
+				chatId);
+		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
 	}
 }

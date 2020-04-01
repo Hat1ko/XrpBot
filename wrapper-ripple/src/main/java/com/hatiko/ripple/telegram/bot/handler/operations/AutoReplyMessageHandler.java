@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
+import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
@@ -27,6 +28,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 	private final ActionProperties actionProperties;
 	private final LongTermOperationService operationService;
 	private final ResponseMessageOperator responseMessageOperator;
+	private final XrpDatabaseOperator databaseOperator;
 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -56,7 +58,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			}
 		}
 
-		Integer sentMessageId;
+		Integer sentMessageId = null;
 		Object response;
 
 		try {
@@ -64,7 +66,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		} catch (NullPointerException e) {
 			log.error("Response is null");
 			sentMessageId = responseMessageOperator.responseErrorMessage("autoReply", chatId);
-			// TODO: finaly save index to db
+			databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
 			return;
 		}
 
@@ -89,6 +91,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
 			}
 		}
-		// TODO: finaly save index to db
+		
+		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
 	}
 }

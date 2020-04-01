@@ -3,6 +3,7 @@ package com.hatiko.ripple.telegram.bot.handler.operations;
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
+import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
@@ -19,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 public class GenerateMemoMessageHandler implements TelegramMessageHandler {
 
 	private final ActionProperties actionProperties;
-	private final KeyboardPreparator keyboardPreparator;
 	private final RippleService rippleService;
 	private final ResponseMessageOperator responseMessageOperator;
+	private final XrpDatabaseOperator databaseOperator;
 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -31,9 +32,11 @@ public class GenerateMemoMessageHandler implements TelegramMessageHandler {
 			return;
 		}
 
+		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		String walletMemo = rippleService.generateMemo().getWalletMemo();
 
-		Integer messageId = responseMessageOperator.responseGenerateMemo(walletMemo,
-				telegramUpdate.getMessage().getChat().getId());
+		Integer sentMessageId = responseMessageOperator.responseGenerateMemo(walletMemo,
+				chatId);
+		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
 	}
 }

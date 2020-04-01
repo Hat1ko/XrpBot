@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
+import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
@@ -25,6 +26,7 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 	private final LongTermOperationService operationService;
 	private final RippleService rippleService;
 	private final ResponseMessageOperator responseMessageOperator;
+	private final XrpDatabaseOperator databaseOperator;
 	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -50,6 +52,7 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 			return;
 		} 
 		
-		Integer SentMessageId = responseMessageOperator.responseGetBalance(null, chatId, 0);
+		Integer sentMessageId = responseMessageOperator.responseGetBalance(null, chatId, 0);
+		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
 	}
 }
