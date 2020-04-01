@@ -21,7 +21,7 @@ public class UpdateMessageIdController {
 	private final XrpDatabaseOperator databaseOperator;
 
 	@PutMapping
-	public ResponseEntity<MessageIdDTO> updateMessageId(@RequestParam(name = "chat_id") Integer chatId,
+	public ResponseEntity<MessageIdDTO> updateMessageId(@RequestParam(name = "chat_id") Long chatId,
 			@RequestParam(name = "last_sent", required = false) Integer lastSent,
 			@RequestParam(name = "last_deleted", required = false) Integer lastDeleted) {
 

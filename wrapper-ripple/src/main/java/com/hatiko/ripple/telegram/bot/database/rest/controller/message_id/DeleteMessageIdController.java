@@ -21,7 +21,7 @@ public class DeleteMessageIdController {
 	private final XrpDatabaseOperator databaseOperator;
 	
 	@DeleteMapping
-	public ResponseEntity<StatusDTO> deleteMessageId(@RequestParam("chat_id") Integer chatId){
+	public ResponseEntity<StatusDTO> deleteMessageId(@RequestParam("chat_id") Long chatId){
 		
 		Boolean status = databaseOperator.deleteMessageId(chatId);
 		StatusDTO response = StatusDTO.builder().status(status).build();

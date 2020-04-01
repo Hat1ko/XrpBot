@@ -26,4 +26,6 @@ public class MessageDeletionService {
 		}
 		databaseOperator.updateMessageId(chatId, requestToDelete.getLastSent(), requestToDelete.getLastSent());
 	}
+	
+	
 }

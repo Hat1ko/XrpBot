@@ -26,6 +26,6 @@ public interface XrpDatabaseOperator {
 	
 	MessageIdDTO getMessageId(Long chatId);
 	MessageIdDTO updateMessageId(Long chatId, Integer lastSent, Integer lastDeleted);
-	Boolean deleteMessageId(Integer chatId);
+	Boolean deleteMessageId(Long chatId);
 
 }

@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MessageIdDTO {
 	
-	private Integer cahtId;
+	private Long cahtId;
 	private Integer lastDeleted;
 	private Integer lastSent;
 }

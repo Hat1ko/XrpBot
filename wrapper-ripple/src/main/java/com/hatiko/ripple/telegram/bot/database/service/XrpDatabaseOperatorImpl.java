@@ -199,7 +199,7 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	}
 
 	@Override
-	public MessageIdDTO getMessageId(Integer chatId) {
+	public MessageIdDTO getMessageId(Long chatId) {
 
 		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(MessageIdEntity::new);
 		MessageIdDTO dto = MessageIdConverter.toDTO(entity);
@@ -207,7 +207,7 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	}
 
 	@Override
-	public MessageIdDTO updateMessageId(Integer chatId, Integer lastSent, Integer lastDeleted) {
+	public MessageIdDTO updateMessageId(Long chatId, Integer lastSent, Integer lastDeleted) {
 
 		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(MessageIdEntity::new);
 
@@ -223,7 +223,7 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	}
 
 	@Override
-	public Boolean deleteMessageId(Integer chatId) {
+	public Boolean deleteMessageId(Long chatId) {
 
 		Optional<MessageIdEntity> entity = messageIdRepo.findById(chatId);
 		if (entity.isEmpty()) {

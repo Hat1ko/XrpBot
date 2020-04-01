@@ -21,7 +21,7 @@ public class GetMessageIdController {
 	private final XrpDatabaseOperator databaseOperator;
 	
 	@GetMapping
-	public ResponseEntity<MessageIdDTO> getMessageId(@RequestParam("chat_id") Integer chatId){
+	public ResponseEntity<MessageIdDTO> getMessageId(@RequestParam("chat_id") Long chatId){
 
 		MessageIdDTO response = databaseOperator.getMessageId(chatId);
 		return ResponseEntity.ok(response);

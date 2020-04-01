@@ -23,7 +23,7 @@ public class MessageIdEntity {
 	@Id
 //	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "chat_id")
-	private Integer chatId;
+	private Long chatId;
 	
 	@Column(name = "last_deleted")
 	private Integer lastDeleted = 0;

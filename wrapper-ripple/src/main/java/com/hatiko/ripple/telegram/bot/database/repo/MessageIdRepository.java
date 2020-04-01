@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hatiko.ripple.telegram.bot.database.model.MessageIdEntity;
 
 @Repository
-public interface MessageIdRepository extends JpaRepository<MessageIdEntity, Integer> {
+public interface MessageIdRepository extends JpaRepository<MessageIdEntity, Long> {
 	
 }
