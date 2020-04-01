@@ -23,6 +23,7 @@ public class SessionServiceImpl implements SessionService {
 	private final XrpDatabaseOperator databaseOperator;
 	private final ResponseMessageOperator responseMessageOperator;
 	private final MessageDeletionService messageDeletionService;
+	private final LongTermOperationService operationService;
 	private List<ChatSession> sessions = new ArrayList<>();
 
 	@Override
@@ -64,6 +65,7 @@ public class SessionServiceImpl implements SessionService {
 			deleteSession(s.getChatId());
 			Integer messageId = responseMessageOperator.responseLogOut(s.getChatId());
 			databaseOperator.updateMessageId(s.getChatId(), messageId, null);
+			operationService.removeOperation(s.getChatId());
 		});
 	}
 }

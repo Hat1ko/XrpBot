@@ -14,22 +14,27 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Component
 public class MessageDeletionService {
-	
+
 	private final XrpDatabaseOperator databaseOperator;
+	private final LongTermOperationService operationService;
 	private final XrpLongPollingBot xrpLongPollingBot;
-	
+
 	public void deleteMessages(Long chatId) {
-		
+
 		MessageIdDTO requestToDelete = databaseOperator.getMessageId(chatId);
-		for(Integer messageId = requestToDelete.getLastDeleted(); messageId <= requestToDelete.getLastSent(); messageId++) {
+		for (Integer messageId = requestToDelete.getLastDeleted(); messageId <= requestToDelete
+				.getLastSent(); messageId++) {
 			xrpLongPollingBot.deleteMessage(chatId, messageId);
 		}
 		databaseOperator.updateMessageId(chatId, requestToDelete.getLastSent(), requestToDelete.getLastSent());
 	}
-	
+
 	@Scheduled(cron = "${telegram.bot.every-day-delete.cron}")
 	public void deleteEachChat() {
-		
-		databaseOperator.getAllMessageIds().stream().forEach(m -> deleteMessages(m.getCahtId()));
+
+		databaseOperator.getAllMessageIds().stream().forEach(m -> {
+			deleteMessages(m.getCahtId());
+			operationService.removeOperation(m.getCahtId());
+		});
 	}
 }
