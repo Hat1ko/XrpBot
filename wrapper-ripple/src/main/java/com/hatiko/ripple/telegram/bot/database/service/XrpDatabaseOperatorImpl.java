@@ -147,7 +147,7 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	public List<AccountLastIdDTO> getAllAccountLastIds() {
 
 		log.info("Getting all account_last_id instances");
-		
+
 		return accountLastIdRepo.findAll().stream().map(AccountLastIdConverter::toDTO).collect(Collectors.toList());
 	}
 
@@ -155,7 +155,7 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	public AccountLastIdDTO getAccountLastIdbyPublicKey(String publicKey) {
 
 		log.info("Gettion account by public key : {}", publicKey);
-		
+
 		return AccountLastIdConverter.toDTO(accountLastIdRepo.findOneByPublicKey(publicKey));
 	}
 
@@ -163,37 +163,38 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	public AccountLastIdDTO updateData(AccountLastIdDTO accountLastIdDTO) {
 
 		AccountLastIdEntity entity = AccountLastIdConverter.toEntity(accountLastIdDTO);
-		
+
 		AccountLastIdEntity searchForId = accountLastIdRepo.findOneByPublicKey(accountLastIdDTO.getPublicKey());
 
-		log.info("Searching for id response | public key : {}, id : {}", searchForId.getPublicKey(), searchForId.getId());
-		
+		log.info("Searching for id response | public key : {}, id : {}", searchForId.getPublicKey(),
+				searchForId.getId());
+
 		entity.setId(searchForId.getId());
-		
+
 		AccountLastIdEntity response = accountLastIdRepo.save(entity);
-		
+
 		return AccountLastIdConverter.toDTO(response);
 	}
 
 	@Override
 	public Boolean deleteAccountLastIdByPublicKey(String publicKey) {
-		
+
 		AccountLastIdEntity entityToDelete = accountLastIdRepo.findOneByPublicKey(publicKey);
-		
+
 		log.info("Deleting account_last_id | public key : {}", publicKey);
-		
-		if(Optional.ofNullable(entityToDelete).isEmpty()) {
-			
+
+		if (Optional.ofNullable(entityToDelete).isEmpty()) {
+
 			log.info("instance doesnt exist | public key : {}", publicKey);
 			return Boolean.TRUE;
 		}
-		
+
 		accountLastIdRepo.delete(entityToDelete);
-		
+
 		Boolean status = Optional.ofNullable(accountLastIdRepo.findOneByPublicKey(publicKey)).isEmpty();
-		
+
 		log.info("Deletion status | public key : {}, status : {}", publicKey, status);
-		
+
 		return status;
 	}
 
@@ -206,9 +207,10 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	}
 
 	@Override
-	public MessageIdDTO updateMessageId(MessageIdDTO messageIdDTO) {
-		
-		MessageIdEntity entity = MessageIdConverter.toEntity(messageIdDTO);
+	public MessageIdDTO updateMessageId(Integer chatId, Integer lastSent) {
+
+		MessageIdEntity entity = messageIdRepo.findById(chatId)
+				.orElseGet(() -> MessageIdEntity.builder().chatId(chatId).lastSent(lastSent).lastDeleted(0).build());
 		return MessageIdConverter.toDTO(messageIdRepo.save(entity));
 	}
 
@@ -216,10 +218,10 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	public Boolean deleteMessageId(Integer chatId) {
 
 		MessageIdEntity entity = messageIdRepo.findById(chatId).get();
-		if(Objects.isNull(entity)) {
+		if (Objects.isNull(entity)) {
 			return Boolean.TRUE;
 		}
-		
+
 		messageIdRepo.delete(entity);
 		return Objects.isNull(messageIdRepo.findById(chatId));
 	}
