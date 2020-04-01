@@ -62,7 +62,8 @@ public class SessionServiceImpl implements SessionService {
 //		sessions.removeIf(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L);
 		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L).forEach(s -> {
 			deleteSession(s.getChatId());
-			responseMessageOperator.responseLogOut(s.getChatId());
+			Integer messageId = responseMessageOperator.responseLogOut(s.getChatId());
+			//TODO: add message
 		});
 	}
 }
