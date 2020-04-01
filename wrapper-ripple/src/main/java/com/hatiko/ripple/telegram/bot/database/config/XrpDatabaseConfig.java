@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(	basePackages = "com.hatiko.ripple.database.repo", 
+@EnableJpaRepositories(	basePackages = "com.hatiko.ripple.telegram.bot.database.repo", 
 						entityManagerFactoryRef = "xrpDatabaseEntityManager", 
 						transactionManagerRef = "userTransactionManager")
 public class XrpDatabaseConfig {
@@ -44,13 +44,13 @@ public class XrpDatabaseConfig {
 		LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
 
 		entityManager.setDataSource(xrpDatabaseDataSource());
-		entityManager.setPackagesToScan(new String[] { Constants.USER_PACKAGE });
+		entityManager.setPackagesToScan(new String[] { Constants.MODEL_PACKAGE });
 		entityManager.setPersistenceUnitName(Constants.JPA_UNIT_XRP_DATABASE);
 		entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
 		Map<String, Object> properties = new HashMap<>();
 		properties.put("hibernate.dialect", env.getProperty("database.jpa.properties.hibernate.dialect"));
-		properties.put("hibernate.show-sql", env.getProperty("database.adress.jpa.show-sql"));
+		properties.put("hibernate.show-sql", env.getProperty("database.jpa.show-sql"));
 
 		entityManager.setJpaPropertyMap(properties);
 		entityManager.afterPropertiesSet();

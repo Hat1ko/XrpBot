@@ -7,7 +7,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 
 //@EnableScheduling
 //@EnableAutoConfiguration
-//@ComponentScan({"com.hatiko.ripple.telegram.bot.core.repository"})
+//@ComponentScan({"com.hatiko.ripple.telegram.bot.database.repo"})
 @SpringBootApplication
 public class WrapperRippleApplication {
     public static void main(String[] args) {
