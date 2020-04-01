@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "")
+@Entity(name = "message_id")
 public class MessageIdEntity {
 
 	@Id
