@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableJpaRepositories(	basePackages = "com.hatiko.ripple.telegram.bot.database.repo", 
 						entityManagerFactoryRef = "xrpDatabaseEntityManager", 
-						transactionManagerRef = "userTransactionManager")
+						transactionManagerRef = "xrpDatabaseTransactionManager")
 public class XrpDatabaseConfig {
 
 	@Autowired
