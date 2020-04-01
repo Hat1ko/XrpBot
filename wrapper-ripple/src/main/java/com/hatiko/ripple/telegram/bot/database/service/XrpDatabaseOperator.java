@@ -3,6 +3,7 @@ package com.hatiko.ripple.telegram.bot.database.service;
 import java.util.List;
 
 import com.hatiko.ripple.telegram.bot.database.dto.AccountLastIdDTO;
+import com.hatiko.ripple.telegram.bot.database.dto.MessageIdDTO;
 import com.hatiko.ripple.telegram.bot.database.dto.UserDTO;
 
 public interface XrpDatabaseOperator {
@@ -22,4 +23,10 @@ public interface XrpDatabaseOperator {
 	AccountLastIdDTO updateData(AccountLastIdDTO accountLastIdDTO);
 	
 	Boolean deleteAccountLastIdByPublicKey(String publicKey);
+	
+	MessageIdDTO getMessageId(Integer chatId);
+	MessageIdDTO updateMessageId(MessageIdDTO messageIdDTO);
+	Boolean deleteMessageId(Integer chatId);
+	
+	
 }

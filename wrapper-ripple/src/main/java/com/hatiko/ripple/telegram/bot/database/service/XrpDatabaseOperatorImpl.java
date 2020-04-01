@@ -1,6 +1,7 @@
 package com.hatiko.ripple.telegram.bot.database.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -9,13 +10,17 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hatiko.ripple.telegram.bot.database.converter.AccountLastIdConverter;
+import com.hatiko.ripple.telegram.bot.database.converter.MessageIdConverter;
 import com.hatiko.ripple.telegram.bot.database.converter.UserConverter;
 import com.hatiko.ripple.telegram.bot.database.dto.AccountLastIdDTO;
+import com.hatiko.ripple.telegram.bot.database.dto.MessageIdDTO;
 import com.hatiko.ripple.telegram.bot.database.dto.UserDTO;
 import com.hatiko.ripple.telegram.bot.database.model.AccountLastIdEntity;
+import com.hatiko.ripple.telegram.bot.database.model.MessageIdEntity;
 import com.hatiko.ripple.telegram.bot.database.model.UserEntity;
 import com.hatiko.ripple.telegram.bot.database.repo.AccountLastIdRepository;
-import com.hatiko.ripple.telegram.bot.database.repo.UserRepo;
+import com.hatiko.ripple.telegram.bot.database.repo.MessageIdRepository;
+import com.hatiko.ripple.telegram.bot.database.repo.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 
-	private final UserRepo userRepo;
+	private final UserRepository userRepo;
 	private final AccountLastIdRepository accountLastIdRepo;
+	private final MessageIdRepository messageIdRepo;
 	private final ObjectMapper objectMapper;
 
 	@Override
@@ -189,5 +195,32 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 		log.info("Deletion status | public key : {}, status : {}", publicKey, status);
 		
 		return status;
+	}
+
+	@Override
+	public MessageIdDTO getMessageId(Integer chatId) {
+
+		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(null);
+		MessageIdDTO dto = Objects.isNull(entity) ? null : MessageIdConverter.toDTO(entity);
+		return dto;
+	}
+
+	@Override
+	public MessageIdDTO updateMessageId(MessageIdDTO messageIdDTO) {
+		
+		MessageIdEntity entity = MessageIdConverter.toEntity(messageIdDTO);
+		return MessageIdConverter.toDTO(messageIdRepo.save(entity));
+	}
+
+	@Override
+	public Boolean deleteMessageId(Integer chatId) {
+
+		MessageIdEntity entity = messageIdRepo.findById(chatId).get();
+		if(Objects.isNull(entity)) {
+			return Boolean.TRUE;
+		}
+		
+		messageIdRepo.delete(entity);
+		return Objects.isNull(messageIdRepo.findById(chatId));
 	}
 }
