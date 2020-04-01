@@ -202,27 +202,35 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	public MessageIdDTO getMessageId(Integer chatId) {
 
 		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(null);
-		MessageIdDTO dto = Objects.isNull(entity) ? null : MessageIdConverter.toDTO(entity);
+		MessageIdDTO dto = Objects.isNull(entity) ? new MessageIdDTO() : MessageIdConverter.toDTO(entity);
 		return dto;
 	}
 
 	@Override
-	public MessageIdDTO updateMessageId(Integer chatId, Integer lastSent) {
+	public MessageIdDTO updateMessageId(Integer chatId, Integer lastSent, Integer lastDeleted) {
 
-		MessageIdEntity entity = messageIdRepo.findById(chatId)
-				.orElseGet(() -> MessageIdEntity.builder().chatId(chatId).lastSent(lastSent).lastDeleted(0).build());
+		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(() -> new MessageIdEntity());
+
+		entity.setChatId(chatId);
+		if (Optional.ofNullable(lastSent).isPresent()) {
+			entity.setLastSent(lastSent);
+		}
+		if (Optional.ofNullable(lastDeleted).isPresent()) {
+			entity.setLastDeleted(lastDeleted);
+		}
+
 		return MessageIdConverter.toDTO(messageIdRepo.save(entity));
 	}
 
 	@Override
 	public Boolean deleteMessageId(Integer chatId) {
 
-		MessageIdEntity entity = messageIdRepo.findById(chatId).get();
-		if (Objects.isNull(entity)) {
+		Optional<MessageIdEntity> entity = messageIdRepo.findById(chatId);
+		if (entity.isEmpty()) {
 			return Boolean.TRUE;
 		}
 
-		messageIdRepo.delete(entity);
-		return Objects.isNull(messageIdRepo.findById(chatId));
+		messageIdRepo.delete(entity.get());
+		return messageIdRepo.findById(chatId).isEmpty();
 	}
 }

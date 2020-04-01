@@ -19,11 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 public class UpdateMessageIdController {
 
 	private final XrpDatabaseOperator databaseOperator;
-	
+
 	@PutMapping
-	public ResponseEntity<MessageIdDTO> updateMessageId(@RequestParam("chat_id") Integer chatId, @RequestParam("last_sent") Integer lastSent){
-		
-		MessageIdDTO response = databaseOperator.updateMessageId(chatId, lastSent);
+	public ResponseEntity<MessageIdDTO> updateMessageId(@RequestParam(name = "chat_id") Integer chatId,
+			@RequestParam(name = "last_sent", required = false) Integer lastSent,
+			@RequestParam(name = "last_deleted", required = false) Integer lastDeleted) {
+
+		MessageIdDTO response = databaseOperator.updateMessageId(chatId, lastSent, lastDeleted);
 		return ResponseEntity.ok(response);
 	}
 }

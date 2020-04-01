@@ -21,13 +21,13 @@ import lombok.NoArgsConstructor;
 public class MessageIdEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "chat_id")
 	private Integer chatId;
 	
 	@Column(name = "last_deleted")
-	private Integer lastDeleted;
+	private Integer lastDeleted = 0;
 	@Column(name = "last_sent")
-	private Integer lastSent;
+	private Integer lastSent = 0;
 	
 }
