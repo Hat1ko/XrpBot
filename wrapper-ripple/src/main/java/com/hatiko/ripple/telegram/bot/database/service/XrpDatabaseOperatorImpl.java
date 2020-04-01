@@ -201,15 +201,15 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	@Override
 	public MessageIdDTO getMessageId(Integer chatId) {
 
-		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(null);
-		MessageIdDTO dto = Objects.isNull(entity) ? new MessageIdDTO() : MessageIdConverter.toDTO(entity);
+		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(MessageIdEntity::new);
+		MessageIdDTO dto = MessageIdConverter.toDTO(entity);
 		return dto;
 	}
 
 	@Override
 	public MessageIdDTO updateMessageId(Integer chatId, Integer lastSent, Integer lastDeleted) {
 
-		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(() -> new MessageIdEntity());
+		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(MessageIdEntity::new);
 
 		entity.setChatId(chatId);
 		if (Optional.ofNullable(lastSent).isPresent()) {
