@@ -64,21 +64,64 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	}
 
 	@Override
-	public Integer responseLogIn(Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer responseLogIn(Long chatId, Integer operationCounter, Boolean logInStatus) {
+
+		String responseMessage = null;
+		if (operationCounter.equals(0)) {
+			responseMessage = messageProperties.getLogIn().get(operationCounter);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(1)) {
+			responseMessage = messageProperties.getLogIn().get(operationCounter);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(2)) {
+			if (logInStatus) {
+				responseMessage = messageProperties.getLogIn().get(operationCounter);
+			} else {
+				responseMessage = messageProperties.getLogIn().get(operationCounter + 1);
+			}
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		}
+		return responseErrorMessage(actionProperties.getMethodName().getLogIn(), chatId);
 	}
 
 	@Override
 	public Integer responseLogOut(Long chatId) {
 
-		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getLogOut(), keyboardPreparator.getMainKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getLogOut(),
+				keyboardPreparator.getMainKeyboard());
 	}
 
 	@Override
-	public Integer responseRegister(Long chatId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer responseRegister(Long chatId, Integer operationCounter, Boolean registerStatus) {
+
+		String responseMessage = null;
+		if (operationCounter.equals(0)) {
+			responseMessage = messageProperties.getRegister().get(operationCounter);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(1)) {
+			responseMessage = messageProperties.getRegister().get(operationCounter);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(2)) {
+			responseMessage = messageProperties.getRegister().get(operationCounter);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(3)) {
+			responseMessage = messageProperties.getRegister().get(operationCounter);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
+		}
+		if (operationCounter.equals(4)) {
+			if (registerStatus) {
+				responseMessage = messageProperties.getRegister().get(operationCounter);
+			} else {
+				responseMessage = messageProperties.getRegister().get(operationCounter + 1);
+			}
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+		}
+		return responseErrorMessage(actionProperties.getMethodName().getLogIn(), chatId);
 	}
 
 	@Override

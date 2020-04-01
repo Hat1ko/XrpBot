@@ -11,7 +11,7 @@ public interface XrpDatabaseOperator {
 	List<UserDTO> getAllUsers();
 	
 	UserDTO getUserByUsername(String userName);
-	UserDTO registerNewUser(UserDTO userDTO);
+	Boolean registerNewUser(String username, String password, String publicKey, String privateKey);
 	
 	Boolean checkLogIn(String username, String password);
 	Boolean checkRegistryStatus(String username);

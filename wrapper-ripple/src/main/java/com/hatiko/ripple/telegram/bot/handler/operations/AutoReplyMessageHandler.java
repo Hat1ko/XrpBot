@@ -8,12 +8,14 @@ import org.springframework.stereotype.Component;
 
 import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
+import com.hatiko.ripple.telegram.bot.dto.telegram.OperationDTO;
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.service.LongTermOperationService;
 import com.hatiko.ripple.telegram.bot.service.ResponseMessageOperator;
+import com.hatiko.ripple.telegram.bot.service.SessionService;
 import com.hatiko.ripple.wrapper.web.model.BalanceResponse;
 import com.hatiko.ripple.wrapper.web.model.TransactionResponse;
 
@@ -29,6 +31,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 	private final LongTermOperationService operationService;
 	private final ResponseMessageOperator responseMessageOperator;
 	private final XrpDatabaseOperator databaseOperator;
+	private final SessionService sessionService;
 
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -88,10 +91,33 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			}
 			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
 				sentMessageId = responseMessageOperator.responseWithdraw(null, chatId, numOfArgs);
-
+			}
+			if(operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getLogIn())) {
+				sentMessageId = responseMessageOperator.responseLogIn(chatId, numOfArgs, null);
+			}
+			if(operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getRegister())) {
+				sentMessageId = responseMessageOperator.responseRegister(chatId, numOfArgs, null);
+			}
+			
+		}
+		if (response instanceof Boolean) {
+			Boolean status = (Boolean) response;
+			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getLogIn())) {
+				if(status) {
+					OperationDTO oper = operationService.getOperation(chatId);
+					sessionService.createSession(chatId, (String)oper.getParams().get(0), (String)oper.getParams().get(1));
+				}
+				sentMessageId = responseMessageOperator.responseLogIn(chatId, 2, status);
+			}
+			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getRegister())) {
+				if(status) {
+					OperationDTO oper = operationService.getOperation(chatId);
+					sessionService.createSession(chatId, (String)oper.getParams().get(0), (String)oper.getParams().get(1));
+				}
+				sentMessageId = responseMessageOperator.responseRegister(chatId, 4, status);
 			}
 		}
-		
+
 		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

@@ -8,9 +8,9 @@ public interface ResponseMessageOperator {
 	Integer responseNext(Long chatId);
 	Integer responseHelp(Long chatId);
 
-	Integer responseLogIn(Long chatId);
+	Integer responseLogIn(Long chatId, Integer operationCounter, Boolean logInStatus);
 	Integer responseLogOut(Long chatId);
-	Integer responseRegister(Long chatId);
+	Integer responseRegister(Long chatId, Integer operationCounter, Boolean registerStatus);
 	
 	Integer responseGenerateMemo(String walletMemo, Long chatId);
 	Integer responseGetBalance(Object responseObject, Long chatId, Integer operationCounter);

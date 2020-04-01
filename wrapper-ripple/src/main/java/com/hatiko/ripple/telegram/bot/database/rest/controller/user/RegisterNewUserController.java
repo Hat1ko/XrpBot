@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hatiko.ripple.telegram.bot.database.dto.UserDTO;
+import com.hatiko.ripple.telegram.bot.database.rest.dto.response.StatusDTO;
 import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 
 import lombok.RequiredArgsConstructor;
@@ -21,14 +22,15 @@ public class RegisterNewUserController {
 	private final XrpDatabaseOperator userDataBaseOperator;
 
 	@PostMapping
-	public ResponseEntity<UserDTO> registerNewUser(@RequestBody UserDTO newUser) {
+	public ResponseEntity<StatusDTO> registerNewUser(@RequestBody UserDTO newUser) {
 
 		log.info("Request to register a user");
 
-		UserDTO response = userDataBaseOperator.registerNewUser(newUser);
+		Boolean status = userDataBaseOperator.registerNewUser(newUser.getUsername(), newUser.getPassword(),
+				newUser.getPublicKey(), newUser.getPrivateKey());
 
 		log.info("Response from userDataBaseOperator | registered user");
-		
-		return ResponseEntity.ok(response);
+
+		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}
 }

@@ -23,11 +23,13 @@ import lombok.Setter;
 @ConfigurationProperties("telegram.bot.message.response")
 public class ResponseMessageProperties {
 
+	private List<String> logInList;
+	private List<String> registerList;
 	private List<String> getBalanceList;
 	private List<String> getTransactionInfoList;
-	private List<String> getLastTransactionsList;	
+	private List<String> getLastTransactionsList;
 	private List<String> withdrawList;
-	
+
 	@Getter
 	private String start;
 	@Getter
@@ -38,43 +40,51 @@ public class ResponseMessageProperties {
 	private String help;
 	@Getter
 	private String main;
-	@Getter
-	private String register;
-	@Getter
 	private String logIn;
 	@Getter
 	private String logOut;
+	private String register;
 	private String getBalance;
 	private String getTransactionInfo;
 	private String getLastTransactions;
 	private String withdraw;
 	@Getter
 	private String error;
-	
-	private String separator; 
+
+	private String separator;
 
 	@PostConstruct
 	private void prepareLists() {
-		
+
+		logInList = Arrays.asList(logIn.split(separator));
+		registerList = Arrays.asList(register.split(separator));
 		getBalanceList = Arrays.asList(getBalance.split(separator));
 		getTransactionInfoList = Arrays.asList(getTransactionInfo.split(separator));
 		getLastTransactionsList = Arrays.asList(getLastTransactions.split(separator));
 		withdrawList = Arrays.asList(withdraw.split(separator));
 	}
-	
-	public List<String> getGetBalance(){
+
+	public List<String> getLogIn() {
+		return logInList;
+	}
+
+	public List<String> getRegister() {
+		return registerList;
+	}
+
+	public List<String> getGetBalance() {
 		return getBalanceList;
 	}
-	
-	public List<String> getGetTransactionInfo(){
+
+	public List<String> getGetTransactionInfo() {
 		return getTransactionInfoList;
 	}
-	
-	public List<String> getGetLastTransactions(){
+
+	public List<String> getGetLastTransactions() {
 		return getLastTransactionsList;
 	}
-	
-	public List<String> getWithdraw(){
+
+	public List<String> getWithdraw() {
 		return withdrawList;
 	}
 }

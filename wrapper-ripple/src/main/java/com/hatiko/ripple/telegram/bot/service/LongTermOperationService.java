@@ -21,16 +21,17 @@ public class LongTermOperationService {
 	private List<OperationDTO> operations = new ArrayList<>();
 
 	public void removeOperation(Long chatId) {
-		operations.removeIf(oper -> oper.getChatId().equals((int)(long) chatId));
+		operations.removeIf(oper -> oper.getChatId().equals((int) (long) chatId));
 	}
 
 	public void addOpearion(Long chatId, Integer messageId, String operation, Object operator, Method method,
 			Integer argc) {
 
+		removeOperation(chatId);
+		
 		OperationDTO operationDTO = OperationDTO.builder().chatId((int) (long) chatId).messageId(messageId)
 				.operator(operator).method(method).operation(operation).argc(argc).params(new ArrayList<>()).build();
 
-		removeOperation(chatId);
 
 		operations.add(operationDTO);
 	}
@@ -46,7 +47,6 @@ public class LongTermOperationService {
 			oper.getParams().add(argv);
 			if (oper.getArgc().equals(oper.getParams().size())) {
 				try {
-					removeOperation(chatId);
 					return oper.getMethod().invoke(oper.getOperator(), oper.getParams().toArray());
 				} catch (IllegalAccessException e) {
 					log.error(e.getMessage());
@@ -60,10 +60,13 @@ public class LongTermOperationService {
 				}
 			}
 			if (oper.getArgc() < oper.getParams().size()) {
-				removeOperation((long) (int) oper.getChatId());
 				return null;
 			}
 			return oper.getParams().size();
 		}).findAny().get();
+	}
+
+	public OperationDTO getOperation(Long chatId) {
+		return operations.stream().filter(oper -> oper.getChatId().equals((int) (long) chatId)).findAny().get();
 	}
 }

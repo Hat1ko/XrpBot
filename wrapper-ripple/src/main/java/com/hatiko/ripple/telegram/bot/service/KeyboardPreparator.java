@@ -72,7 +72,6 @@ public class KeyboardPreparator {
 		KeyboardButton logOutButton = new KeyboardButton();
 		logOutButton.setText(actionProperties.getButtonOperation().getLogIn());
 		buttons.put(actionProperties.getMethodName().getLogOut(), logOutButton);
-
 		
 		KeyboardButton getBalanceButton = new KeyboardButton();
 		getBalanceButton.setText(actionProperties.getButtonOperation().getGetBalance());
@@ -106,11 +105,16 @@ public class KeyboardPreparator {
 		KeyboardRow firstRow = new KeyboardRow();
 		firstRow.add(buttons.get(actionProperties.getMethodName().getLogIn()));
 
+		
 		KeyboardRow secondRow = new KeyboardRow();
-		secondRow.add(buttons.get(actionProperties.getMethodName().getNext()));
+		secondRow.add(buttons.get(actionProperties.getMethodName().getRegister()));
+		
+		KeyboardRow thirdRow = new KeyboardRow();
+		thirdRow.add(buttons.get(actionProperties.getMethodName().getNext()));
 
 		keyboard.add(firstRow);
 		keyboard.add(secondRow);
+		keyboard.add(thirdRow);
 
 		startKeyboard.setKeyboard(keyboard);
 	}
@@ -132,9 +136,14 @@ public class KeyboardPreparator {
 		KeyboardRow thirdRow = new KeyboardRow();
 		thirdRow.add(buttons.get(actionProperties.getMethodName().getWithdraw()));
 		
+		KeyboardRow forthRow = new KeyboardRow();
+		forthRow.add(buttons.get(actionProperties.getMethodName().getRegister()));
+		forthRow.add(buttons.get(actionProperties.getMethodName().getLogIn()));
+		
 		keyboard.add(firstRow);
 		keyboard.add(secondRow);
 		keyboard.add(thirdRow);
+		keyboard.add(forthRow);
 		
 		mainKeyboard.setKeyboard(keyboard);
 	}

@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 public class HelloMassageHandler implements TelegramMessageHandler {
 
 	private final ActionProperties actionProperties;
-	private final KeyboardPreparator keyboardPreparator;
 	private final ResponseMessageOperator responseMessageOperator;
 	private final XrpDatabaseOperator databaseOperator; 
 	

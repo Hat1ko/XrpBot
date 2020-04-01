@@ -64,8 +64,10 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	}
 
 	@Override
-	public UserDTO registerNewUser(UserDTO userDTO) {
+	public Boolean registerNewUser(String username, String password, String publicKey, String privateKey) {
 
+		UserDTO userDTO = UserDTO.builder().username(username).password(password).publicKey(publicKey)
+				.privateKey(privateKey).build();
 		UserEntity userEntity = UserConverter.toEntity(userDTO);
 
 		try {
@@ -84,7 +86,7 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 
 		UserDTO response = UserConverter.toDTO(entityResponse);
 
-		return response;
+		return Boolean.TRUE;
 	}
 
 	@Override
@@ -203,7 +205,7 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 
 		return messageIdRepo.findAll().stream().map(MessageIdConverter::toDTO).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public MessageIdDTO getMessageId(Long chatId) {
 
@@ -240,5 +242,4 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 		return messageIdRepo.findById(chatId).isEmpty();
 	}
 
-	
 }

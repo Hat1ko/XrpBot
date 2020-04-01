@@ -1,5 +1,6 @@
 package com.hatiko.ripple.telegram.bot.service;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -7,17 +8,22 @@ import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.database.dto.MessageIdDTO;
 import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class MessageDeletionService {
 
 	private final XrpDatabaseOperator databaseOperator;
 	private final LongTermOperationService operationService;
 	private final XrpLongPollingBot xrpLongPollingBot;
+
+	public MessageDeletionService(XrpDatabaseOperator databaseOperator, LongTermOperationService operationService,
+			@Lazy XrpLongPollingBot xrpLongPollingBot) {
+		this.databaseOperator = databaseOperator;
+		this.operationService = operationService;
+		this.xrpLongPollingBot = xrpLongPollingBot;
+	}
 
 	public void deleteMessages(Long chatId) {
 
