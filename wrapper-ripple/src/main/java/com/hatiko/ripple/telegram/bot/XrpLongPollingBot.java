@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
@@ -65,6 +66,18 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 			return execute(sendMessage).getMessageId();
 		} catch (TelegramApiException e) {
 			log.error("Error while sending message : {}", e.getMessage());
+		}
+		return null;
+	}
+
+	public synchronized Boolean deleteMessage(Long chatId, Integer messageId) {
+		
+		DeleteMessage deleteMessage = new DeleteMessage(chatId, messageId);
+
+		try {
+			return execute(deleteMessage);
+		} catch (TelegramApiException e) {
+			log.error("Error while deleting message : {}", e.getMessage());
 		}
 		return null;
 	}

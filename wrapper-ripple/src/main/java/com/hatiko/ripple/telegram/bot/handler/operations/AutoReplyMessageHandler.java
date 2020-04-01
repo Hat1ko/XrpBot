@@ -66,7 +66,7 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		} catch (NullPointerException e) {
 			log.error("Response is null");
 			sentMessageId = responseMessageOperator.responseErrorMessage("autoReply", chatId);
-			databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
+			databaseOperator.updateMessageId(chatId, sentMessageId, null);
 			return;
 		}
 
@@ -92,6 +92,6 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			}
 		}
 		
-		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
+		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

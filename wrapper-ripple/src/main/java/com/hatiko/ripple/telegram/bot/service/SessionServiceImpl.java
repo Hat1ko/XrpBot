@@ -5,7 +5,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +22,7 @@ public class SessionServiceImpl implements SessionService {
 
 	private final XrpDatabaseOperator databaseOperator;
 	private final ResponseMessageOperator responseMessageOperator;
+	private final MessageDeletionService messageDeletionService;
 	private List<ChatSession> sessions = new ArrayList<>();
 
 	@Override
@@ -53,17 +53,17 @@ public class SessionServiceImpl implements SessionService {
 	@Override
 	public void deleteSession(Long chatId) {
 		sessions.removeIf(e -> e.getChatId().equals(chatId));
+		messageDeletionService.deleteMessages(chatId);
 	}
 
 	@Override
 	@Scheduled(cron = "${telegram.bot.session.cron}")
 	public void logOutSessions() {
 
-//		sessions.removeIf(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L);
 		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 15L).forEach(s -> {
 			deleteSession(s.getChatId());
 			Integer messageId = responseMessageOperator.responseLogOut(s.getChatId());
-			//TODO: add message
+			databaseOperator.updateMessageId(s.getChatId(), messageId, null);
 		});
 	}
 }

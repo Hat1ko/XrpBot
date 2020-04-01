@@ -33,6 +33,6 @@ public class StartMessageHandler implements TelegramMessageHandler {
 		Integer sentMessageId = responseMessageOperator.responseStart(telegramUpdate.getMessage().getFrom().getFirstName(),
 				chatId);
 		
-		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
+		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

@@ -24,8 +24,8 @@ public interface XrpDatabaseOperator {
 	
 	Boolean deleteAccountLastIdByPublicKey(String publicKey);
 	
-	MessageIdDTO getMessageId(Integer chatId);
-	MessageIdDTO updateMessageId(Integer chatId, Integer lastSent, Integer lastDeleted);
+	MessageIdDTO getMessageId(Long chatId);
+	MessageIdDTO updateMessageId(Long chatId, Integer lastSent, Integer lastDeleted);
 	Boolean deleteMessageId(Integer chatId);
 
 }

@@ -37,6 +37,6 @@ public class GenerateMemoMessageHandler implements TelegramMessageHandler {
 
 		Integer sentMessageId = responseMessageOperator.responseGenerateMemo(walletMemo,
 				chatId);
-		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
+		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

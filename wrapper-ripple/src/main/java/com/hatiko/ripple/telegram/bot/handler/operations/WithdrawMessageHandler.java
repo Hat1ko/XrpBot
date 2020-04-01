@@ -52,6 +52,6 @@ public class WithdrawMessageHandler implements TelegramMessageHandler {
 		}
 
 		Integer sentMessageId = responseMessageOperator.responseWithdraw(null, chatId, 0);
-		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
+		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

@@ -52,6 +52,6 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 		}
 		
 		Integer sentMessageId = responseMessageOperator.responseGetLastTransactions(null, chatId, 0);
-		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
+		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

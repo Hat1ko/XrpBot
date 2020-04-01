@@ -43,16 +43,14 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 			method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getGetBalance(), String.class);
 			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getGetBalance(), rippleService, method, 1);
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			log.error(e.getMessage());
 			return;
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			log.error(e.getMessage());
 			return;
 		} 
 		
 		Integer sentMessageId = responseMessageOperator.responseGetBalance(null, chatId, 0);
-		databaseOperator.updateMessageId((int)(long)chatId, sentMessageId, null);
+		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }
