@@ -4,14 +4,13 @@ import java.lang.reflect.Method;
 
 import org.springframework.stereotype.Component;
 
-import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
-import com.hatiko.ripple.telegram.bot.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.service.LongTermOperationService;
 import com.hatiko.ripple.telegram.bot.service.ResponseMessageOperator;
+import com.hatiko.ripple.telegram.bot.service.SessionService;
 import com.hatiko.ripple.wrapper.service.RippleService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,9 +23,11 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 	
 	private final ActionProperties actionProperties;
 	private final LongTermOperationService operationService;
+	private final SessionService sessionService;
 	private final RippleService rippleService;
 	private final ResponseMessageOperator responseMessageOperator;
 	private final XrpDatabaseOperator databaseOperator;
+	private final AutoReplyMessageHandler autoReplyMessageHandler;
 	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -37,6 +38,8 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 		
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+		
+		databaseOperator.updateMessageId(chatId, messageId, null);
 		
 		Method method;
 		try {
@@ -49,6 +52,13 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 			log.error(e.getMessage());
 			return;
 		} 
+		
+		if(sessionService.checkSessionExist(chatId)) {
+			String publicKey = sessionService.getSession(chatId).get().getPublicKey();
+			Object response = operationService.insertArgument(publicKey, chatId);
+			autoReplyMessageHandler.operateObject(response, chatId);
+			return;
+		}
 		
 		Integer sentMessageId = responseMessageOperator.responseGetBalance(null, chatId, 0);
 		databaseOperator.updateMessageId(chatId, sentMessageId, null);

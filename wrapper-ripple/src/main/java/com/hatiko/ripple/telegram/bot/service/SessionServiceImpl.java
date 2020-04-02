@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -29,26 +30,31 @@ public class SessionServiceImpl implements SessionService {
 	@Override
 	public Boolean createSession(Long chatId, String username, String password) {
 
-		if(!databaseOperator.checkLogIn(username, password)) {
+		if (!databaseOperator.checkLogIn(username, password)) {
 			return Boolean.FALSE;
 		}
-		
-		if(sessions.stream().filter(s -> s.getChatId().equals(chatId)).findAny().isPresent()) {
+
+		if (sessions.stream().filter(s -> s.getChatId().equals(chatId)).findAny().isPresent()) {
 			return Boolean.FALSE;
 		}
-		
+
 		UserDTO newUser = databaseOperator.getUserByUsername(username);
 		ChatSession session = ChatSession.builder().chatId(chatId).username(username).publicKey(newUser.getPublicKey())
 				.privateKey(newUser.getPrivateKey()).creationTime(LocalDateTime.now()).build();
-		
+
 		sessions.add(session);
-		
+
 		return Boolean.TRUE;
 	}
 
 	@Override
-	public ChatSession getSession(Long chatId) {
-		return sessions.parallelStream().filter(s -> s.getChatId().equals(chatId)).findAny().get();
+	public Optional<ChatSession> getSession(Long chatId) {
+		return sessions.parallelStream().filter(s -> s.getChatId().equals(chatId)).findAny();
+	}
+
+	@Override
+	public Boolean checkSessionExist(Long chatId) {
+		return Optional.ofNullable(getSession(chatId)).isPresent();
 	}
 
 	@Override
@@ -61,11 +67,13 @@ public class SessionServiceImpl implements SessionService {
 	@Scheduled(cron = "${telegram.bot.session.cron}")
 	public void logOutSessions() {
 
-		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 1L).forEach(s -> {
-			deleteSession(s.getChatId());
-			operationService.removeOperation(s.getChatId());
-			Integer messageId = responseMessageOperator.responseLogOut(s.getChatId());
-			databaseOperator.updateMessageId(s.getChatId(), messageId, null);
-		});
+		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 10L)
+				.forEach(s -> {
+					deleteSession(s.getChatId());
+					operationService.removeOperation(s.getChatId());
+					Integer messageId = responseMessageOperator.responseLogOut(s.getChatId());
+					databaseOperator.updateMessageId(s.getChatId(), messageId, null);
+				});
 	}
+
 }

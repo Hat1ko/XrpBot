@@ -43,11 +43,14 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+		
+		databaseOperator.updateMessageId(chatId, messageId, null);
+		
 		String argv = telegramUpdate.getMessage().getText();
 
 		Object argvInteger = null;
 		if (argv.contains(".")
-				|| operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
+				|| actionProperties.getMethodName().getWithdraw().equals(operationService.getMethodName(chatId))) {
 			try {
 				argvInteger = Double.valueOf(argv);
 			} catch (Exception e) {
@@ -60,19 +63,24 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				log.info("Argument is not a number");
 			}
 		}
-
-		Integer sentMessageId = null;
+		
 		Object response;
-
+		
 		try {
 			response = operationService.insertArgument(argvInteger == null ? argv : argvInteger, chatId);
 		} catch (NullPointerException e) {
 			log.error("Response is null");
-			sentMessageId = responseMessageOperator.responseErrorMessage("autoReply", chatId);
+			Integer sentMessageId = responseMessageOperator.responseErrorMessage("autoReply", chatId);
 			databaseOperator.updateMessageId(chatId, sentMessageId, null);
 			return;
 		}
-
+		
+		operateObject(response, chatId);
+	}
+	
+	public void operateObject(Object response, Long chatId) {
+		Integer sentMessageId = null;
+		
 		if (response instanceof BalanceResponse) {
 			sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
 		}
@@ -117,7 +125,6 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				sentMessageId = responseMessageOperator.responseRegister(chatId, 4, status);
 			}
 		}
-
 		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

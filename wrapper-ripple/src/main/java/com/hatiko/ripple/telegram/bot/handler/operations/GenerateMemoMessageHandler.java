@@ -8,7 +8,9 @@ import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.service.KeyboardPreparator;
+import com.hatiko.ripple.telegram.bot.service.LongTermOperationService;
 import com.hatiko.ripple.telegram.bot.service.ResponseMessageOperator;
+import com.hatiko.ripple.telegram.bot.service.SessionService;
 import com.hatiko.ripple.wrapper.service.RippleService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ public class GenerateMemoMessageHandler implements TelegramMessageHandler {
 	private final RippleService rippleService;
 	private final ResponseMessageOperator responseMessageOperator;
 	private final XrpDatabaseOperator databaseOperator;
-
+	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
@@ -33,6 +35,10 @@ public class GenerateMemoMessageHandler implements TelegramMessageHandler {
 		}
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
+		Integer messageId = telegramUpdate.getMessage().getId();
+		
+		databaseOperator.updateMessageId(chatId, messageId, null);
+		
 		String walletMemo = rippleService.generateMemo().getWalletMemo();
 
 		Integer sentMessageId = responseMessageOperator.responseGenerateMemo(walletMemo,

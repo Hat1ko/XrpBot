@@ -24,7 +24,7 @@ public class RegisterMessageHandler implements TelegramMessageHandler {
 	private final XrpDatabaseOperator databaseOperator;
 	private final ResponseMessageOperator messageOperator;
 	private final LongTermOperationService operationService;
-	
+
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getRegister())) {
@@ -33,6 +33,8 @@ public class RegisterMessageHandler implements TelegramMessageHandler {
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+
+		databaseOperator.updateMessageId(chatId, messageId, null);
 		try {
 			Method method = XrpDatabaseOperator.class.getDeclaredMethod(actionProperties.getMethodName().getRegister(),
 					String.class, String.class, String.class, String.class);

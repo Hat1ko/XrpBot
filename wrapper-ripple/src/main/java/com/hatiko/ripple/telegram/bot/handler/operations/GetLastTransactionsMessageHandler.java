@@ -10,6 +10,7 @@ import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.service.LongTermOperationService;
 import com.hatiko.ripple.telegram.bot.service.ResponseMessageOperator;
+import com.hatiko.ripple.telegram.bot.service.SessionService;
 import com.hatiko.ripple.wrapper.service.TransactionService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,11 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 
 	private final ActionProperties actionProperties;
 	private final LongTermOperationService operationService;
+	private final SessionService sessionService;
 	private final TransactionService transactionService;
 	private final ResponseMessageOperator responseMessageOperator;
 	private final XrpDatabaseOperator databaseOperator;
+	private final AutoReplyMessageHandler autoReplyMessageHandler;
 	
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
@@ -37,6 +40,8 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
 
+		databaseOperator.updateMessageId(chatId, messageId, null);
+		
 		try {
 			Method method = TransactionService.class
 					.getDeclaredMethod(actionProperties.getMethodName().getGetLastTransactions(),
@@ -48,6 +53,13 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 			return;
 		} catch (SecurityException e) {
 			log.error(e.getMessage());
+			return;
+		}
+		
+		if(sessionService.checkSessionExist(chatId)) {
+			String publicKey = sessionService.getSession(chatId).get().getPublicKey();
+			Object response = operationService.insertArgument(publicKey, chatId);
+			autoReplyMessageHandler.operateObject(response, chatId);
 			return;
 		}
 		

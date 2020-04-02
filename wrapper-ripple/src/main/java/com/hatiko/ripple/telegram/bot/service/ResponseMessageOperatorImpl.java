@@ -22,13 +22,16 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	private final ActionProperties actionProperties;
 	private final KeyboardPreparator keyboardPreparator;
 	private final ResponseMessageProperties messageProperties;
+	private final SessionService sessionService;
 
 	public ResponseMessageOperatorImpl(@Lazy XrpLongPollingBot xrpLongPollingBot, ActionProperties actionProperties,
-			KeyboardPreparator keyboardPreparator, ResponseMessageProperties messageProperties) {
+			KeyboardPreparator keyboardPreparator, ResponseMessageProperties messageProperties,
+			@Lazy SessionService sessionService) {
 		this.xrpLongPollingBot = xrpLongPollingBot;
 		this.actionProperties = actionProperties;
 		this.keyboardPreparator = keyboardPreparator;
 		this.messageProperties = messageProperties;
+		this.sessionService = sessionService;
 	}
 
 	@Override
@@ -48,13 +51,16 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	@Override
 	public Integer responseMain(Long chatId) {
 
-		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getMain(), keyboardPreparator.getMainKeyboard());
+		Boolean logInStatus = sessionService.checkSessionExist(chatId);
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getMain(),
+				keyboardPreparator.getMainKeyboard(logInStatus));
 	}
 
 	@Override
 	public Integer responseNext(Long chatId) {
 
-		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getNext(), keyboardPreparator.getMainKeyboard());
+		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getNext(),
+				keyboardPreparator.getMainKeyboard(Boolean.FALSE));
 	}
 
 	@Override
@@ -81,7 +87,8 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 			} else {
 				responseMessage = messageProperties.getLogIn().get(operationCounter + 1);
 			}
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage,
+					keyboardPreparator.getMainKeyboard(logInStatus));
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getLogIn(), chatId);
 	}
@@ -90,7 +97,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	public Integer responseLogOut(Long chatId) {
 
 		return xrpLongPollingBot.sendMessage(chatId, messageProperties.getLogOut(),
-				keyboardPreparator.getMainKeyboard());
+				keyboardPreparator.getStartKeyboard());
 	}
 
 	@Override
@@ -119,7 +126,8 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 			} else {
 				responseMessage = messageProperties.getRegister().get(operationCounter + 1);
 			}
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage,
+					keyboardPreparator.getMainKeyboard(registerStatus));
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getLogIn(), chatId);
 	}
@@ -127,7 +135,8 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	@Override
 	public Integer responseGenerateMemo(String walletMemo, Long chatId) {
 
-		return xrpLongPollingBot.sendMessage(chatId, walletMemo, keyboardPreparator.getMainKeyboard());
+		Boolean logInStatus = sessionService.checkSessionExist(chatId);
+		return xrpLongPollingBot.sendMessage(chatId, walletMemo, keyboardPreparator.getMainKeyboard(logInStatus));
 	}
 
 	@Override
@@ -141,7 +150,10 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 		if (operationCounter.equals(1)) {
 			responseMessage = String.format(messageProperties.getGetBalance().get(operationCounter),
 					((BalanceResponse) responseObject).getAmount());
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+
+			Boolean logInStatus = sessionService.checkSessionExist(chatId);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage,
+					keyboardPreparator.getMainKeyboard(logInStatus));
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getGetBalance(), chatId);
 	}
@@ -162,7 +174,10 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 			List<TransactionResponse> transactions = (ArrayList<TransactionResponse>) responseObject;
 			responseMessage = String.format(messageProperties.getGetLastTransactions().get(operationCounter),
 					transactions.size());
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+
+			Boolean logInStatus = sessionService.checkSessionExist(chatId);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage,
+					keyboardPreparator.getMainKeyboard(logInStatus));
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getGetLastTransactions(), chatId);
 	}
@@ -188,7 +203,10 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 		if (operationCounter.equals(1)) {
 			responseMessage = String.format(messageProperties.getGetTransactionInfo().get(operationCounter),
 					((TransactionResponse) responseObject).getAmount());
-			return xrpLongPollingBot.sendMessage(chatId, responseMessage, keyboardPreparator.getMainKeyboard());
+
+			Boolean logInStatus = sessionService.checkSessionExist(chatId);
+			return xrpLongPollingBot.sendMessage(chatId, responseMessage,
+					keyboardPreparator.getMainKeyboard(logInStatus));
 		}
 		return responseErrorMessage(actionProperties.getMethodName().getGetTransactionInfo(), chatId);
 	}
@@ -196,8 +214,9 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	@Override
 	public Integer responseErrorMessage(String operation, Long chatId) {
 
+		Boolean logInStatus = sessionService.checkSessionExist(chatId);
 		return xrpLongPollingBot.sendMessage(chatId, String.format(messageProperties.getError(), operation),
-				keyboardPreparator.getMainKeyboard());
+				keyboardPreparator.getMainKeyboard(logInStatus));
 	}
 
 }
