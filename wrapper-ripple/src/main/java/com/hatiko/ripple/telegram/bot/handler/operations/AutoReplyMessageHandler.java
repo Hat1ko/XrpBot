@@ -60,19 +60,24 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				log.info("Argument is not a number");
 			}
 		}
-
-		Integer sentMessageId = null;
+		
 		Object response;
-
+		
 		try {
 			response = operationService.insertArgument(argvInteger == null ? argv : argvInteger, chatId);
 		} catch (NullPointerException e) {
 			log.error("Response is null");
-			sentMessageId = responseMessageOperator.responseErrorMessage("autoReply", chatId);
+			Integer sentMessageId = responseMessageOperator.responseErrorMessage("autoReply", chatId);
 			databaseOperator.updateMessageId(chatId, sentMessageId, null);
 			return;
 		}
-
+		
+		operateObject(response, chatId);
+	}
+	
+	public void operateObject(Object response, Long chatId) {
+		Integer sentMessageId = null;
+		
 		if (response instanceof BalanceResponse) {
 			sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
 		}
