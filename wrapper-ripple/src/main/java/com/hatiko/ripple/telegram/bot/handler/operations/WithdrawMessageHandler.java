@@ -41,6 +41,8 @@ public class WithdrawMessageHandler implements TelegramMessageHandler {
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+		
+		databaseOperator.updateMessageId(chatId, messageId, null);
 
 		try {
 			Method method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getWithdraw(),

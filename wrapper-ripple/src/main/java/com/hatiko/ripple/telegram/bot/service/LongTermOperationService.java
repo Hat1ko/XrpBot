@@ -28,17 +28,16 @@ public class LongTermOperationService {
 			Integer argc) {
 
 		removeOperation(chatId);
-		
+
 		OperationDTO operationDTO = OperationDTO.builder().chatId((int) (long) chatId).messageId(messageId)
 				.operator(operator).method(method).operation(operation).argc(argc).params(new ArrayList<>()).build();
-
 
 		operations.add(operationDTO);
 	}
 
 	public String getMethodName(Long chatId) {
-		return operations.parallelStream().filter(oper -> oper.getChatId().equals((int) (long) chatId)).findAny().get()
-				.getOperation();
+		return operations.parallelStream().filter(oper -> oper.getChatId().equals((int) (long) chatId)).findAny()
+				.orElseGet(OperationDTO::new).getOperation();
 	}
 
 	public Object insertArgument(Object argv, Long chatId) {
@@ -63,7 +62,7 @@ public class LongTermOperationService {
 				return null;
 			}
 			return oper.getParams().size();
-		}).findAny().get();
+		}).findAny().orElseGet(Object::new);
 	}
 
 	public OperationDTO getOperation(Long chatId) {

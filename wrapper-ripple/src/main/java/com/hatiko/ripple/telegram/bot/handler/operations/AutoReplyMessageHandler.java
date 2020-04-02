@@ -43,11 +43,14 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+		
+		databaseOperator.updateMessageId(chatId, messageId, null);
+		
 		String argv = telegramUpdate.getMessage().getText();
 
 		Object argvInteger = null;
 		if (argv.contains(".")
-				|| operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getWithdraw())) {
+				|| actionProperties.getMethodName().getWithdraw().equals(operationService.getMethodName(chatId))) {
 			try {
 				argvInteger = Double.valueOf(argv);
 			} catch (Exception e) {
@@ -122,7 +125,6 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 				sentMessageId = responseMessageOperator.responseRegister(chatId, 4, status);
 			}
 		}
-
 		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

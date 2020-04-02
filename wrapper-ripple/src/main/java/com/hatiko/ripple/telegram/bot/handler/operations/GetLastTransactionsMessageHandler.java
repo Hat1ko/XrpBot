@@ -40,6 +40,8 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
 
+		databaseOperator.updateMessageId(chatId, messageId, null);
+		
 		try {
 			Method method = TransactionService.class
 					.getDeclaredMethod(actionProperties.getMethodName().getGetLastTransactions(),

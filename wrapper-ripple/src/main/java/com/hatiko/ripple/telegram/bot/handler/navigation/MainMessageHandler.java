@@ -21,7 +21,7 @@ public class MainMessageHandler implements TelegramMessageHandler {
 	private final ActionProperties actionProperties;
 	private final ResponseMessageOperator responseMessageOperator;
 	private final XrpDatabaseOperator databaseOperator;
-	
+
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
@@ -30,6 +30,10 @@ public class MainMessageHandler implements TelegramMessageHandler {
 		}
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
+		Integer messageId = telegramUpdate.getMessage().getId();
+
+		databaseOperator.updateMessageId(chatId, messageId, null);
+
 		Integer sentMessageId = responseMessageOperator.responseMain(chatId);
 		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}

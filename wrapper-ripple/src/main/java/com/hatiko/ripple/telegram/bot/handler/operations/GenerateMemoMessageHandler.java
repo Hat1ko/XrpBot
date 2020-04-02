@@ -35,6 +35,10 @@ public class GenerateMemoMessageHandler implements TelegramMessageHandler {
 		}
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
+		Integer messageId = telegramUpdate.getMessage().getId();
+		
+		databaseOperator.updateMessageId(chatId, messageId, null);
+		
 		String walletMemo = rippleService.generateMemo().getWalletMemo();
 
 		Integer sentMessageId = responseMessageOperator.responseGenerateMemo(walletMemo,

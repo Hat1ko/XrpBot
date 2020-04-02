@@ -19,9 +19,9 @@ public class HelloMassageHandler implements TelegramMessageHandler {
 
 	private final ActionProperties actionProperties;
 	private final ResponseMessageOperator responseMessageOperator;
-	private final XrpDatabaseOperator databaseOperator; 
+	private final XrpDatabaseOperator databaseOperator;
 	private final SessionService sessionService;
-	
+
 	@Override
 	public void handle(TelegramUpdate telegramUpdate) {
 
@@ -30,11 +30,14 @@ public class HelloMassageHandler implements TelegramMessageHandler {
 		}
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
+		Integer messageId = telegramUpdate.getMessage().getId();
+
+		databaseOperator.updateMessageId(chatId, messageId, null);
 
 		sessionService.deleteSession(chatId);
-		
-		Integer sentMessageId = responseMessageOperator.responseHello(telegramUpdate.getMessage().getFrom().getFirstName(),
-				chatId);
+
+		Integer sentMessageId = responseMessageOperator
+				.responseHello(telegramUpdate.getMessage().getFrom().getFirstName(), chatId);
 		databaseOperator.updateMessageId(chatId, sentMessageId, null);
 	}
 }

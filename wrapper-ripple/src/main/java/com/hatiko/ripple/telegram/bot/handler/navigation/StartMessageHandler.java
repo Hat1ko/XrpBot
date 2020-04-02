@@ -30,6 +30,9 @@ public class StartMessageHandler implements TelegramMessageHandler {
 		}
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
+		Integer messageId = telegramUpdate.getMessage().getId();
+		
+		databaseOperator.updateMessageId(chatId, messageId, null);
 		
 		sessionService.deleteSession(chatId);
 		

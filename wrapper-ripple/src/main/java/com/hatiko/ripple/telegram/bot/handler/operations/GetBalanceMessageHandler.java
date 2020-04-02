@@ -39,6 +39,8 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
 		
+		databaseOperator.updateMessageId(chatId, messageId, null);
+		
 		Method method;
 		try {
 			method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getGetBalance(), String.class);
