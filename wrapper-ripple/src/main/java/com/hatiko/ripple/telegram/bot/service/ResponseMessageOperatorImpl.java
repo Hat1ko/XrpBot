@@ -25,7 +25,7 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 	private final SessionService sessionService;
 
 	public ResponseMessageOperatorImpl(@Lazy XrpLongPollingBot xrpLongPollingBot, ActionProperties actionProperties,
-			KeyboardPreparator keyboardPreparator, ResponseMessageProperties messageProperties,
+			KeyboardPreparator keyboardPreparator, @Lazy ResponseMessageProperties messageProperties,
 			SessionService sessionService) {
 		this.xrpLongPollingBot = xrpLongPollingBot;
 		this.actionProperties = actionProperties;
