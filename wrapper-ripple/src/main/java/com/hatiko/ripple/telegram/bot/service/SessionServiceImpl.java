@@ -67,7 +67,7 @@ public class SessionServiceImpl implements SessionService {
 	@Scheduled(cron = "${telegram.bot.session.cron}")
 	public void logOutSessions() {
 
-		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 1L)
+		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 10L)
 				.forEach(s -> {
 					deleteSession(s.getChatId());
 					operationService.removeOperation(s.getChatId());

@@ -28,7 +28,7 @@ public class MessageDeletionService {
 	public void deleteMessages(Long chatId) {
 
 		MessageIdDTO requestToDelete = databaseOperator.getMessageId(chatId);
-		for (Integer messageId = requestToDelete.getLastDeleted() + 1; messageId <= requestToDelete
+		for (Integer messageId = requestToDelete.getLastDeleted(); messageId <= requestToDelete
 				.getLastSent(); messageId++) {
 			xrpLongPollingBot.deleteMessage(chatId, messageId);
 		}
