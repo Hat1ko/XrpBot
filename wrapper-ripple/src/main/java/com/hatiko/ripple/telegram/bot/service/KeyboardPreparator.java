@@ -26,21 +26,7 @@ public class KeyboardPreparator {
 	private final ActionProperties actionProperties;
 	private Map<String, KeyboardButton> buttons;
 
-	@Getter
-	private ReplyKeyboardMarkup startKeyboard;
-	@Getter
-	private ReplyKeyboardMarkup mainKeyboard;
-	@Getter
-	private ReplyKeyboardMarkup logInKeyboard;
-
 	@PostConstruct
-	private void prepareKeyboards() {
-		createButtons();
-		createStartKeyboard();
-		createMainKeyboard();
-		createLogInKeyboard();
-	}
-
 	private void createButtons() {
 
 		buttons = new HashMap<String, KeyboardButton>();
@@ -64,7 +50,7 @@ public class KeyboardPreparator {
 		KeyboardButton registerButton = new KeyboardButton();
 		registerButton.setText(actionProperties.getButtonOperation().getRegister());
 		buttons.put(actionProperties.getMethodName().getRegister(), registerButton);
-		
+
 		KeyboardButton logInButton = new KeyboardButton();
 		logInButton.setText(actionProperties.getButtonOperation().getLogIn());
 		buttons.put(actionProperties.getMethodName().getLogIn(), logInButton);
@@ -72,7 +58,7 @@ public class KeyboardPreparator {
 		KeyboardButton logOutButton = new KeyboardButton();
 		logOutButton.setText(actionProperties.getButtonOperation().getLogIn());
 		buttons.put(actionProperties.getMethodName().getLogOut(), logOutButton);
-		
+
 		KeyboardButton getBalanceButton = new KeyboardButton();
 		getBalanceButton.setText(actionProperties.getButtonOperation().getGetBalance());
 		buttons.put(actionProperties.getMethodName().getGetBalance(), getBalanceButton);
@@ -96,19 +82,18 @@ public class KeyboardPreparator {
 		buttons.put(actionProperties.getMethodName().getWithdraw(), withdrawButton);
 	}
 
-	private void createStartKeyboard() {
+	public ReplyKeyboardMarkup getStartKeyboard() {
 
-		startKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+		ReplyKeyboardMarkup startKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
 
 		List<KeyboardRow> keyboard = new ArrayList<>();
 
 		KeyboardRow firstRow = new KeyboardRow();
 		firstRow.add(buttons.get(actionProperties.getMethodName().getLogIn()));
 
-		
 		KeyboardRow secondRow = new KeyboardRow();
 		secondRow.add(buttons.get(actionProperties.getMethodName().getRegister()));
-		
+
 		KeyboardRow thirdRow = new KeyboardRow();
 		thirdRow.add(buttons.get(actionProperties.getMethodName().getNext()));
 
@@ -117,54 +102,65 @@ public class KeyboardPreparator {
 		keyboard.add(thirdRow);
 
 		startKeyboard.setKeyboard(keyboard);
+
+		return startKeyboard;
 	}
 
-	private void createMainKeyboard() {
-		
-		mainKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
-		
+	public ReplyKeyboardMarkup getMainKeyboard(Boolean logInStatus) {
+
+		ReplyKeyboardMarkup mainKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+
 		List<KeyboardRow> keyboard = new ArrayList<>();
-		
+
 		KeyboardRow firstRow = new KeyboardRow();
 		firstRow.add(buttons.get(actionProperties.getMethodName().getGetBalance()));
 		firstRow.add(buttons.get(actionProperties.getMethodName().getGetLastTransactions()));
-		
+
 		KeyboardRow secondRow = new KeyboardRow();
 		secondRow.add(buttons.get(actionProperties.getMethodName().getGetTransactionInfo()));
 		secondRow.add(buttons.get(actionProperties.getMethodName().getGenerateMemo()));
-		
+
 		KeyboardRow thirdRow = new KeyboardRow();
 		thirdRow.add(buttons.get(actionProperties.getMethodName().getWithdraw()));
-		
+		if (logInStatus) {
+			thirdRow.add(buttons.get(actionProperties.getMethodName().getLogOut()));
+		}
+
 		KeyboardRow forthRow = new KeyboardRow();
 		forthRow.add(buttons.get(actionProperties.getMethodName().getRegister()));
 		forthRow.add(buttons.get(actionProperties.getMethodName().getLogIn()));
-		
+
 		keyboard.add(firstRow);
 		keyboard.add(secondRow);
 		keyboard.add(thirdRow);
-		keyboard.add(forthRow);
-		
+		if (!logInStatus) {
+			keyboard.add(forthRow);
+		}
+
 		mainKeyboard.setKeyboard(keyboard);
+
+		return mainKeyboard;
 	}
 
-	private void createLogInKeyboard() {
-		logInKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
-		
+	public ReplyKeyboardMarkup getLogInKeyboard() {
+
+		ReplyKeyboardMarkup logInKeyboard = configKeyboard(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+
 		List<KeyboardRow> keyboard = new ArrayList<>();
-		
+
 		KeyboardRow firstRow = new KeyboardRow();
 		firstRow.add(buttons.get(actionProperties.getMethodName().getLogIn()));
 		firstRow.add(buttons.get(actionProperties.getMethodName().getRegister()));
-		
+
 		KeyboardRow secondRow = new KeyboardRow();
 		secondRow.add(buttons.get(actionProperties.getMethodName().getMain()));
-		
-		
+
 		keyboard.add(firstRow);
 		keyboard.add(secondRow);
-		
+
 		logInKeyboard.setKeyboard(keyboard);
+
+		return logInKeyboard;
 	}
 
 	private ReplyKeyboardMarkup configKeyboard(Boolean selective, Boolean resizeKeyboard, Boolean oneTimeKeyboard) {
