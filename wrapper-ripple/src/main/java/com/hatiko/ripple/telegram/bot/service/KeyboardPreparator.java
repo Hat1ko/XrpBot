@@ -56,7 +56,7 @@ public class KeyboardPreparator {
 		buttons.put(actionProperties.getMethodName().getLogIn(), logInButton);
 
 		KeyboardButton logOutButton = new KeyboardButton();
-		logOutButton.setText(actionProperties.getButtonOperation().getLogIn());
+		logOutButton.setText(actionProperties.getButtonOperation().getLogOut());
 		buttons.put(actionProperties.getMethodName().getLogOut(), logOutButton);
 
 		KeyboardButton getBalanceButton = new KeyboardButton();
