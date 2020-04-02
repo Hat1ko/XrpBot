@@ -48,8 +48,8 @@ public class SessionServiceImpl implements SessionService {
 	}
 
 	@Override
-	public ChatSession getSession(Long chatId) {
-		return sessions.parallelStream().filter(s -> s.getChatId().equals(chatId)).findAny().get();
+	public Optional<ChatSession> getSession(Long chatId) {
+		return sessions.parallelStream().filter(s -> s.getChatId().equals(chatId)).findAny();
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 		} 
 		
 		if(sessionService.checkSessionExist(chatId)) {
-			String publicKey = sessionService.getSession(chatId).getPublicKey();
+			String publicKey = sessionService.getSession(chatId).get().getPublicKey();
 			Object response = operationService.insertArgument(publicKey, chatId);
 			autoReplyMessageHandler.operateObject(response, chatId);
 			return;

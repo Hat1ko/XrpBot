@@ -58,7 +58,7 @@ public class WithdrawMessageHandler implements TelegramMessageHandler {
 		if (sessionService.checkSessionExist(chatId)) {
 			if (sessionService.checkSessionExist(chatId)) {
 				
-				ChatSession session = sessionService.getSession(chatId);
+				ChatSession session = sessionService.getSession(chatId).get();
 				
 				String publicKey = session.getPublicKey();
 				String privateKey = session.getPrivateKey();
