@@ -27,6 +27,8 @@ public class MessageDeletionService {
 
 	public void deleteMessages(Long chatId) {
 
+		log.info("Deleting messages for chatId = {}", chatId);
+		
 		MessageIdDTO requestToDelete = databaseOperator.getMessageId(chatId);
 		for (Integer messageId = requestToDelete.getLastDeleted(); messageId <= requestToDelete
 				.getLastSent(); messageId++) {
@@ -38,6 +40,7 @@ public class MessageDeletionService {
 	@Scheduled(cron = "${telegram.bot.every-day-delete.cron}")
 	public void deleteEachChat() {
 
+		log.info("Deleting each chat");
 		databaseOperator.getAllMessageIds().stream().forEach(m -> {
 			deleteMessages(m.getCahtId());
 			operationService.removeOperation(m.getCahtId());

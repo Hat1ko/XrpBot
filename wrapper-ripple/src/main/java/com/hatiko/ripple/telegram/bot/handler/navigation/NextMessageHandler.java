@@ -32,6 +32,8 @@ public class NextMessageHandler implements TelegramMessageHandler {
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
 
+		log.info("Next button triggered by chatId = {}, messageId = {}", chatId, messageId);
+		
 		databaseOperator.updateMessageId(chatId, messageId, null);
 
 		Integer sentMessageId = responseMessageOperator.responseNext(chatId);

@@ -28,7 +28,7 @@ public class UpdateAccountLastIdController {
 
 		AccountLastIdDTO response = databaseOperator.updateData(request);
 
-		log.info("Response to update data | public key : {}, last id : {}, last ledger : {}", response.getPublicKey(),
+		log.info("PUT Response to update data | public key : {}, last id : {}, last ledger : {}", response.getPublicKey(),
 				response.getLastId(), response.getLastLedger());
 		
 		return ResponseEntity.ok(response);

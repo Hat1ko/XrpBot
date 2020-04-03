@@ -27,11 +27,11 @@ public class CheckLogInController {
 		String username = logInDTO.getUsername();
 		String password = logInDTO.getPassword();
 
-		log.info("Request to check log in | username : {}, password : {}", username, password);
+		log.info("POST Request to check log in | username : {}, password : {}", username, password);
 
 		Boolean status = userDataBaseOperator.checkLogIn(username, password);
 
-		log.info("Response status from check log in : {}", status);
+		log.info("POST Response status from check log in : {}", status);
 
 		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}

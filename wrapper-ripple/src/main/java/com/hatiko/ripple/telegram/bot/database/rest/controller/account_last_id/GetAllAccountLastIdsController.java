@@ -26,7 +26,7 @@ public class GetAllAccountLastIdsController {
 		
 		List<AccountLastIdDTO> response = databaseOperator.getAllAccountLastIds();
 		
-		log.info("Response for all account last ids and ledgers | num of items : {}", response.size());
+		log.info("GET Response for all account last ids and ledgers | num of items : {}", response.size());
 		
 		return ResponseEntity.ok(response);
 	}

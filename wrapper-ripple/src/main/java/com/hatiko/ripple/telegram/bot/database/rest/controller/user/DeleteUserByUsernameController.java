@@ -27,11 +27,11 @@ public class DeleteUserByUsernameController {
 		String username = logInDTO.getUsername();
 		String password = logInDTO.getPassword();
 		
-		log.info("Request to delete user | Username : ", username);
+		log.info("DELETE Request to delete user | Username : ", username);
 		
 		Boolean status = userDataBaseOperator.deleteUserByUsername(username, password);
 		
-		log.info("Response status of deleting user : {} | username : {}", status, username);
+		log.info("DELETE Response status of deleting user : {} | username : {}", status, username);
 		
 		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}

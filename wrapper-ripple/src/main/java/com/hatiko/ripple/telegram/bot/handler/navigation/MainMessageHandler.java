@@ -31,7 +31,9 @@ public class MainMessageHandler implements TelegramMessageHandler {
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
-
+		
+		log.info("Main button triggered by chatId = {}, messageId = {}", chatId, messageId);
+		
 		databaseOperator.updateMessageId(chatId, messageId, null);
 
 		Integer sentMessageId = responseMessageOperator.responseMain(chatId);

@@ -26,11 +26,11 @@ public class CheckRegistryStatusController {
 	@GetMapping
 	public ResponseEntity<StatusDTO> checkRegistryStatus(@Valid @NotNull @RequestParam("username") String username){
 		
-		log.info("Check registry status for username");
+		log.info("GET Request to check registry status for username");
 		
 		Boolean status = userDataBaseOperator.checkRegistryStatus(username);
 
-		log.info("Response status from check registry status : {}", status);
+		log.info("GET Response status from check registry status : {}", status);
 		
 		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}

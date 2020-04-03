@@ -39,22 +39,29 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	@Override
 	public void onUpdateReceived(Update update) {
 
+		log.info("Update recived | chatId : {}", update.getMessage().getChatId());
 		TelegramUpdate telegramUpdate = updateToTelegramUpdateTransformer.transform(update);
 		telegramMessageHandlers.forEach(telegramMessageHandler -> telegramMessageHandler.handle(telegramUpdate));
 	}
 
 	@Override
 	public String getBotUsername() {
+		
+		log.info("Returning bot username");
 		return xrpBotProperties.getUsername();
 	}
 
 	@Override
 	public String getBotToken() {
+		
+		log.info("Returning bot token");
 		return xrpBotProperties.getToken();
 	}
 
 	public synchronized Integer sendMessage(Long chatId, String text, ReplyKeyboardMarkup keyboard) {
 
+		log.info("Sending message | chatId : {}, text : {}", chatId, text);
+		
 		SendMessage sendMessage = new SendMessage();
 
 		sendMessage.enableMarkdown(Boolean.TRUE);
@@ -71,6 +78,8 @@ public class XrpLongPollingBot extends TelegramLongPollingBot {
 	}
 
 	public synchronized Boolean deleteMessage(Long chatId, Integer messageId) {
+		
+		log.info("Deleting message | chatId : {}, messageId : {}", chatId, messageId);
 		
 		DeleteMessage deleteMessage = new DeleteMessage(chatId, messageId);
 

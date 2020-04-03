@@ -30,6 +30,8 @@ public class SessionServiceImpl implements SessionService {
 	@Override
 	public Boolean createSession(Long chatId, String username, String password) {
 
+		log.info("Creating session | chatId : {}, username : {}", chatId, username);
+		
 		if (!databaseOperator.checkLogIn(username, password)) {
 			return Boolean.FALSE;
 		}
@@ -49,16 +51,22 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public Optional<ChatSession> getSession(Long chatId) {
+		
+		log.info("Getting optional sesion by chatId = {}", chatId);
 		return sessions.parallelStream().filter(s -> s.getChatId().equals(chatId)).findAny();
 	}
 
 	@Override
 	public Boolean checkSessionExist(Long chatId) {
+		
+		log.info("Checking if session exists by chatId = {}", chatId);
 		return Optional.ofNullable(getSession(chatId)).isPresent();
 	}
 
 	@Override
 	public void deleteSession(Long chatId) {
+		
+		log.info("Deleting session by chatId = {}", chatId);
 		sessions.removeIf(e -> e.getChatId().equals(chatId));
 		messageDeletionService.deleteMessages(chatId);
 	}
@@ -67,6 +75,7 @@ public class SessionServiceImpl implements SessionService {
 	@Scheduled(cron = "${telegram.bot.session.cron}")
 	public void logOutSessions() {
 
+		log.info("Logging sessions out");
 		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 10L)
 				.forEach(s -> {
 					deleteSession(s.getChatId());

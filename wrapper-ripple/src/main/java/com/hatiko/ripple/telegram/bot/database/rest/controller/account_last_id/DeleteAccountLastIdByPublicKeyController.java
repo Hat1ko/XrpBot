@@ -31,7 +31,7 @@ public class DeleteAccountLastIdByPublicKeyController {
 		
 		Boolean status = databaseOperator.deleteAccountLastIdByPublicKey(publicKey);
 
-		log.info("Response for delete AccountLastId | public key : {}, status :{}", publicKey, status);
+		log.info("DELETE Response for delete AccountLastId | public key : {}, status :{}", publicKey, status);
 		
 		StatusDTO response = StatusDTO.builder().status(status).build();
 		

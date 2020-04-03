@@ -36,6 +36,8 @@ public class GetTransactionInfoMessageHandler implements TelegramMessageHandler 
 		
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+
+		log.info("GetTransactionInfo button triggered by chatId = {}, messageId = {}", chatId, messageId);
 		
 		databaseOperator.updateMessageId(chatId, messageId, null);
 				

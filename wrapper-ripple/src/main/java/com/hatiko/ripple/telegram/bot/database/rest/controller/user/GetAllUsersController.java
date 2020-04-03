@@ -26,35 +26,23 @@ public class GetAllUsersController {
 	
 	private final XrpDatabaseOperator xrpDatabaseOperator;
 	
-//	@GetMapping
-//	public ResponseEntity<List<UserDTO>> getAllUsers(){
-//		
-//		log.info("Request to userDataBaseOperator to get all users");
-//		
-//		List<UserDTO> response = userDataBaseOperator.getAllUsers();
-//		
-//		log.info("Reponse | num of users : {}", response.size());
-//		
-//		return ResponseEntity.ok(response);
-//	}
-//	
 	@GetMapping
-	public ResponseEntity<List<UserDTO>> getUserByUsername(@Valid @NotNull @RequestParam(name = "username") String username) {
+	public ResponseEntity<List<UserDTO>> getUserByUsername(@Valid @NotNull @RequestParam(name = "username", required = false) String username) {
 
-		log.info("Getting user from userDataBaseOperator by username : {}", username);
+		log.info("GET Request | Getting user from userDataBaseOperator by username : {}", username);
 
 		List<UserDTO> response;
 		
 		if(username.isBlank() || username.isEmpty()) {
 
 			response = xrpDatabaseOperator.getAllUsers();
-			log.info("Reponse | num of users : {}", response.size());
+			log.info("GET Reponse | num of users : {}", response.size());
 		}else {
 			UserDTO userDTO = xrpDatabaseOperator.getUserByUsername(username);
 			
 			response = new ArrayList<>();
 			response.add(userDTO);
-			log.info("Responsing user by username");
+			log.info("GET Response user by username");
 			
 		}
 

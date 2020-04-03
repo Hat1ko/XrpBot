@@ -4,14 +4,12 @@ import java.lang.reflect.Method;
 
 import org.springframework.stereotype.Component;
 
-import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
 import com.hatiko.ripple.telegram.bot.service.LongTermOperationService;
 import com.hatiko.ripple.telegram.bot.service.ResponseMessageOperator;
-import com.hatiko.ripple.telegram.bot.service.SessionService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +30,11 @@ public class LogInMessageHandler implements TelegramMessageHandler {
 		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getLogIn())) {
 			return;
 		}
-
+		
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+		
+		log.info("LogIn button triggered by chatId = {}, messageId = {}", chatId, messageId);
 		
 		databaseOperator.updateMessageId(chatId, messageId, null);
 		

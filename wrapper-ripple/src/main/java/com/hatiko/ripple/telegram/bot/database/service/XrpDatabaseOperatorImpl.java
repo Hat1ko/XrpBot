@@ -175,6 +175,8 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 
 		AccountLastIdEntity response = accountLastIdRepo.save(entity);
 
+		log.info("Updated data | id : {}, publicKey : {}, lastId : {}, lastLedger : {}");
+
 		return AccountLastIdConverter.toDTO(response);
 	}
 
@@ -203,20 +205,35 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	@Override
 	public List<MessageIdDTO> getAllMessageIds() {
 
-		return messageIdRepo.findAll().stream().map(MessageIdConverter::toDTO).collect(Collectors.toList());
+		log.info("Getting all messageIds");
+
+		List<MessageIdDTO> response = messageIdRepo.findAll().stream().map(MessageIdConverter::toDTO)
+				.collect(Collectors.toList());
+
+		log.info("Gettion all messageIds | found messageIds : {}", response.size());
+
+		return response;
 	}
 
 	@Override
 	public MessageIdDTO getMessageId(Long chatId) {
 
+		log.info("Getting messageId by chatId = {}", chatId);
+
 		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(MessageIdEntity::new);
 		MessageIdDTO dto = MessageIdConverter.toDTO(entity);
+
+		log.info("Getting messageId by chatId | Found chatId : {}, lastSent : {}, lastDeleted : {}", dto.getCahtId(),
+				dto.getLastSent(), dto.getLastDeleted());
+
 		return dto;
 	}
 
 	@Override
 	public MessageIdDTO updateMessageId(Long chatId, Integer lastSent, Integer lastDeleted) {
 
+		log.info("Updating messageId | chatId : {}, lastSent : {}, lastDeleted : {}", chatId, lastSent, lastDeleted);
+		
 		MessageIdEntity entity = messageIdRepo.findById(chatId).orElseGet(MessageIdEntity::new);
 
 		entity.setChatId(chatId);
@@ -233,13 +250,19 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	@Override
 	public Boolean deleteMessageId(Long chatId) {
 
+		log.info("Deleting messageId | chatId : {}", chatId);
+		
 		Optional<MessageIdEntity> entity = messageIdRepo.findById(chatId);
 		if (entity.isEmpty()) {
 			return Boolean.TRUE;
 		}
 
 		messageIdRepo.delete(entity.get());
-		return messageIdRepo.findById(chatId).isEmpty();
+		
+		Boolean status = messageIdRepo.findById(chatId).isEmpty();
+		log.info("Deleting messageId | Response status : {}", status);
+		
+		return status;
 	}
 
 }

@@ -30,7 +30,7 @@ public class GetAccountLastIdByPublicKeyController {
 
 		AccountLastIdDTO dto = databaseOperator.getAccountLastIdbyPublicKey(publicKey);
 
-		log.info("Response for info about last ids and ledger | public key : {}, last id : {}, last ledger : {}",
+		log.info("GET Response for info about last ids and ledger | public key : {}, last id : {}, last ledger : {}",
 				dto.getPublicKey(), dto.getLastId(), dto.getLastLedger());
 
 		return ResponseEntity.ok(dto);

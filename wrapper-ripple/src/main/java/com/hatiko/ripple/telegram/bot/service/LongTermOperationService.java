@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,8 @@ public class LongTermOperationService {
 	private List<OperationDTO> operations = new ArrayList<>();
 
 	public void removeOperation(Long chatId) {
+
+		log.info("Removing operation by chatId = {}", chatId);
 		operations.removeIf(oper -> oper.getChatId().equals((int) (long) chatId));
 	}
 
@@ -29,6 +30,8 @@ public class LongTermOperationService {
 
 		removeOperation(chatId);
 
+		log.info("Adding operation | chatId : {}, messageId : {}, opeartion : {}, numOArgs : {}", chatId, messageId,
+				operation, argc);
 		OperationDTO operationDTO = OperationDTO.builder().chatId((int) (long) chatId).messageId(messageId)
 				.operator(operator).method(method).operation(operation).argc(argc).params(new ArrayList<>()).build();
 
@@ -36,12 +39,15 @@ public class LongTermOperationService {
 	}
 
 	public String getMethodName(Long chatId) {
+		
+		log.info("Getting method name for chatId = {}", chatId);
 		return operations.parallelStream().filter(oper -> oper.getChatId().equals((int) (long) chatId)).findAny()
 				.orElseGet(OperationDTO::new).getOperation();
 	}
 
 	public Object insertArgument(Object argv, Long chatId) {
 
+		log.info("Inserting argument by chatId = {}", chatId);
 		return operations.parallelStream().filter(oper -> chatId.equals((long) oper.getChatId())).map(oper -> {
 			oper.getParams().add(argv);
 			if (oper.getArgc().equals(oper.getParams().size())) {
@@ -66,6 +72,8 @@ public class LongTermOperationService {
 	}
 
 	public OperationDTO getOperation(Long chatId) {
+		
+		log.info("Get operation by chatId = {}", chatId);
 		return operations.stream().filter(oper -> oper.getChatId().equals((int) (long) chatId)).findAny().get();
 	}
 }

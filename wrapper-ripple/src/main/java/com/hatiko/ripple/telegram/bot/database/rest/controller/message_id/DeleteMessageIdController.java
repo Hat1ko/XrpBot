@@ -23,8 +23,14 @@ public class DeleteMessageIdController {
 	@DeleteMapping
 	public ResponseEntity<StatusDTO> deleteMessageId(@RequestParam("chat_id") Long chatId){
 		
+		log.info("DELETE request for message_id | chatId : {}", chatId);
+		
 		Boolean status = databaseOperator.deleteMessageId(chatId);
+		
+		log.info("DELETE response | Deletion status is {}", status);
+		
 		StatusDTO response = StatusDTO.builder().status(status).build();
+		
 		return ResponseEntity.ok(response);
 	}
 }

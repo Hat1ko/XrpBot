@@ -38,6 +38,8 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 		
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+
+		log.info("GetBalance button triggered by chatId = {}, messageId = {}", chatId, messageId);
 		
 		databaseOperator.updateMessageId(chatId, messageId, null);
 		

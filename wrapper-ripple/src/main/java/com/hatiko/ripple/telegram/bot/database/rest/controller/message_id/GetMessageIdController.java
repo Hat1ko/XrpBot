@@ -19,11 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 public class GetMessageIdController {
 
 	private final XrpDatabaseOperator databaseOperator;
-	
+
 	@GetMapping
-	public ResponseEntity<MessageIdDTO> getMessageId(@RequestParam("chat_id") Long chatId){
+	public ResponseEntity<MessageIdDTO> getMessageId(@RequestParam("chat_id") Long chatId) {
+
+		log.info("GET request got messageId | chatId : {}", chatId);
 
 		MessageIdDTO response = databaseOperator.getMessageId(chatId);
+
+		log.info("GET Response | chatId : {}, lastSent : {}, lastDeleted : {}", response.getCahtId(),
+				response.getLastSent(), response.getLastDeleted());
+
 		return ResponseEntity.ok(response);
 	}
 }

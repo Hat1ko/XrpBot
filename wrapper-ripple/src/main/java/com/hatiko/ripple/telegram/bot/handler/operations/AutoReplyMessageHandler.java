@@ -43,6 +43,8 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
+
+		log.info("AutoReply triggered by chatId = {}, messageId = {}", chatId, messageId);
 		
 		databaseOperator.updateMessageId(chatId, messageId, null);
 		
@@ -82,18 +84,24 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 		Integer sentMessageId = null;
 		
 		if (response instanceof BalanceResponse) {
+			log.info("Response is BalanceResponse");
 			sentMessageId = responseMessageOperator.responseGetBalance((BalanceResponse) response, chatId, 1);
 		}
 		if (response instanceof TransactionResponse) {
+			log.info("Response is TransactionButton");
 			sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId, 1);
 		}
 		if (response instanceof ArrayList) {
+			log.info("Response is ArrayList<TransactionResponse>");
 			ArrayList<TransactionResponse> list = (ArrayList<TransactionResponse>)response;
 			for(int i = 0 ; i < list.size(); i++) {
 				sentMessageId = responseMessageOperator.responseGetTransactionInfo(list.get(i), chatId, 1);
 			}
 		}
 		if (response instanceof Integer) {
+			
+			log.info("Response is Integer");
+			
 			Integer numOfArgs = (Integer) response;
 
 			if (operationService.getMethodName(chatId)
@@ -112,6 +120,9 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			
 		}
 		if (response instanceof Boolean) {
+			
+			log.info("Response is Boolean");
+			
 			Boolean status = (Boolean) response;
 			if (operationService.getMethodName(chatId).equals(actionProperties.getMethodName().getLogIn())) {
 				if(status) {

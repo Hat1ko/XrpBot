@@ -24,12 +24,12 @@ public class RegisterNewUserController {
 	@PostMapping
 	public ResponseEntity<StatusDTO> registerNewUser(@RequestBody UserDTO newUser) {
 
-		log.info("Request to register a user");
+		log.info("POST Request to register a user");
 
 		Boolean status = userDataBaseOperator.registerNewUser(newUser.getUsername(), newUser.getPassword(),
 				newUser.getPublicKey(), newUser.getPrivateKey());
 
-		log.info("Response from userDataBaseOperator | registered user");
+		log.info("POST Response from userDataBaseOperator | status : {}", status);
 
 		return ResponseEntity.ok(StatusDTO.builder().status(status).build());
 	}

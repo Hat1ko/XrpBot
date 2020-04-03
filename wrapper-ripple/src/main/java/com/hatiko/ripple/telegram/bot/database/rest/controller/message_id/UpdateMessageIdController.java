@@ -25,7 +25,14 @@ public class UpdateMessageIdController {
 			@RequestParam(name = "last_sent", required = false) Integer lastSent,
 			@RequestParam(name = "last_deleted", required = false) Integer lastDeleted) {
 
+		log.info("PUT request to update messageId | chatId : {}, lastSent : {}, lastDeleted : {}", chatId, lastSent,
+				lastDeleted);
+
 		MessageIdDTO response = databaseOperator.updateMessageId(chatId, lastSent, lastDeleted);
+
+		log.info("PUT Response | chatId : {}, lastSent : {}, lastDeleted : {}", response.getCahtId(),
+				response.getLastSent(), response.getLastDeleted());
+
 		return ResponseEntity.ok(response);
 	}
 }

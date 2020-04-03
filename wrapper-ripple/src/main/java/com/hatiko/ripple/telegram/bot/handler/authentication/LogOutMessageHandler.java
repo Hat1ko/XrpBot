@@ -33,6 +33,8 @@ public class LogOutMessageHandler implements TelegramMessageHandler {
 		Long chatId = telegramUpdate.getMessage().getChat().getId();
 		Integer messageId = telegramUpdate.getMessage().getId();
 
+		log.info("LogOut button triggered by chatId = {}, messageId = {}", chatId, messageId);
+		
 		databaseOperator.updateMessageId(chatId, messageId, null);
 
 		sessionService.deleteSession(chatId);
