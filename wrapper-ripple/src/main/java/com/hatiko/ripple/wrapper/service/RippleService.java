@@ -16,6 +16,8 @@ public interface RippleService {
 	 */
 	BalanceResponse getWalletBalance();
 	
+	
+	BalanceResponse getWalletBalanceByAccountAddress(String accoutnAddress);
 	/**
 	 * Gets account address from application.properties
 	 */
@@ -35,9 +37,15 @@ public interface RippleService {
 	 */
 	TransactionResponse withdraw(WithdrawRequest withdrawRequest);
 	
+	TransactionResponse withdrawByCredentials(String publicKey, String privateKey, String destinationKey, String memo,
+			Double amount);
 	/**
 	 * Generates new UUID string
 	 * @return memo response to send to CryptoPayment MS
 	 */
 	MemoResponse generateMemo();
+
+
+
+
 }

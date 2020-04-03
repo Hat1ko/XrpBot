@@ -1,7 +1,7 @@
 package com.hatiko.ripple.wrapper.integration.blockchain.rest;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.net.URI;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hatiko.ripple.wrapper.exception.InnerServiceException;
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleAccountInfoRequest;
+import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleLastTransactionsRequest;
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleTransactionsRequest;
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleTrxByHashRequest;
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleWithdrawRequest;
@@ -19,7 +20,8 @@ import com.hatiko.ripple.wrapper.integration.blockchain.dto.response.RippleTrxBy
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.response.RippleWithdrawResponse;
 import com.hatiko.ripple.wrapper.integration.blockchain.uri.RippleBlockchainUriBuilder;
 
-import java.net.URI;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -89,6 +91,24 @@ public class RippleCommunicationServiceImpl implements RippleCommunicationServic
         HttpEntity<RippleTransactionsRequest> httpEntity = new HttpEntity<>(rippleTransactionsRequest, buildDefaultHttpHeaders());
         try {
             log.info("Request to ripple blockchain to get transactions after lastSequence. Account = {}, ledger index min = {}", param.getAccount(), param.getLedgerIndexMin());
+            ResponseEntity<RippleTransactionsResponse> rippleTransactionsResponse = rippleBlockchainRestTemplate.postForEntity(uri, httpEntity, RippleTransactionsResponse.class);
+            log.info("Response from ripple blockchain on get transactions. Size list = {}",
+                    rippleTransactionsResponse.getBody().getResult().getTransactions().size());
+            return rippleTransactionsResponse.getBody();
+        } catch (ResourceAccessException e) {
+            String message = String.format("No response from Ripple blockchain on get transactions : %s", e.getMessage());
+            log.error(message);
+            throw new InnerServiceException(message);
+        }
+    }
+    
+    @Override
+    public RippleTransactionsResponse getLastTransactions(RippleLastTransactionsRequest rippleLastTransactionsRequest) {
+    	RippleLastTransactionsRequest.Param param = rippleLastTransactionsRequest.getParams().get(0);
+        URI uri = rippleBlockchainUriBuilder.getRequestUri();
+        HttpEntity<RippleLastTransactionsRequest> httpEntity = new HttpEntity<>(rippleLastTransactionsRequest, buildDefaultHttpHeaders());
+        try {
+            log.info("Request to ripple blockchain to get transactions after lastSequence. Account = {}, limit = {}", param.getAccount(), param.getLimit());
             ResponseEntity<RippleTransactionsResponse> rippleTransactionsResponse = rippleBlockchainRestTemplate.postForEntity(uri, httpEntity, RippleTransactionsResponse.class);
             log.info("Response from ripple blockchain on get transactions. Size list = {}",
                     rippleTransactionsResponse.getBody().getResult().getTransactions().size());

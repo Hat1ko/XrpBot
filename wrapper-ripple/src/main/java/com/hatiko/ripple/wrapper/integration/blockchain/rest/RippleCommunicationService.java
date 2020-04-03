@@ -1,6 +1,7 @@
 package com.hatiko.ripple.wrapper.integration.blockchain.rest;
 
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleAccountInfoRequest;
+import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleLastTransactionsRequest;
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleTransactionsRequest;
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleTrxByHashRequest;
 import com.hatiko.ripple.wrapper.integration.blockchain.dto.request.RippleWithdrawRequest;
@@ -44,4 +45,6 @@ public interface RippleCommunicationService extends CommunicationService {
 	 * @return 
 	 */
 	RippleTransactionsResponse getTransactions(RippleTransactionsRequest request);
+
+	RippleTransactionsResponse getLastTransactions(RippleLastTransactionsRequest rippleLastTransactionsRequest);
 }
