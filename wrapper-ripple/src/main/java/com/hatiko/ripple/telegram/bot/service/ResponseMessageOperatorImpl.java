@@ -201,8 +201,10 @@ public class ResponseMessageOperatorImpl implements ResponseMessageOperator {
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage, null);
 		}
 		if (operationCounter.equals(1)) {
+			TransactionResponse response = (TransactionResponse) responseObject;
+			
 			responseMessage = String.format(messageProperties.getGetTransactionInfo().get(operationCounter),
-					((TransactionResponse) responseObject).getAmount());
+					response.getTrxId(), response.getFrom(), response.getTo(), response.getMemo(), response.getAmount());
 
 			Boolean logInStatus = sessionService.checkSessionExist(chatId);
 			return xrpLongPollingBot.sendMessage(chatId, responseMessage,

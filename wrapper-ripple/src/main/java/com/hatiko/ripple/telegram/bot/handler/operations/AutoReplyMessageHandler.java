@@ -88,7 +88,10 @@ public class AutoReplyMessageHandler implements TelegramMessageHandler {
 			sentMessageId = responseMessageOperator.responseGetTransactionInfo(response, chatId, 1);
 		}
 		if (response instanceof ArrayList) {
-			sentMessageId = responseMessageOperator.responseGetLastTransactions(response, chatId, 2);
+			ArrayList<TransactionResponse> list = (ArrayList<TransactionResponse>)response;
+			for(int i = 0 ; i < list.size(); i++) {
+				sentMessageId = responseMessageOperator.responseGetTransactionInfo(list.get(i), chatId, 1);
+			}
 		}
 		if (response instanceof Integer) {
 			Integer numOfArgs = (Integer) response;
