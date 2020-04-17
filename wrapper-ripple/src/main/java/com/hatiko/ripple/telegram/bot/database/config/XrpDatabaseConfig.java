@@ -65,5 +65,4 @@ public class XrpDatabaseConfig {
 		transactionManager.setEntityManagerFactory(xrpDatabaseEntityManager().getObject());
 		return transactionManager;
 	}
-
 }
