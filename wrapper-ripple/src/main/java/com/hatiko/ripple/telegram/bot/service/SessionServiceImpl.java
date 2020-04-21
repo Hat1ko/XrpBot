@@ -23,7 +23,6 @@ public class SessionServiceImpl implements SessionService {
 
 	private final XrpDatabaseOperator databaseOperator;
 	private final ResponseMessageOperator responseMessageOperator;
-	private final MessageDeletionService messageDeletionService;
 	private final LongTermOperationService operationService;
 	private List<ChatSession> sessions = new ArrayList<>();
 
@@ -68,7 +67,6 @@ public class SessionServiceImpl implements SessionService {
 		
 		log.info("Deleting session by chatId = {}", chatId);
 		sessions.removeIf(e -> e.getChatId().equals(chatId));
-		messageDeletionService.deleteMessages(chatId);
 	}
 
 	@Override
@@ -78,7 +76,6 @@ public class SessionServiceImpl implements SessionService {
 		log.info("Logging sessions out");
 		sessions.stream().filter(e -> ChronoUnit.MINUTES.between(e.getCreationTime(), LocalDateTime.now()) >= 10L)
 				.forEach(s -> {
-					deleteSession(s.getChatId());
 					operationService.removeOperation(s.getChatId());
 					Integer messageId = responseMessageOperator.responseLogOut(s.getChatId());
 					databaseOperator.updateMessageId(s.getChatId(), messageId, null);
