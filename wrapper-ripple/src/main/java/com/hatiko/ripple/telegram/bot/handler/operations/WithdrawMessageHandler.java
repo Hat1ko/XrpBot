@@ -24,59 +24,57 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class WithdrawMessageHandler implements TelegramMessageHandler {
 
-	private final ActionProperties actionProperties;
-	private final LongTermOperationService operationService;
-	private final SessionService sessionService;
-	private final RippleService rippleService;
-	private final ResponseMessageOperator responseMessageOperator;
-	private final XrpDatabaseOperator databaseOperator;
-	private final AutoReplyMessageHandler autoReplyMessageHandler;
+    private final ActionProperties actionProperties;
+    private final LongTermOperationService operationService;
+    private final SessionService sessionService;
+    private final RippleService rippleService;
+    private final ResponseMessageOperator responseMessageOperator;
+    private final XrpDatabaseOperator databaseOperator;
+    private final AutoReplyMessageHandler autoReplyMessageHandler;
 
-	@Override
-	public void handle(TelegramUpdate telegramUpdate) {
+    @Override
+    public void handle(TelegramUpdate telegramUpdate) {
 
-		if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getWithdraw())) {
-			return;
-		}
+        if (!telegramUpdate.getMessage().getText().startsWith(actionProperties.getButtonOperation().getWithdraw())) {
+            return;
+        }
 
-		Long chatId = telegramUpdate.getMessage().getChat().getId();
-		Integer messageId = telegramUpdate.getMessage().getId();
-		
-		log.info("Withdraw button triggered by chatId = {}, messageId = {}", chatId, messageId);
-		
-		databaseOperator.updateMessageId(chatId, messageId, null);
+        Long chatId = telegramUpdate.getMessage().getChat().getId();
+        Integer messageId = telegramUpdate.getMessage().getId();
 
-		try {
-			Method method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getWithdraw(),
-					String.class, String.class, String.class, String.class, Double.class);
-			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getWithdraw(),
-					rippleService, method, 5);
-		} catch (NoSuchMethodException e) {
-			log.error(e.getMessage());
-			return;
-		} catch (SecurityException e) {
-			log.error(e.getMessage());
-			return;
-		}
+        log.info("Withdraw button triggered by chatId = {}, messageId = {}", chatId, messageId);
 
-		if (sessionService.checkSessionExist(chatId)) {
-			if (sessionService.checkSessionExist(chatId)) {
-				
-				ChatSession session = sessionService.getSession(chatId).get();
-				
-				String publicKey = session.getPublicKey();
-				String privateKey = session.getPrivateKey();
+        databaseOperator.updateMessageId(chatId, messageId, null);
 
-				Object response;
-				response = operationService.insertArgument(publicKey, chatId);
-				response = operationService.insertArgument(privateKey, chatId);
-				
-				autoReplyMessageHandler.operateObject(response, chatId);
-				return;
-			}
-		}
+        try {
+            Method method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getWithdraw(),
+                    String.class, String.class, String.class, String.class, Double.class);
+            operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getWithdraw(),
+                    rippleService, method, 5);
+        } catch (NoSuchMethodException e) {
+            log.error(e.getMessage());
+            return;
+        } catch (SecurityException e) {
+            log.error(e.getMessage());
+            return;
+        }
 
-		Integer sentMessageId = responseMessageOperator.responseWithdraw(null, chatId, 0);
-		databaseOperator.updateMessageId(chatId, sentMessageId, null);
-	}
+        if (sessionService.checkSessionExist(chatId)) {
+
+            ChatSession session = sessionService.getSession(chatId).get();
+
+            String publicKey = session.getPublicKey();
+            String privateKey = session.getPrivateKey();
+
+            Object response;
+            response = operationService.insertArgument(publicKey, chatId);
+            response = operationService.insertArgument(privateKey, chatId);
+
+            autoReplyMessageHandler.operateObject(response, chatId);
+            return;
+        }
+
+        Integer sentMessageId = responseMessageOperator.responseWithdraw(null, chatId, 0);
+        databaseOperator.updateMessageId(chatId, sentMessageId, null);
+    }
 }

@@ -35,7 +35,7 @@ public class SessionServiceImpl implements SessionService {
 			return Boolean.FALSE;
 		}
 
-		if (sessions.stream().filter(s -> s.getChatId().equals(chatId)).findAny().isPresent()) {
+		if (checkSessionExist(chatId)) {
 			return Boolean.FALSE;
 		}
 
@@ -51,15 +51,15 @@ public class SessionServiceImpl implements SessionService {
 	@Override
 	public Optional<ChatSession> getSession(Long chatId) {
 		
-		log.info("Getting optional sesion by chatId = {}", chatId);
-		return sessions.parallelStream().filter(s -> s.getChatId().equals(chatId)).findAny();
+		log.info("Getting optional session by chatId = {}", chatId);
+		return sessions.stream().filter(s -> s.getChatId().equals(chatId)).findAny();
 	}
 
 	@Override
 	public Boolean checkSessionExist(Long chatId) {
 		
 		log.info("Checking if session exists by chatId = {}", chatId);
-		return Optional.ofNullable(getSession(chatId)).isPresent();
+		return getSession(chatId).isPresent();
 	}
 
 	@Override
