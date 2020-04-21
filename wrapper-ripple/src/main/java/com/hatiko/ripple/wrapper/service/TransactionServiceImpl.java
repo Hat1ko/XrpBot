@@ -73,9 +73,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionResponse> getLastTransactions(String walletAddress, Long numOfTransactions) {
-    	
-    	walletProperties.setAccount(walletAddress);
-    	RippleLastTransactionsRequest request = RippleLastTransactionsRequest.builder()
+
+        walletProperties.setAccount(walletAddress);
+        RippleLastTransactionsRequest request = RippleLastTransactionsRequest.builder()
                 .method(rippleBlockchainProperties.getMethod().getAccountTransactions())
                 .params(Collections
                         .singletonList(RippleLastTransactionsRequest.Param.builder()
@@ -84,8 +84,8 @@ public class TransactionServiceImpl implements TransactionService {
                                 .build())
                 )
                 .build();
-    	
-    	RippleTransactionsResponse rippleTransactionsResponse;
+
+        RippleTransactionsResponse rippleTransactionsResponse;
         try {
             rippleTransactionsResponse = rippleCommunicationService.getLastTransactions(request);
         } catch (Exception e) {
@@ -94,7 +94,7 @@ public class TransactionServiceImpl implements TransactionService {
             log.debug("Retry request to get new transactions");
             rippleTransactionsResponse = rippleCommunicationService.getLastTransactions(request);
         }
-        
+
         List<TransactionResponse> trxToProcess = rippleTransactionsResponse
                 .getResult()
                 .getTransactions()
@@ -113,7 +113,7 @@ public class TransactionServiceImpl implements TransactionService {
         return trxToProcess;
 //    	return null;
     }
-    
+
     @Override
     public LastProcessedTransactionData getLastProcessedTransactionData() {
         return cryptoPaymentCommunicationService.getLastProcessedTransactionData();

@@ -18,7 +18,7 @@ public class TransactionScheduler {
 
 	private final TransactionService transactionService;
 	
-	@Scheduled(cron = "${wrapper.ripple.scheduler.cron}")
+//	@Scheduled(cron = "${wrapper.ripple.scheduler.cron}")
 	public void getNewTransactions() {
 
 		LastProcessedTransactionData lastProcessedTransactionData;

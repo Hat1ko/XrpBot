@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.hatiko.ripple.wrapper.exception.InnerServiceException;
@@ -22,7 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class SignatureServiceImpl implements SignatureService {
 
-    private static final String NODE = "/usr/local/bin/node";
+
+    @Value("${path.to.nodejs}")
+    private String NODE;
     private final RippleBlockchainProperties rippleBlockchainProperties;
     private final WalletProperties walletProperties;
     private final SignatureProperties signatureProperties;
