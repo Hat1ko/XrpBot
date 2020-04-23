@@ -62,9 +62,9 @@ public class RippleServiceImpl implements RippleService {
 	}
 
 	@Override
-	public BalanceResponse getWalletBalanceByAccountAddress(String accoutnAddress) {
+	public BalanceResponse getWalletBalanceByAccountAddress(String accountAddress) {
 
-		walletProperties.setAccount(accoutnAddress);
+		walletProperties.setAccount(accountAddress);
 
 		return getWalletBalance();
 	}
