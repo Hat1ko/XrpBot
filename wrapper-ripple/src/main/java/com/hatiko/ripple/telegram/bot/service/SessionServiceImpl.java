@@ -79,6 +79,7 @@ public class SessionServiceImpl implements SessionService {
 					operationService.removeOperation(s.getChatId());
 					Integer messageId = responseMessageOperator.responseLogOut(s.getChatId());
 					databaseOperator.updateMessageId(s.getChatId(), messageId, null);
+					deleteSession(s.getChatId());
 				});
 	}
 
