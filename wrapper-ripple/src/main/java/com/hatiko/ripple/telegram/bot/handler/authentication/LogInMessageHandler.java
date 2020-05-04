@@ -41,7 +41,7 @@ public class LogInMessageHandler implements TelegramMessageHandler {
 		try {
 			Method method = XrpDatabaseOperator.class.getDeclaredMethod(actionProperties.getMethodName().getLogIn(),
 					String.class, String.class);
-			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getLogIn(),
+			operationService.addOperation(chatId, messageId, actionProperties.getMethodName().getLogIn(),
 					databaseOperator, method, 2);
 		} catch (NoSuchMethodException e) {
 			log.error(e.getMessage());

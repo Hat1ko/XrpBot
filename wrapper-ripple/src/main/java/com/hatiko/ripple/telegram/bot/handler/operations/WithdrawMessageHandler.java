@@ -4,13 +4,11 @@ import java.lang.reflect.Method;
 
 import org.springframework.stereotype.Component;
 
-import com.hatiko.ripple.telegram.bot.XrpLongPollingBot;
 import com.hatiko.ripple.telegram.bot.database.service.XrpDatabaseOperator;
 import com.hatiko.ripple.telegram.bot.dto.session.ChatSession;
 import com.hatiko.ripple.telegram.bot.dto.telegram.TelegramUpdate;
 import com.hatiko.ripple.telegram.bot.handler.TelegramMessageHandler;
 import com.hatiko.ripple.telegram.bot.properties.ActionProperties;
-import com.hatiko.ripple.telegram.bot.service.KeyboardPreparator;
 import com.hatiko.ripple.telegram.bot.service.LongTermOperationService;
 import com.hatiko.ripple.telegram.bot.service.ResponseMessageOperator;
 import com.hatiko.ripple.telegram.bot.service.SessionService;
@@ -49,7 +47,7 @@ public class WithdrawMessageHandler implements TelegramMessageHandler {
         try {
             Method method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getWithdraw(),
                     String.class, String.class, String.class, String.class, Double.class);
-            operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getWithdraw(),
+            operationService.addOperation(chatId, messageId, actionProperties.getMethodName().getWithdraw(),
                     rippleService, method, 5);
         } catch (NoSuchMethodException e) {
             log.error(e.getMessage());

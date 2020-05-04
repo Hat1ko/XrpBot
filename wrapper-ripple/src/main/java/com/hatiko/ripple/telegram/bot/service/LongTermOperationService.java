@@ -25,8 +25,8 @@ public class LongTermOperationService {
 		operations.removeIf(oper -> oper.getChatId().equals((int) (long) chatId));
 	}
 
-	public void addOpearion(Long chatId, Integer messageId, String operation, Object operator, Method method,
-			Integer argc) {
+	public void addOperation(Long chatId, Integer messageId, String operation, Object operator, Method method,
+							 Integer argc) {
 
 		removeOperation(chatId);
 

@@ -48,7 +48,7 @@ public class GetLastTransactionsMessageHandler implements TelegramMessageHandler
 			Method method = TransactionService.class
 					.getDeclaredMethod(actionProperties.getMethodName().getGetLastTransactions(),
 					String.class, Long.class);
-			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getGetLastTransactions(),
+			operationService.addOperation(chatId, messageId, actionProperties.getMethodName().getGetLastTransactions(),
 					transactionService, method, 2);
 		} catch (NoSuchMethodException e) {
 			log.error(e.getMessage());

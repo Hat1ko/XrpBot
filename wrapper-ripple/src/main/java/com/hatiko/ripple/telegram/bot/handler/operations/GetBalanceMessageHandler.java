@@ -46,7 +46,7 @@ public class GetBalanceMessageHandler implements TelegramMessageHandler {
 		Method method;
 		try {
 			method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getGetBalance(), String.class);
-			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getGetBalance(), rippleService, method, 1);
+			operationService.addOperation(chatId, messageId, actionProperties.getMethodName().getGetBalance(), rippleService, method, 1);
 		} catch (NoSuchMethodException e) {
 			log.error(e.getMessage());
 			return;

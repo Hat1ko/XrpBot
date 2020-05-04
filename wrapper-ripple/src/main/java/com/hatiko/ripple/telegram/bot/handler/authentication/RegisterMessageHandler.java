@@ -39,7 +39,7 @@ public class RegisterMessageHandler implements TelegramMessageHandler {
 		try {
 			Method method = XrpDatabaseOperator.class.getDeclaredMethod(actionProperties.getMethodName().getRegister(),
 					String.class, String.class, String.class, String.class);
-			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getRegister(),
+			operationService.addOperation(chatId, messageId, actionProperties.getMethodName().getRegister(),
 					databaseOperator, method, 4);
 		} catch (NoSuchMethodException e) {
 			log.error(e.getMessage());

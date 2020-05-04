@@ -44,7 +44,7 @@ public class GetTransactionInfoMessageHandler implements TelegramMessageHandler 
 		Method method;
 		try {
 			method = RippleService.class.getDeclaredMethod(actionProperties.getMethodName().getGetTransactionInfo(), String.class);
-			operationService.addOpearion(chatId, messageId, actionProperties.getMethodName().getGetTransactionInfo(), rippleService, method, 1);
+			operationService.addOperation(chatId, messageId, actionProperties.getMethodName().getGetTransactionInfo(), rippleService, method, 1);
 		} catch (NoSuchMethodException e) {
 			log.error(e.getMessage());
 		} catch (SecurityException e) {
