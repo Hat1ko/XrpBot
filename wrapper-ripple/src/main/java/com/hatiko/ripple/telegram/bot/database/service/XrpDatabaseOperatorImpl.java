@@ -154,7 +154,7 @@ public class XrpDatabaseOperatorImpl implements XrpDatabaseOperator {
 	}
 
 	@Override
-	public AccountLastIdDTO getAccountLastIdbyPublicKey(String publicKey) {
+	public AccountLastIdDTO getAccountLastIdByPublicKey(String publicKey) {
 
 		log.info("Gettion account by public key : {}", publicKey);
 

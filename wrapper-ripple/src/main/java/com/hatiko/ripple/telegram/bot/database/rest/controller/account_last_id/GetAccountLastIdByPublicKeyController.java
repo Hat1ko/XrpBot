@@ -28,7 +28,7 @@ public class GetAccountLastIdByPublicKeyController {
 
 		log.info("GET for info about last ids and ledger | public key : {}", publicKey);
 
-		AccountLastIdDTO dto = databaseOperator.getAccountLastIdbyPublicKey(publicKey);
+		AccountLastIdDTO dto = databaseOperator.getAccountLastIdByPublicKey(publicKey);
 
 		log.info("GET Response for info about last ids and ledger | public key : {}, last id : {}, last ledger : {}",
 				dto.getPublicKey(), dto.getLastId(), dto.getLastLedger());

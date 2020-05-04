@@ -19,7 +19,7 @@ public interface XrpDatabaseOperator {
 	
 	List<AccountLastIdDTO> getAllAccountLastIds();
 	
-	AccountLastIdDTO getAccountLastIdbyPublicKey(String publicKey);
+	AccountLastIdDTO getAccountLastIdByPublicKey(String publicKey);
 	AccountLastIdDTO updateData(AccountLastIdDTO accountLastIdDTO);
 	
 	Boolean deleteAccountLastIdByPublicKey(String publicKey);
