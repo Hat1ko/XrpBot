@@ -30,7 +30,7 @@ public class LongTermOperationService {
 
 		removeOperation(chatId);
 
-		log.info("Adding operation | chatId : {}, messageId : {}, opeartion : {}, numOArgs : {}", chatId, messageId,
+		log.info("Adding operation | chatId : {}, messageId : {}, operation : {}, numOArgs : {}", chatId, messageId,
 				operation, argc);
 		OperationDTO operationDTO = OperationDTO.builder().chatId((int) (long) chatId).messageId(messageId)
 				.operator(operator).method(method).operation(operation).argc(argc).params(new ArrayList<>()).build();
